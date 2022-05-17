@@ -1,9 +1,11 @@
 resource "aws_security_group" "load_balancer" {
+  name = "${var.application_name}-${var.environment}-lb"
   vpc_id = var.vpc_id
   tags   = var.tags
 }
 
 resource "aws_security_group" "ecs_task" {
+  name = "${var.application_name}-${var.environment}-ecs-task-lb"
   vpc_id = var.vpc_id
   tags   = var.tags
 }
