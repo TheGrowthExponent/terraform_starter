@@ -31,6 +31,11 @@ variable "ecs_role" {}
 variable "aws_key" {}
 
 variable "log_group" {}
+variable "aws_ami" {}
+
+variable "region" {
+  default = "ap-southeast-2"
+}
 
 variable "asg_max_size" {
   description = "max_size."

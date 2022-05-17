@@ -37,6 +37,7 @@ module "ecs" {
   source                    = "./modules/ecs"
   environment               = var.environment
   application_name          = var.application_name
+  region                    = var.region
   aws_key                   = module.ec2.aws_key
   log_group                 = module.logs.log_group
   asg_max_size              = 1
@@ -51,6 +52,7 @@ module "ecs" {
   ecs_subnet_b              = module.vpc.ecs_subnet_b
   ecs_subnet_c              = module.vpc.ecs_subnet_c
   ecs_target_group          = module.elb.ecs_target_group
+  aws_ami                   = data.aws_ami.ubuntu
 }
 
 module "elb" {

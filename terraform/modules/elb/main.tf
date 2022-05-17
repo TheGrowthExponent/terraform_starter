@@ -1,11 +1,8 @@
-data "aws_route53_zone" "selected" {
-  zone_id = var.hosted_zone_id
-}
-
 resource "aws_acm_certificate" "elb_cert" {
-  domain_name       = data.aws_route53_zone.selected.name
-  validation_method = "DNS"
-  tags              = var.tags
+  domain_name               = data.aws_route53_zone.selected.name
+  subject_alternative_names = ["*.${data.aws_route53_zone.selected.name}"]
+  validation_method         = "DNS"
+  tags                      = var.tags
 }
 
 resource "aws_route53_record" "cert_validation" {
