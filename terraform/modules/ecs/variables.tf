@@ -16,15 +16,21 @@ variable "environment" {
   }
 }
 
-variable "aws_kms_key_arn" {
-  description = "KMS key for project."
-  type        = string
-}
+variable "ecs_target_group" {}
 
-variable "aws_cloudwatch_log_group" {
-  description = "Cloudwatch log group for project logs."
-  type        = string
-}
+variable "ecs_subnet_a" {}
+
+variable "ecs_subnet_b" {}
+
+variable "ecs_subnet_c" {}
+
+variable "ecs_sg" {}
+
+variable "ecs_role" {}
+
+variable "aws_key" {}
+
+variable "log_group" {}
 
 variable "asg_max_size" {
   description = "max_size."

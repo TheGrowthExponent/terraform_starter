@@ -1,5 +1,5 @@
 locals {
-  region = var.aws_region
+  region = var.region
   required_tags = {
     Application-id   = "Terraform Starter",
     Business-Service = "ToDo"

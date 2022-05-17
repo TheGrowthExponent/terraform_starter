@@ -28,9 +28,10 @@ variable "profile" {
   sensitive   = true
 }
 
-variable "aws_region" {
-  description = "AWS region"
+variable "region" {
+  default     = "ap-southeast-2"
   type        = string
+  description = "The region you want to deploy the infrastructure in"
 }
 
 variable "account_id" {
@@ -61,4 +62,9 @@ variable "subnets_public" {
 
 variable "subnets_private" {
   description = "AWS private subnets"
+}
+
+variable "hosted_zone_id" {
+  type        = string
+  description = "The id of the hosted zone of the Route 53 domain you want to use"
 }

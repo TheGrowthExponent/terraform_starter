@@ -1,7 +1,7 @@
 ################ Root ################
 output "aws_region" {
   description = "AWS region"
-  value       = var.aws_region
+  value       = var.region
 }
 
 output "tags" {
@@ -45,12 +45,12 @@ output "aws_ecr_authorization_token" {
 
 output "aws_ecs_cluster_name" {
   description = "aws_ecs_cluster_name"
-  value       = module.ecs.aws_ecs_cluster.id
+  value       = module.ecs.ecs_cluster.id
   sensitive   = true
 }
 
 output "aws_ecs_cluster_arn" {
   description = "aws_ecs_cluster_arn"
-  value       = module.ecs.aws_ecs_cluster.arn
+  value       = module.ecs.ecs_cluster.arn
   sensitive   = true
 }
