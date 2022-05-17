@@ -1,5 +1,5 @@
 data "aws_ecr_repository" "service" {
-  name = module.ecr.aws_ecr_repository
+  name = module.ecr.aws_ecr_repository.id
 }
 
 #data "aws_ecr_image" "service_image" {

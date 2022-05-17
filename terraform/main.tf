@@ -28,8 +28,8 @@ module "ecs" {
   source                    = "./modules/ecs"
   environment               = var.environment
   application_name          = var.application_name
-  aws_kms_key_arn           = module.ec2.aws_key
-  aws_cloudwatch_log_group  = module.logs.aws_cloudwatch_log_group
+  aws_kms_key_arn           = module.ec2.aws_key.arn
+  aws_cloudwatch_log_group  = module.logs.aws_cloudwatch_log_group.id
   asg_max_size              = 1
   asg_min_size              = 1
   maximum_scaling_step_size = 1
@@ -63,8 +63,5 @@ module "vpc" {
   source           = "./modules/vpc"
   environment      = var.environment
   application_name = var.application_name
-  vpc_id           = var.vpc_id
-  subnets_private  = var.subnets_private
-  subnets_public   = var.subnets_public
   tags             = local.tags
 }

@@ -16,25 +16,6 @@ variable "environment" {
   }
 }
 
-variable "vpc_id" {
-  description = "AWS region"
-  type        = string
-
-  validation {
-    # regex(...) fails if it cannot find a match
-    condition     = can(regex("^vpc-", var.vpc_id))
-    error_message = "The vpc_id value must be a valid VPC id, starting with \"vpc-\"."
-  }
-}
-
-variable "subnets_public" {
-  description = "AWS public subnets"
-}
-
-variable "subnets_private" {
-  description = "AWS private subnets"
-}
-
 variable "tags" {
   description = "Shared tags."
 }

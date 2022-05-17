@@ -11,12 +11,12 @@ output "tags" {
 ################ VPC ################
 output "load_balancer_security_group_arn" {
   description = "load_balancer_security_group_arn"
-  value       = module.vpc.load_balancer_security_group_arn
+  value       = module.vpc.load_balancer_sg.arn
 }
 
 output "ecs_task_security_group_arn" {
   description = "ecs_task_security_group_arn"
-  value       = module.vpc.ecs_task_security_group_arn
+  value       = module.vpc.ecs_sg.arn
 }
 
 ################ IAM Roles ################
@@ -29,12 +29,12 @@ output "aws_key" {
 
 output "aws_ecr_repository_arn" {
   description = "aws_ecr_repository_arn"
-  value       = module.ecr.aws_ecr_repository_arn
+  value       = module.ecr.aws_ecr_repository.arn
 }
 
 output "aws_ecr_repository_url" {
   description = "aws_ecr_repository_url"
-  value       = module.ecr.aws_ecr_repository_url
+  value       = module.ecr.aws_ecr_repository.repository_url
 }
 
 output "aws_ecr_authorization_token" {
@@ -45,12 +45,12 @@ output "aws_ecr_authorization_token" {
 
 output "aws_ecs_cluster_name" {
   description = "aws_ecs_cluster_name"
-  value       = module.ecs.aws_ecs_cluster
+  value       = module.ecs.aws_ecs_cluster.id
   sensitive   = true
 }
 
 output "aws_ecs_cluster_arn" {
   description = "aws_ecs_cluster_arn"
-  value       = module.ecs.aws_ecs_cluster_arn
+  value       = module.ecs.aws_ecs_cluster.arn
   sensitive   = true
 }
