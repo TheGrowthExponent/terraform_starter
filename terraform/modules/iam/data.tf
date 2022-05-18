@@ -74,3 +74,18 @@ data "aws_iam_policy_document" "ecs_service_scaling" {
     ]
   }
 }
+
+data "aws_iam_policy_document" "allow_ecr" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetAuthorizationToken"
+    ]
+    resources = [
+      "*"
+    ]
+  }
+}
