@@ -48,10 +48,12 @@ module "ecs" {
   tags                      = local.tags
   ecs_role                  = module.iam.ecs_role
   ecs_sg                    = module.vpc.ecs_sg
+  load_balancer_sg          = module.vpc.load_balancer_sg
   ecs_subnet_a              = module.vpc.ecs_subnet_a
   ecs_subnet_b              = module.vpc.ecs_subnet_b
   ecs_subnet_c              = module.vpc.ecs_subnet_c
   ecs_target_group          = module.elb.ecs_target_group
+  aws_availability_zones    = module.vpc.aws_availability_zones
   aws_ami                   = data.aws_ami.ubuntu
 }
 
@@ -97,6 +99,8 @@ module "s3" {
   environment      = var.environment
   application_name = var.application_name
   tags             = local.tags
+  account_id       = var.account_id
+  region           = var.region
 }
 
 module "vpc" {

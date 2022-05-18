@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket = "${var.application_name}-${var.environment}"
+  bucket = "${var.application_name}-${var.account_id}-${var.environment}-${var.region}"
   tags   = var.tags
 }
 

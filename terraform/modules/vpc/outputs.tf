@@ -2,6 +2,10 @@ output "vpc" {
   value = aws_vpc.vpc
 }
 
+output "aws_availability_zones" {
+  value = data.aws_availability_zones.available
+}
+
 output "load_balancer_subnet_a" {
   value = aws_subnet.elb_a
 }

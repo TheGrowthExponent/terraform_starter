@@ -18,7 +18,7 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_ecs_cluster_capacity_providers" "cluster_capacity_provider" {
-  cluster_name = aws_ecs_cluster.cluster.name
+  cluster_name       = aws_ecs_cluster.cluster.name
   capacity_providers = [aws_ecs_capacity_provider.capacity_provider.name]
   default_capacity_provider_strategy {
     base              = 1
@@ -35,6 +35,9 @@ resource "aws_ecs_capacity_provider" "capacity_provider" {
 }
 
 resource "aws_autoscaling_group" "autoscaling_group" {
+  name                 = "${var.application_name}-${var.environment}-asg"
+  availability_zones   = var.aws_availability_zones.names
+  desired_capacity     = var.target_capacity
   launch_configuration = aws_launch_configuration.as_conf.id
   max_size             = var.asg_max_size
   min_size             = var.asg_min_size
@@ -49,6 +52,9 @@ resource "aws_launch_configuration" "as_conf" {
   name          = "web_config"
   image_id      = var.aws_ami.id
   instance_type = "t2.micro"
+  key_name      = var.aws_key.id
+  #  iam_instance_profile = var.ecs_role.id
+  security_groups = [var.load_balancer_sg.id]
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
