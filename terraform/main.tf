@@ -88,6 +88,7 @@ module "route53" {
   application_name = var.application_name
   elb              = module.elb.elb
   hosted_zone_id   = var.hosted_zone_id
+  host_name        = var.host_name
   tags             = local.tags
 }
 
