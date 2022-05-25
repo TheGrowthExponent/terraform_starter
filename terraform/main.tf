@@ -103,6 +103,22 @@ module "s3" {
   region           = var.region
 }
 
+module "sns" {
+  source                  = "./modules/sns"
+  environment             = var.environment
+  application_name        = var.application_name
+  account_id              = var.account_id
+  notification_recipients = var.notification_recipients
+  tags                    = local.tags
+}
+
+module "sqs" {
+  source                  = "./modules/sqs"
+  environment             = var.environment
+  application_name        = var.application_name
+  tags                    = local.tags
+}
+
 module "vpc" {
   source           = "./modules/vpc"
   environment      = var.environment

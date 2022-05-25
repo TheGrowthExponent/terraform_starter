@@ -73,3 +73,7 @@ variable "host_name" {
   type        = string
   description = "The Route 53 domain host name you want to use"
 }
+
+variable "notification_recipients" {
+  description = "Email address list of notification recipients."
+}

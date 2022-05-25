@@ -27,6 +27,7 @@ output "aws_key" {
   value       = module.ec2.aws_key
 }
 
+################ ECR ################
 output "aws_ecr_repository_arn" {
   description = "aws_ecr_repository_arn"
   value       = module.ecr.aws_ecr_repository.arn
@@ -43,6 +44,7 @@ output "aws_ecr_authorization_token" {
   sensitive   = true
 }
 
+################ ECS ################
 output "aws_ecs_cluster_name" {
   description = "aws_ecs_cluster_name"
   value       = module.ecs.ecs_cluster.id
@@ -53,4 +55,20 @@ output "aws_ecs_cluster_arn" {
   description = "aws_ecs_cluster_arn"
   value       = module.ecs.ecs_cluster.arn
   sensitive   = true
+}
+
+################ SNS ################
+output "sns_notifications_topic" {
+  description = "sns_notifications_topic"
+  value       = module.sns.sns_notifications_topic.arn
+}
+
+output "sns_error_notifications_topic" {
+  description = "sns_error_notifications_topic"
+  value       = module.sns.sns_error_notifications_topic.arn
+}
+
+output "aws_sqs_queue" {
+  description = "aws_sqs_queue"
+  value       = module.sqs.aws_sqs_queue.arn
 }
