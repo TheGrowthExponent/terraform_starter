@@ -1,0 +1,19 @@
+application_name        = "my-application"                    # name that will be used when creating cloud resources
+environment             = "dev"                               # a short value denoting environment - dev, test, uat, prod
+profile                 = "cicd_user"                         # profile used to deploy cloud resources
+region                  = "ap-southeast-2"                    # region to deploy resources to
+account_id              = "111111111111"                      # AWS account number
+hosted_zone_id          = "xxxxx"                             # Route53 zone id for created DNS entries in
+host_name               = "myapp"                             # subdomain to create for application
+notification_recipients = ["your.name@email.com.au"]          # email address for notifications
+
+resource_tags = {
+  local-tag = "local",                                        # environment specific tags added to all resources created
+}
+
+####### VPC #######                                           # You will need to modify VPC module if you would like to use an existing VPC
+vpc_id          = "vpc-xxx"                                   # VPC id when using existing VPC
+subnets_public  = ["subnet-xxx", "subnet-xxx"]                # subnet ids when using existing subnets
+subnets_private = ["subnet-xxx", "subnet-xxx"]
+
+####### EC2 #######

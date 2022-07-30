@@ -1,3 +1,5 @@
+### Remove the parts you dont need to create if using existing VPC
+### If using your own VPC, add `data.` prefix when referencing existing resources specified in data.tf
 resource "aws_vpc" "vpc" {
   cidr_block           = "192.0.0.0/16"
   enable_dns_support   = true

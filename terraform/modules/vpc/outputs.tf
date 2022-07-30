@@ -1,3 +1,4 @@
+### If using your own VPC, add `data.` prefix when referencing existing resources specified in data.tf
 output "vpc" {
   value = aws_vpc.vpc
 }

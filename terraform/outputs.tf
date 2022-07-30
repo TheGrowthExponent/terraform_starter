@@ -20,6 +20,13 @@ output "ecs_task_security_group_arn" {
 }
 
 ################ IAM Roles ################
+output "ecs_service_role" {
+  value = module.iam.ecs_service_role
+}
+
+output "lambda_role" {
+  value = module.iam.lambda_role
+}
 
 ################ EC2 ################
 output "aws_key" {
@@ -57,6 +64,12 @@ output "aws_ecs_cluster_arn" {
   sensitive   = true
 }
 
+################ S3 ################
+output "aws_s3_bucket" {
+  description = "aws_s3_bucket"
+  value       = module.s3.aws_s3_bucket.id
+}
+
 ################ SNS ################
 output "sns_notifications_topic" {
   description = "sns_notifications_topic"
@@ -68,6 +81,7 @@ output "sns_error_notifications_topic" {
   value       = module.sns.sns_error_notifications_topic.arn
 }
 
+################ SQS ################
 output "aws_sqs_queue" {
   description = "aws_sqs_queue"
   value       = module.sqs.aws_sqs_queue.arn

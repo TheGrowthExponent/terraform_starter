@@ -16,11 +16,14 @@ variable "environment" {
   }
 }
 
-variable "elb" {}
-variable "bucket" {}
+variable "lambda_role" {}
+variable "subnet_ids" {}
+variable "load_balancer_sg" {}
+variable "lambda_log_level" {}
+variable "secret_name" {}
 variable "queue" {}
-variable "notifications_topic" {}
-variable "error_notifications_topic" {}
+variable "bucket" {}
+
 
 variable "tags" {
   description = "Shared tags."

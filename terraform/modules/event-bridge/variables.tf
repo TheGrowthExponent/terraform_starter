@@ -16,12 +16,6 @@ variable "environment" {
   }
 }
 
-variable "elb" {}
-variable "bucket" {}
-variable "queue" {}
-variable "notifications_topic" {}
-variable "error_notifications_topic" {}
-
 variable "tags" {
   description = "Shared tags."
 }
