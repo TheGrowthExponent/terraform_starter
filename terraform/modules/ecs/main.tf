@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "cluster" {
-  name = "${var.application_name}-${var.environment}-cluster"
+  name = "cluster-${var.application_name}-${var.environment}"
   configuration {
     execute_command_configuration {
       kms_key_id = var.aws_key.id
@@ -28,19 +28,59 @@ resource "aws_ecs_cluster_capacity_providers" "cluster_capacity_provider" {
 }
 
 resource "aws_ecs_capacity_provider" "capacity_provider" {
-  name = "${var.application_name}-${var.environment}-capacity-provider"
+  name = "capacity-provider-${var.application_name}-${var.environment}"
   auto_scaling_group_provider {
     auto_scaling_group_arn = aws_autoscaling_group.autoscaling_group.arn
+    managed_scaling {
+      maximum_scaling_step_size = var.maximum_scaling_step_size
+      minimum_scaling_step_size = var.minimum_scaling_step_size
+      status                    = "ENABLED"
+      target_capacity           = var.target_capacity
+    }
   }
 }
 
+resource "aws_launch_configuration" "t3_micro" {
+  name            = "t3_micro-${var.application_name}-${var.environment}"
+  image_id        = var.aws_ami.id
+  instance_type   = "t3.micro"
+  key_name        = var.aws_key.id
+  security_groups = [var.sg.id]
+}
+
+resource "aws_launch_configuration" "t3_small" {
+  name            = "t3_small-${var.application_name}-${var.environment}"
+  image_id        = var.aws_ami.id
+  instance_type   = "t3.small"
+  key_name        = var.aws_key.id
+  security_groups = [var.sg.id]
+}
+
+resource "aws_launch_configuration" "t3_medium" {
+  name            = "t3_medium-${var.application_name}-${var.environment}"
+  image_id        = var.aws_ami.id
+  instance_type   = "t3.medium"
+  key_name        = var.aws_key.id
+  security_groups = [var.sg.id]
+}
+
 resource "aws_autoscaling_group" "autoscaling_group" {
-  name                 = "${var.application_name}-${var.environment}-asg"
-  availability_zones   = var.aws_availability_zones.names
-  desired_capacity     = var.target_capacity
-  launch_configuration = aws_launch_configuration.as_conf.id
-  max_size             = var.asg_max_size
-  min_size             = var.asg_min_size
+  name                      = "asg-${var.application_name}-${var.environment}"
+  vpc_zone_identifier       = var.private_subnets
+  desired_capacity          = var.target_capacity
+  launch_configuration      = aws_launch_configuration.t3_small.name
+  max_size                  = var.asg_max_size
+  min_size                  = var.asg_min_size
+  health_check_grace_period = 120
+  health_check_type         = "ELB"
+  force_delete              = true
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 10
+    }
+    triggers = ["tag"]
+  }
   tag {
     key                 = "AmazonECSManaged"
     value               = true
@@ -48,20 +88,28 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   }
 }
 
-resource "aws_launch_configuration" "as_conf" {
-  name          = "web_config"
-  image_id      = var.aws_ami.id
-  instance_type = "t2.micro"
-  key_name      = var.aws_key.id
-  #  iam_instance_profile = var.ecs_role.id
-  security_groups = [var.load_balancer_sg.id]
+resource "aws_autoscaling_notification" "example_notifications" {
+  group_names = [
+    aws_autoscaling_group.autoscaling_group.name,
+  ]
+
+  notifications = [
+    "autoscaling:EC2_INSTANCE_LAUNCH",
+    "autoscaling:EC2_INSTANCE_TERMINATE",
+    "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
+    "autoscaling:EC2_INSTANCE_TERMINATE_ERROR",
+  ]
+
+  topic_arn = var.sns_notifications_topic.arn
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                = "${var.application_name}-${var.environment}"
+  family                = "td-${var.application_name}-${var.environment}"
   container_definitions = <<TASK_DEFINITION
   [
   {
+    "memory" : 1024,
+    "cpu" : 512,
     "portMappings": [
       {
         "hostPort": 80,
@@ -69,17 +117,23 @@ resource "aws_ecs_task_definition" "task_definition" {
         "containerPort": 80
       }
     ],
-    "cpu": 512,
     "environment": [
       {
-        "name": "AUTHOR",
-        "value": "Jason Pascoe"
+        "name": "S3BUCKET",
+        "value": "${var.s3_bucket.id}"
       }
     ],
-    "memory": 1024,
-    "image": "dockersamples/static-site",
+    "image": "${var.aws_ecr_repository.repository_url}:${var.aws_ecr_repository_version}",
     "essential": true,
-    "name": "site"
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${var.log_group.id}",
+          "awslogs-region": "${var.region}",
+          "awslogs-stream-prefix": "${var.application_name}-${var.environment}"
+        }
+      },
+    "name": "streamlit"
   }
 ]
 TASK_DEFINITION
@@ -94,28 +148,21 @@ TASK_DEFINITION
 }
 
 resource "aws_ecs_service" "service" {
-  name             = "${var.application_name}-${var.environment}-service"
+  name             = "service-${var.application_name}-${var.environment}"
   cluster          = aws_ecs_cluster.cluster.id
   task_definition  = aws_ecs_task_definition.task_definition.arn
-  desired_count    = 1
+  desired_count    = var.target_capacity
   launch_type      = "FARGATE"
   platform_version = "1.4.0"
-  lifecycle {
-    ignore_changes = [
-    desired_count]
-  }
   network_configuration {
-    subnets = [
-      var.ecs_subnet_a.id,
-      var.ecs_subnet_b.id,
-    var.ecs_subnet_c.id]
+    subnets = var.private_subnets
     security_groups = [
-    var.ecs_sg.id]
+    var.sg.id]
     assign_public_ip = true
   }
   load_balancer {
     target_group_arn = var.ecs_target_group.arn
-    container_name   = "site"
+    container_name   = "example"
     container_port   = 80
   }
 }

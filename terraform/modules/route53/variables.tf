@@ -16,10 +16,9 @@ variable "environment" {
   }
 }
 
-variable "elb" {}
-
 variable "hosted_zone_id" {}
 variable "host_name" {}
+variable "cname_destination_url" {}
 
 variable "tags" {
   description = "Shared tags."

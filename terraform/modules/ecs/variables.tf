@@ -17,25 +17,19 @@ variable "environment" {
 }
 
 variable "aws_availability_zones" {}
-
 variable "ecs_target_group" {}
-
-variable "ecs_subnet_a" {}
-
-variable "ecs_subnet_b" {}
-
-variable "ecs_subnet_c" {}
-
-variable "ecs_sg" {}
-
-variable "load_balancer_sg" {}
-
+variable "public_subnets" {}
+variable "private_subnets" {}
+variable "sg" {}
 variable "ecs_role" {}
-
 variable "aws_key" {}
-
 variable "log_group" {}
 variable "aws_ami" {}
+variable "aws_ecr_repository" {}
+variable "aws_ecr_repository_version" {
+  default = "latest"
+}
+variable "sns_notifications_topic" {}
 
 variable "region" {
   default = "ap-southeast-2"
@@ -70,6 +64,8 @@ variable "target_capacity" {
   type        = number
   default     = 1
 }
+
+variable "s3_bucket" {}
 
 variable "tags" {
   description = "Shared tags."

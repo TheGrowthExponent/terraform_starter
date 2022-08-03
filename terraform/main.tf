@@ -70,29 +70,29 @@ module "elb" {
   tags                   = local.tags
 }
 module "iam" {
-  source           = "./modules/iam"
-  environment      = var.environment
-  application_name = var.application_name
-  elb              = module.elb.elb
-  bucket           = module.s3.aws_s3_bucket
-  queue           = module.sqs.aws_sqs_queue
-  notifications_topic = module.sns.sns_notifications_topic
+  source                    = "./modules/iam"
+  environment               = var.environment
+  application_name          = var.application_name
+  elb                       = module.elb.elb
+  bucket                    = module.s3.aws_s3_bucket
+  queue                     = module.sqs.aws_sqs_queue
+  notifications_topic       = module.sns.sns_notifications_topic
   error_notifications_topic = module.sns.sns_error_notifications_topic
-  tags             = local.tags
+  tags                      = local.tags
 }
 
 module "lambda" {
   source           = "./modules/lambda"
   environment      = var.environment
   application_name = var.application_name
-    region                    = var.region
-  aws_key                   = module.ec2.aws_key
-  log_group                 = module.logs.log_group
-  lambda_role                  = module.iam.lambda_role
-  load_balancer_sg                    = module.vpc.load_balancer_sg
-  ecs_subnet_a              = module.vpc.ecs_subnet_a
-  ecs_subnet_b              = module.vpc.ecs_subnet_b
-  ecs_subnet_c              = module.vpc.ecs_subnet_c
+  region           = var.region
+  aws_key          = module.ec2.aws_key
+  log_group        = module.logs.log_group
+  lambda_role      = module.iam.lambda_role
+  load_balancer_sg = module.vpc.load_balancer_sg
+  ecs_subnet_a     = module.vpc.ecs_subnet_a
+  ecs_subnet_b     = module.vpc.ecs_subnet_b
+  ecs_subnet_c     = module.vpc.ecs_subnet_c
   tags             = local.tags
 }
 
@@ -132,10 +132,10 @@ module "sns" {
 }
 
 module "sqs" {
-  source                  = "./modules/sqs"
-  environment             = var.environment
-  application_name        = var.application_name
-  tags                    = local.tags
+  source           = "./modules/sqs"
+  environment      = var.environment
+  application_name = var.application_name
+  tags             = local.tags
 }
 
 module "vpc" {

@@ -1,10 +1,10 @@
 resource "aws_sqs_queue" "dead_letter" {
-  name = "${var.application_name}-${var.environment}-deadletter-queue"
+  name = "deadletter-queue-${var.application_name}-${var.environment}"
   tags = var.tags
 }
 
 resource "aws_sqs_queue" "queue" {
-  name                      = "${var.application_name}-${var.environment}-queue"
+  name                      = "queue-${var.application_name}-${var.environment}"
   delay_seconds             = 90
   max_message_size          = 2048
   message_retention_seconds = 86400
@@ -20,7 +20,7 @@ resource "aws_sqs_queue" "queue" {
   tags = var.tags
 }
 
-resource "aws_sqs_queue_policy" "pg2sf_queue_policy" {
+resource "aws_sqs_queue_policy" "queue_policy" {
   queue_url = aws_sqs_queue.queue.id
   policy      = data.aws_iam_policy_document.sqs_queue_policy.json
 }
