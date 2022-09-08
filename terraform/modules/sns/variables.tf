@@ -24,7 +24,3 @@ variable "account_id" {
 variable "notification_recipients" {
   description = "Email address list of notification recipients."
 }
-
-variable "tags" {
-  description = "Shared tags."
-}

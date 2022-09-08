@@ -1,6 +1,5 @@
 resource "aws_sns_topic" "notifications" {
   name = "notification-topic-${var.application_name}-${var.environment}"
-  tags = var.tags
 }
 
 resource "aws_sns_topic" "error_notifications" {
