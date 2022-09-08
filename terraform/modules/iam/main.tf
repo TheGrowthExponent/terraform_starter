@@ -110,6 +110,21 @@ resource "aws_iam_role_policy_attachment" "ecs_managed_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_basic_managed_policy" {
+  role       = aws_iam_role.lambda_service.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_vpc_managed_policy" {
+  role       = aws_iam_role.lambda_service.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_insights_managed_policy" {
+  role       = aws_iam_role.lambda_service.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy"
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_allow_secrets" {
   role       = aws_iam_role.lambda_service.name
   policy_arn = aws_iam_policy.allow_secrets.arn
