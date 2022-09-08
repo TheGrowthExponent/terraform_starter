@@ -17,9 +17,4 @@ variable "environment" {
 }
 
 variable "ecs_cluster" {}
-
 variable "ecs_service" {}
-
-variable "tags" {
-  description = "Shared tags."
-}
