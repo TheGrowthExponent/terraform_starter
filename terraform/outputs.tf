@@ -32,7 +32,7 @@ output "lambda_role" {
 output "aws_key" {
   description = "aws_key"
   value       = module.ec2.aws_key
-  sensitive = true
+  sensitive   = true
 }
 
 ################ ECR ################

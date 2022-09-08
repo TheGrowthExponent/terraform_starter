@@ -48,6 +48,7 @@ module "ecr" {
   source           = "./modules/ecr"
   environment      = var.environment
   application_name = var.application_name
+  ecs_role         = module.iam.ecs_role
 }
 
 module "ecs" {

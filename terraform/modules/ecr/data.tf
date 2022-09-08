@@ -17,9 +17,9 @@ data "aws_iam_policy_document" "allow_ecr" {
                 "ecr:SetRepositoryPolicy",
                 "ecr:DeleteRepositoryPolicy"
     ]
-    principals {
-      identifiers = ["*"]
-      type        = "*"
+     principals {
+      identifiers = [var.ecs_role.arn]
+      type        = "AWS"
     }
   }
 }
