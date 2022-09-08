@@ -1,7 +1,6 @@
 resource "aws_acm_certificate" "certificate" {
-  domain_name               = "${var.host_name}.${data.aws_route53_zone.selected.name}"
-  validation_method         = "DNS"
-  tags                      = var.tags
+  domain_name       = "${var.host_name}.${data.aws_route53_zone.selected.name}"
+  validation_method = "DNS"
 }
 
 resource "aws_route53_record" "cert_validation" {

@@ -104,8 +104,8 @@ resource "aws_autoscaling_notification" "example_notifications" {
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                = "td-${var.application_name}-${var.environment}"
-  container_definitions = <<TASK_DEFINITION
+  family                   = "td-${var.application_name}-${var.environment}"
+  container_definitions    = <<TASK_DEFINITION
   [
   {
     "memory" : 1024,
@@ -137,9 +137,10 @@ resource "aws_ecs_task_definition" "task_definition" {
   }
 ]
 TASK_DEFINITION
-  network_mode          = "awsvpc"
+  network_mode             = "awsvpc"
   requires_compatibilities = [
-  "FARGATE"]
+    "FARGATE"
+  ]
   memory             = "1024"
   cpu                = "512"
   execution_role_arn = var.ecs_role.arn
@@ -155,9 +156,10 @@ resource "aws_ecs_service" "service" {
   launch_type      = "FARGATE"
   platform_version = "1.4.0"
   network_configuration {
-    subnets = var.private_subnets
+    subnets         = var.private_subnets
     security_groups = [
-    var.sg.id]
+      var.sg.id
+    ]
     assign_public_ip = true
   }
   load_balancer {

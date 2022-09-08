@@ -1,6 +1,6 @@
 data "aws_iam_policy_document" "ecs_service_elb" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = [
       "ec2:Describe*"
     ]
@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "ecs_service_elb" {
     ]
   }
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = [
       "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
       "elasticloadbalancing:DeregisterTargets",
@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "ecs_service_elb" {
 
 data "aws_iam_policy_document" "ecs_service_standard" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = [
       "ec2:DescribeTags",
       "ecs:DeregisterContainerInstance",
@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "ecs_service_standard" {
 
 data "aws_iam_policy_document" "ecs_service_scaling" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = [
       "application-autoscaling:*",
       "ecs:DescribeServices",
@@ -77,7 +77,7 @@ data "aws_iam_policy_document" "ecs_service_scaling" {
 
 data "aws_iam_policy_document" "allow_ecr" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = [
       "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
@@ -111,7 +111,7 @@ data "aws_iam_policy_document" "lambda" {
 
 data "aws_iam_policy_document" "allow_s3" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = [
       "s3:Get*",
       "s3:List",
@@ -125,7 +125,7 @@ data "aws_iam_policy_document" "allow_s3" {
 
 data "aws_iam_policy_document" "allow_logging" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = [
       "logs:DescribeLogGroups",
     ]
@@ -133,16 +133,16 @@ data "aws_iam_policy_document" "allow_logging" {
       "arn:aws:logs:ap-southeast-2:*:log-group::log-stream:*",
     ]
   }
-    statement {
-    effect = "Allow"
+  statement {
+    effect  = "Allow"
     actions = [
       "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:DeleteLogGroup",
-                "logs:DeleteLogStream",
-                "logs:DescribeLogStreams",
-                "logs:FilterLogEvents",
-                "logs:PutLogEvents"
+      "logs:CreateLogStream",
+      "logs:DeleteLogGroup",
+      "logs:DeleteLogStream",
+      "logs:DescribeLogStreams",
+      "logs:FilterLogEvents",
+      "logs:PutLogEvents"
     ]
     resources = [
       "${var.log_group.arn}:log-stream:*",

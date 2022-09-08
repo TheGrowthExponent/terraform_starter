@@ -9,7 +9,7 @@ resource "aws_sqs_queue" "queue" {
   max_message_size          = 2048
   message_retention_seconds = 86400
   receive_wait_time_seconds = 10
-  redrive_policy = jsonencode({
+  redrive_policy            = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.dead_letter.arn
     maxReceiveCount     = 4
   })
@@ -22,5 +22,5 @@ resource "aws_sqs_queue" "queue" {
 
 resource "aws_sqs_queue_policy" "queue_policy" {
   queue_url = aws_sqs_queue.queue.id
-  policy      = data.aws_iam_policy_document.sqs_queue_policy.json
+  policy    = data.aws_iam_policy_document.sqs_queue_policy.json
 }

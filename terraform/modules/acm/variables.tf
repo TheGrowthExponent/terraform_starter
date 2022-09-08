@@ -19,7 +19,3 @@ variable "environment" {
 variable "hosted_zone_id" {}
 variable "host_name" {}
 variable "aws_route53_record" {}
-
-variable "tags" {
-  description = "Shared tags."
-}

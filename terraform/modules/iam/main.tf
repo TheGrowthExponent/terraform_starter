@@ -1,16 +1,16 @@
 resource "aws_iam_role" "ecs_service" {
   name               = "role-ecs-service-${var.application_name}-${var.environment}"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
+        Sid       = ""
         Principal = {
           Service = [
-               "ecs-tasks.amazonaws.com", "ecs.amazonaws.com"
-            ]
+            "ecs-tasks.amazonaws.com", "ecs.amazonaws.com"
+          ]
         }
       },
     ]
@@ -72,10 +72,10 @@ resource "aws_iam_role_policy_attachment" "ecs_managed_policy" {
 }
 
 resource "aws_iam_role" "lambda_service" {
-  name     = "role-lambda-${var.application_name}-${var.environment}"
+  name               = "role-lambda-${var.application_name}-${var.environment}"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.lambda.json
-  tags = merge(var.tags, { purpose = "Project lambda role" })
+  tags               = merge(var.tags, { purpose = "Project lambda role" })
 }
 
 resource "aws_iam_policy" "allow_s3" {

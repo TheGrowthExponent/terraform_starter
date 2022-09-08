@@ -116,8 +116,9 @@ resource "aws_security_group_rule" "ingress_load_balancer_http" {
   protocol          = "tcp"
   security_group_id = aws_security_group.load_balancer.id
   to_port           = 80
-  cidr_blocks = [
-  "0.0.0.0/0"]
+  cidr_blocks       = [
+    "0.0.0.0/0"
+  ]
   type = "ingress"
 }
 
@@ -126,8 +127,9 @@ resource "aws_security_group_rule" "ingress_load_balancer_https" {
   protocol          = "tcp"
   security_group_id = aws_security_group.load_balancer.id
   to_port           = 443
-  cidr_blocks = [
-  "0.0.0.0/0"]
+  cidr_blocks       = [
+    "0.0.0.0/0"
+  ]
   type = "ingress"
 }
 
@@ -141,39 +143,43 @@ resource "aws_security_group_rule" "ingress_ecs_elb" {
 }
 
 resource "aws_security_group_rule" "egress_load_balancer" {
-  type      = "egress"
-  from_port = 0
-  to_port   = 65535
-  protocol  = "tcp"
+  type        = "egress"
+  from_port   = 0
+  to_port     = 65535
+  protocol    = "tcp"
   cidr_blocks = [
-  "0.0.0.0/0"]
+    "0.0.0.0/0"
+  ]
   security_group_id = aws_security_group.load_balancer.id
 }
 
 resource "aws_security_group_rule" "egress_ecs" {
-  type      = "egress"
-  from_port = 0
-  to_port   = 65535
-  protocol  = "tcp"
+  type        = "egress"
+  from_port   = 0
+  to_port     = 65535
+  protocol    = "tcp"
   cidr_blocks = [
-  "0.0.0.0/0"]
+    "0.0.0.0/0"
+  ]
   security_group_id = aws_security_group.ecs.id
 }
 
 resource "aws_network_acl" "load_balancer" {
-  vpc_id = aws_vpc.vpc.id
+  vpc_id     = aws_vpc.vpc.id
   subnet_ids = [
     aws_subnet.public_a.id,
     aws_subnet.public_b.id,
-  aws_subnet.public_c.id]
+    aws_subnet.public_c.id
+  ]
 }
 
 resource "aws_network_acl" "ecs" {
-  vpc_id = aws_vpc.vpc.id
+  vpc_id     = aws_vpc.vpc.id
   subnet_ids = [
     aws_subnet.private_a.id,
     aws_subnet.private_b.id,
-  aws_subnet.private_c.id]
+    aws_subnet.private_c.id
+  ]
 }
 
 resource "aws_network_acl_rule" "load_balancer_http" {

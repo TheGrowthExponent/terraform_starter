@@ -2,10 +2,11 @@ resource "aws_lb" "elb" {
   name               = "lb-${var.application_name}-${var.environment}"
   internal           = false
   load_balancer_type = "application"
-  security_groups = [
-  var.load_balancer_sg.id]
+  security_groups    = [
+    var.load_balancer_sg.id
+  ]
   subnets = var.private_subnets
-  tags = var.tags
+  tags    = var.tags
 }
 
 resource "aws_lb_target_group" "ecs" {
