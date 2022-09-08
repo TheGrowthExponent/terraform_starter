@@ -14,7 +14,6 @@ resource "aws_ecs_cluster" "cluster" {
     name  = "containerInsights"
     value = "enabled"
   }
-  tags = var.tags
 }
 
 resource "aws_ecs_cluster_capacity_providers" "cluster_capacity_provider" {
@@ -82,6 +81,41 @@ resource "aws_autoscaling_group" "autoscaling_group" {
     triggers = ["tag"]
   }
   tag {
+    key                 = "Application-id"
+    value               = var.application_name
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Business-Service"
+    value               = "xxx"
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Environment"
+    value               = var.environment
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Owner"
+    value               = "xxx"
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Terraform"
+    value               = true
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Name"
+    value               = "${var.application_name}-${var.environment}"
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "version"
+    value               = var.aws_ecr_repository_version
+    propagate_at_launch = true
+  }
+  tag {
     key                 = "AmazonECSManaged"
     value               = true
     propagate_at_launch = true
@@ -145,7 +179,6 @@ TASK_DEFINITION
   cpu                = "512"
   execution_role_arn = var.ecs_role.arn
   task_role_arn      = var.ecs_role.arn
-  tags               = var.tags
 }
 
 resource "aws_ecs_service" "service" {

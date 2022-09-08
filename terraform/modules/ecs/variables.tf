@@ -66,7 +66,3 @@ variable "target_capacity" {
 }
 
 variable "s3_bucket" {}
-
-variable "tags" {
-  description = "Shared tags."
-}
