@@ -21,19 +21,19 @@
 
 resource "random_uuid" "lambda1_src_hash" {
   keepers = {
-  for filename in setunion(
-    fileset(local.lambda_src_path, "/lambda1/**/*")
-  ) :
-  filename => filemd5("${local.lambda_src_path}/lambda1/${filename}")
+    for filename in setunion(
+      fileset(local.lambda_src_path, "/lambda1/**/*")
+    ) :
+    filename => filemd5("${local.lambda_src_path}/lambda1/${filename}")
   }
 }
 
 resource "random_uuid" "lambda2_src_hash" {
   keepers = {
-  for filename in setunion(
-    fileset(local.lambda_src_path, "/lambda2/**/*")
-  ) :
-  filename => filemd5("${local.lambda_src_path}/lambda2/${filename}")
+    for filename in setunion(
+      fileset(local.lambda_src_path, "/lambda2/**/*")
+    ) :
+    filename => filemd5("${local.lambda_src_path}/lambda2/${filename}")
   }
 }
 
@@ -82,7 +82,7 @@ resource "aws_lambda_function" "lambda1_function" {
   runtime          = "python3.8"
   source_code_hash = data.archive_file.lambda1_source_package.output_base64sha256
   ephemeral_storage {
-    size = 10240 # Min 512 MB and the Max 10240 MB
+    size = 1024 # Min 512 MB and the Max 10240 MB
   }
   vpc_config {
     subnet_ids         = var.subnet_ids
@@ -98,13 +98,11 @@ resource "aws_lambda_function" "lambda1_function" {
     }
   }
 
-  # lifecycle {
-  #   # Terraform will any ignore changes to the
-  #   # environment variables after the first deploy.
-  #   ignore_changes = [environment]
-  # }
-
-  tags = var.tags
+  lifecycle {
+    # Terraform will any ignore changes to the
+    # environment variables after the first deploy.
+    ignore_changes = [environment]
+  }
 }
 
 resource "aws_lambda_function" "lambda2_function" {
@@ -142,11 +140,11 @@ resource "aws_lambda_function" "lambda2_function" {
     }
   }
 
-  # lifecycle {
-  #   # Terraform will any ignore changes to the
-  #   # environment variables after the first deploy.
-  #   ignore_changes = [environment]
-  # }
+  lifecycle {
+    # Terraform will any ignore changes to the
+    # environment variables after the first deploy.
+    ignore_changes = [environment]
+  }
 
   tags = var.tags
 }
