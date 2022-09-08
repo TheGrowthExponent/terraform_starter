@@ -68,6 +68,13 @@ resource "aws_iam_policy" "allow_logging" {
   policy      = data.aws_iam_policy_document.allow_logging.json
 }
 
+resource "aws_iam_policy" "allow_ec2" {
+  name        = "policy-allow_ec2-${var.application_name}-${var.environment}"
+  path        = "/"
+  description = "Allow ec2"
+  policy      = data.aws_iam_policy_document.allow_ec2.json
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_service_elb" {
   role       = aws_iam_role.ecs_service.name
   policy_arn = aws_iam_policy.ecs_service_elb.arn
@@ -83,9 +90,19 @@ resource "aws_iam_role_policy_attachment" "ecs_service_scaling" {
   policy_arn = aws_iam_policy.ecs_service_scaling.arn
 }
 
-resource "aws_iam_role_policy_attachment" "allow_ecr" {
+resource "aws_iam_role_policy_attachment" "ecs_allow_ecr" {
   role       = aws_iam_role.ecs_service.name
   policy_arn = aws_iam_policy.allow_ecr.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_allow_secrets" {
+  role       = aws_iam_role.ecs_service.name
+  policy_arn = aws_iam_policy.allow_secrets.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_allow_s3" {
+  role       = aws_iam_role.ecs_service.name
+  policy_arn = aws_iam_policy.allow_s3.arn
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_managed_policy" {
@@ -93,17 +110,18 @@ resource "aws_iam_role_policy_attachment" "ecs_managed_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-resource "aws_iam_role_policy_attachment" "allow_s3" {
+resource "aws_iam_role_policy_attachment" "lambda_allow_secrets" {
+  role       = aws_iam_role.lambda_service.name
+  policy_arn = aws_iam_policy.allow_secrets.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_allow_s3" {
   role       = aws_iam_role.lambda_service.name
   policy_arn = aws_iam_policy.allow_s3.arn
 }
 
-resource "aws_iam_role_policy_attachment" "disallow_unauthenticated_urls" {
+resource "aws_iam_role_policy_attachment" "lambda_allow_ec2" {
   role       = aws_iam_role.lambda_service.name
-  policy_arn = aws_iam_policy.disallow_unauthenticated_urls.arn
+  policy_arn = aws_iam_policy.allow_ec2.arn
 }
 
-resource "aws_iam_role_policy_attachment" "allow_logging" {
-  role       = aws_iam_role.lambda_service.name
-  policy_arn = aws_iam_policy.allow_logging.arn
-}

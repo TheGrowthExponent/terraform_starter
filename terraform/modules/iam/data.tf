@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "lambda" {
 
 data "aws_iam_policy_document" "ecs_service_elb" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "ec2:Describe*"
     ]
@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "ecs_service_elb" {
     ]
   }
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
       "elasticloadbalancing:DeregisterTargets",
@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "ecs_service_elb" {
 
 data "aws_iam_policy_document" "ecs_service_standard" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "ec2:DescribeTags",
       "ecs:DeregisterContainerInstance",
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "ecs_service_standard" {
 
 data "aws_iam_policy_document" "ecs_service_scaling" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "application-autoscaling:*",
       "ecs:DescribeServices",
@@ -99,7 +99,7 @@ data "aws_iam_policy_document" "ecs_service_scaling" {
 
 data "aws_iam_policy_document" "allow_ecr" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
@@ -122,7 +122,7 @@ data "aws_iam_policy_document" "allow_ecr" {
 
 data "aws_iam_policy_document" "allow_secrets" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "secretsmanager:GetSecretValue"
     ]
@@ -134,7 +134,7 @@ data "aws_iam_policy_document" "allow_secrets" {
 
 data "aws_iam_policy_document" "allow_s3" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "s3:Get*",
       "s3:List",
@@ -148,7 +148,7 @@ data "aws_iam_policy_document" "allow_s3" {
 
 data "aws_iam_policy_document" "disallow_unauthenticated_urls" {
   statement {
-    effect  = "Deny"
+    effect = "Deny"
     actions = [
       "lambda:InvokeFunctionUrl",
     ]
@@ -163,7 +163,7 @@ data "aws_iam_policy_document" "disallow_unauthenticated_urls" {
 
 data "aws_iam_policy_document" "allow_logging" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "logs:DescribeLogGroups",
     ]
@@ -172,7 +172,7 @@ data "aws_iam_policy_document" "allow_logging" {
     ]
   }
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
@@ -188,3 +188,16 @@ data "aws_iam_policy_document" "allow_logging" {
   }
 }
 
+data "aws_iam_policy_document" "allow_ec2" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ec2:AttachNetworkInterface",
+      "ec2:CreateNetworkInterface",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DetachNetworkInterface"
+    ]
+    resources = ["*"]
+  }
+}
