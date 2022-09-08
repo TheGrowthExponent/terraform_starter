@@ -20,6 +20,3 @@ variable "elb" {}
 variable "s3_bucket" {}
 variable "log_group" {}
 
-variable "tags" {
-  description = "Shared tags."
-}

@@ -1,3 +1,25 @@
+data "aws_iam_policy_document" "ecs" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com", "ecs.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "lambda" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
 data "aws_iam_policy_document" "ecs_service_elb" {
   statement {
     effect  = "Allow"
@@ -98,14 +120,15 @@ data "aws_iam_policy_document" "allow_ecr" {
   }
 }
 
-data "aws_iam_policy_document" "lambda" {
+data "aws_iam_policy_document" "allow_secrets" {
   statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
+    effect  = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = [
+      "*"
+    ]
   }
 }
 
@@ -120,6 +143,21 @@ data "aws_iam_policy_document" "allow_s3" {
       var.s3_bucket.arn,
       "${var.s3_bucket.arn}/*"
     ]
+  }
+}
+
+data "aws_iam_policy_document" "disallow_unauthenticated_urls" {
+  statement {
+    effect  = "Deny"
+    actions = [
+      "lambda:InvokeFunctionUrl",
+    ]
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      values   = ["NONE"]
+      variable = "lambda:FunctionUrlAuthType"
+    }
   }
 }
 
