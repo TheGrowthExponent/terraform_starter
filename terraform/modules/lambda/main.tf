@@ -145,8 +145,6 @@ resource "aws_lambda_function" "lambda2_function" {
     # environment variables after the first deploy.
     ignore_changes = [environment]
   }
-
-  tags = var.tags
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_queue_event" {

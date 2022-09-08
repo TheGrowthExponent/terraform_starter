@@ -25,5 +25,4 @@ resource "aws_dynamodb_table" "ddb" {
     name = "GSI1SK"
     type = "S"
   }
-  tags = var.tags
 }

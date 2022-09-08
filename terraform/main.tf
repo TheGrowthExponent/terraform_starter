@@ -51,73 +51,79 @@ module "ecr" {
 }
 
 module "ecs" {
-  source                    = "./modules/ecs"
-  environment               = var.environment
-  application_name          = var.application_name
-  region                    = var.region
-  aws_key                   = module.ec2.aws_key
-  log_group                 = module.logs.log_group
-  asg_max_size              = 1
-  asg_min_size              = 1
-  maximum_scaling_step_size = 1
-  minimum_scaling_step_size = 1
-  target_capacity           = 1
-  tags                      = local.tags
-  ecs_role                  = module.iam.ecs_service_role
-  ecs_sg                    = module.vpc.ecs_sg
-  load_balancer_sg          = module.vpc.load_balancer_sg
-  ecs_subnet_a              = module.vpc.ecs_subnet_a
-  ecs_subnet_b              = module.vpc.ecs_subnet_b
-  ecs_subnet_c              = module.vpc.ecs_subnet_c
-  ecs_target_group          = module.elb.ecs_target_group
-  aws_availability_zones    = module.vpc.aws_availability_zones
-  aws_ami                   = data.aws_ami.ubuntu
+  source                     = "./modules/ecs"
+  environment                = var.environment
+  application_name           = var.application_name
+  region                     = var.region
+  aws_key                    = module.ec2.aws_key
+  log_group                  = module.logs.log_group
+  asg_max_size               = 2
+  asg_min_size               = 1
+  maximum_scaling_step_size  = 1
+  minimum_scaling_step_size  = 1
+  target_capacity            = 1
+  ecs_role                   = module.iam.ecs_role
+  sg                         = module.vpc.sg_ecs
+  aws_availability_zones     = module.vpc.aws_availability_zones
+  aws_ami                    = data.aws_ami.ubuntu
+  private_subnets            = var.private_subnets
+  public_subnets             = var.public_subnets
+  ecs_target_group           = module.elb.ecs_target_group
+  aws_ecr_repository         = module.ecr.aws_ecr_repository
+  aws_ecr_repository_version = "v0.0.1"
+  s3_bucket                  = module.s3.aws_s3_bucket
+  sns_notifications_topic    = module.sns.sns_notifications_topic
 }
 
 module "elb" {
   source                 = "./modules/elb"
   environment            = var.environment
   application_name       = var.application_name
-  hosted_zone_id         = var.hosted_zone_id
-  load_balancer_sg       = module.vpc.load_balancer_sg
-  load_balancer_subnet_a = module.vpc.load_balancer_subnet_a
-  load_balancer_subnet_b = module.vpc.load_balancer_subnet_b
-  load_balancer_subnet_c = module.vpc.load_balancer_subnet_c
-  vpc                    = module.vpc.vpc
-  tags                   = local.tags
-}
-module "iam" {
-  source                    = "./modules/iam"
-  environment               = var.environment
-  application_name          = var.application_name
-  elb                       = module.elb.elb
-  bucket                    = module.s3.aws_s3_bucket
-  queue                     = module.sqs.aws_sqs_queue
-  notifications_topic       = module.sns.sns_notifications_topic
-  error_notifications_topic = module.sns.sns_error_notifications_topic
-  tags                      = local.tags
+  certificate            = module.acm.aws_acm_certificate
+  load_balancer_sg       = module.vpc.sg_lb
+  private_subnets        = var.private_subnets
+  public_subnets         = var.public_subnets
+  vpc_id                 = var.vpc_id
+  authorization_endpoint = var.authorization_endpoint
+  client_id              = var.client_id
+  client_secret          = var.client_secret
+  issuer                 = var.issuer
+  token_endpoint         = var.token_endpoint
+  user_info_endpoint     = var.user_info_endpoint
 }
 
-module "lambda" {
-  source           = "./modules/lambda"
+module "iam" {
+  source           = "./modules/iam"
   environment      = var.environment
   application_name = var.application_name
-  region           = var.region
-  aws_key          = module.ec2.aws_key
+  elb              = module.elb.elb
   log_group        = module.logs.log_group
-  lambda_role      = module.iam.lambda_role
-  load_balancer_sg = module.vpc.load_balancer_sg
-  ecs_subnet_a     = module.vpc.ecs_subnet_a
-  ecs_subnet_b     = module.vpc.ecs_subnet_b
-  ecs_subnet_c     = module.vpc.ecs_subnet_c
-  tags             = local.tags
+  s3_bucket        = module.s3.aws_s3_bucket
+  #  queue                     = module.sqs.aws_sqs_queue
+  #  notifications_topic       = module.sns.sns_notifications_topic
+  #  error_notifications_topic = module.sns.sns_error_notifications_topic
 }
+
+#module "lambda" {
+#  source           = "./modules/lambda"
+#  environment      = var.environment
+#  application_name = var.application_name
+#  #  region           = var.region
+#  #  aws_key          = module.ec2.aws_key
+#  #  log_group        = module.logs.log_group
+#  lambda_role      = module.iam.lambda_role
+#  load_balancer_sg = module.vpc.sg_lb
+#  bucket           = module.s3.aws_s3_bucket
+#  lambda_log_level = "DEBUG"
+#  queue            = module.sqs.aws_sqs_queue
+#  secret_name      = "xxx"
+#  subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+#}
 
 module "logs" {
   source           = "./modules/logs"
   environment      = var.environment
   application_name = var.application_name
-  tags             = local.tags
 }
 
 module "route53" {
@@ -127,16 +133,12 @@ module "route53" {
   elb              = module.elb.elb
   hosted_zone_id   = var.hosted_zone_id
   host_name        = var.host_name
-  tags             = local.tags
 }
 
 module "s3" {
-  source           = "./modules/s3"
-  environment      = var.environment
-  application_name = var.application_name
-  tags             = local.tags
-  account_id       = var.account_id
-  region           = var.region
+  source = "./modules/s3"
+  tags   = { purpose = "Application storage" }
+  bucket = "${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
 }
 
 module "sns" {
@@ -145,19 +147,19 @@ module "sns" {
   application_name        = var.application_name
   account_id              = var.account_id
   notification_recipients = var.notification_recipients
-  tags                    = local.tags
 }
 
 module "sqs" {
   source           = "./modules/sqs"
   environment      = var.environment
   application_name = var.application_name
-  tags             = local.tags
 }
 
 module "vpc" {
   source           = "./modules/vpc"
   environment      = var.environment
   application_name = var.application_name
-  tags             = local.tags
+  #  private_subnets  = ""
+  #  public_subnets   = ""
+  #  vpc_id           = ""
 }

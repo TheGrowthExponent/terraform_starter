@@ -16,6 +16,7 @@ variable "environment" {
   }
 }
 
-variable "vpc_id" {}
-variable "public_subnets" {}
-variable "private_subnets" {}
+### Add if importing existing VPC ###
+#variable "vpc_id" {}
+#variable "public_subnets" {}
+#variable "private_subnets" {}

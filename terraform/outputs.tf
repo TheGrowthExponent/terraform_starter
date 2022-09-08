@@ -11,27 +11,28 @@ output "tags" {
 ################ VPC ################
 output "load_balancer_security_group_arn" {
   description = "load_balancer_security_group_arn"
-  value       = module.vpc.load_balancer_sg.arn
+  value       = module.vpc.sg_lb.arn
 }
 
 output "ecs_task_security_group_arn" {
   description = "ecs_task_security_group_arn"
-  value       = module.vpc.ecs_sg.arn
+  value       = module.vpc.sg_ecs.arn
 }
 
 ################ IAM Roles ################
 output "ecs_service_role" {
-  value = module.iam.ecs_service_role
+  value = module.iam.ecs_role.id
 }
 
 output "lambda_role" {
-  value = module.iam.lambda_role
+  value = module.iam.lambda_role.id
 }
 
 ################ EC2 ################
 output "aws_key" {
   description = "aws_key"
   value       = module.ec2.aws_key
+  sensitive = true
 }
 
 ################ ECR ################
@@ -55,13 +56,11 @@ output "aws_ecr_authorization_token" {
 output "aws_ecs_cluster_name" {
   description = "aws_ecs_cluster_name"
   value       = module.ecs.ecs_cluster.id
-  sensitive   = true
 }
 
 output "aws_ecs_cluster_arn" {
   description = "aws_ecs_cluster_arn"
   value       = module.ecs.ecs_cluster.arn
-  sensitive   = true
 }
 
 ################ S3 ################
