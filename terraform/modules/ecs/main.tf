@@ -133,7 +133,7 @@ resource "aws_ecs_task_definition" "task_definition" {
           "awslogs-stream-prefix": "${var.application_name}-${var.environment}"
         }
       },
-    "name": "streamlit"
+    "name": "${var.application_name}"
   }
 ]
 TASK_DEFINITION
@@ -162,7 +162,7 @@ resource "aws_ecs_service" "service" {
   }
   load_balancer {
     target_group_arn = var.ecs_target_group.arn
-    container_name   = "example"
+    container_name   = var.application_name
     container_port   = 80
   }
 }

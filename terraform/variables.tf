@@ -28,6 +28,12 @@ variable "profile" {
   sensitive   = true
 }
 
+variable "aws_external_role_id" {
+  description = "AWS IAM External Role ID"
+  type        = string
+  sensitive   = true
+}
+
 variable "region" {
   default     = "ap-southeast-2"
   type        = string
@@ -56,11 +62,11 @@ variable "vpc_id" {
   }
 }
 
-variable "subnets_public" {
+variable "public_subnets" {
   description = "AWS public subnets"
 }
 
-variable "subnets_private" {
+variable "private_subnets" {
   description = "AWS private subnets"
 }
 
@@ -77,3 +83,12 @@ variable "host_name" {
 variable "notification_recipients" {
   description = "Email address list of notification recipients."
 }
+
+variable "aad_group_name" {}
+variable "tenant_id" {}
+variable "authorization_endpoint" {}
+variable "client_id" {}
+variable "client_secret" {}
+variable "issuer" {}
+variable "token_endpoint" {}
+variable "user_info_endpoint" {}

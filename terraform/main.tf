@@ -8,6 +8,18 @@ provider "aws" {
   #    session_name = "ci-cd"
   #    external_id  = "asdf-asdf-asdf"
   #  }
+  default_tags {
+    tags = local.tags
+  }
+}
+
+module "acm" {
+  source             = "./modules/acm"
+  environment        = var.environment
+  application_name   = var.application_name
+  hosted_zone_id     = var.hosted_zone_id
+  host_name          = var.host_name
+  aws_route53_record = module.route53.aws_route53_record
 }
 
 module "auto_scaling" {
@@ -16,21 +28,26 @@ module "auto_scaling" {
   application_name = var.application_name
   ecs_cluster      = module.ecs.ecs_cluster
   ecs_service      = module.ecs.ecs_service
-  tags             = local.tags
+}
+
+module "dynamodb" {
+  source           = "./modules/dynamodb"
+  environment      = var.environment
+  application_name = var.application_name
+  account_id       = var.account_id
+  region           = var.region
 }
 
 module "ec2" {
   source           = "./modules/ec2"
   environment      = var.environment
   application_name = var.application_name
-  tags             = local.tags
 }
 
 module "ecr" {
   source           = "./modules/ecr"
   environment      = var.environment
   application_name = var.application_name
-  tags             = local.tags
 }
 
 module "ecs" {
