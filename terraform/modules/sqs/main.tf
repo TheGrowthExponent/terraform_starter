@@ -1,6 +1,5 @@
 resource "aws_sqs_queue" "dead_letter" {
   name = "deadletter-queue-${var.application_name}-${var.environment}"
-  tags = var.tags
 }
 
 resource "aws_sqs_queue" "queue" {
@@ -17,7 +16,6 @@ resource "aws_sqs_queue" "queue" {
     redrivePermission = "byQueue",
     sourceQueueArns   = [aws_sqs_queue.dead_letter.arn]
   })
-  tags = var.tags
 }
 
 resource "aws_sqs_queue_policy" "queue_policy" {
