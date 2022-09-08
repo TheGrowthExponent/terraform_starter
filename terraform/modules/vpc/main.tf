@@ -4,12 +4,10 @@ resource "aws_vpc" "vpc" {
   cidr_block           = "192.0.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags                 = var.tags
 }
 
 resource "aws_internet_gateway" "internal_gateway" {
   vpc_id = aws_vpc.vpc.id
-  tags   = var.tags
 }
 
 resource "aws_route_table" "route_table" {
@@ -18,7 +16,6 @@ resource "aws_route_table" "route_table" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.internal_gateway.id
   }
-  tags = var.tags
 }
 
 resource "aws_subnet" "public_a" {
@@ -26,7 +23,6 @@ resource "aws_subnet" "public_a" {
   cidr_block              = "192.0.0.0/24"
   availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
-  tags                    = var.tags
 }
 
 resource "aws_subnet" "public_b" {
@@ -34,7 +30,6 @@ resource "aws_subnet" "public_b" {
   cidr_block              = "192.0.1.0/24"
   availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = true
-  tags                    = var.tags
 }
 
 resource "aws_subnet" "public_c" {
@@ -42,7 +37,6 @@ resource "aws_subnet" "public_c" {
   cidr_block              = "192.0.2.0/24"
   availability_zone       = data.aws_availability_zones.available.names[2]
   map_public_ip_on_launch = true
-  tags                    = var.tags
 }
 
 resource "aws_subnet" "private_a" {
@@ -50,7 +44,6 @@ resource "aws_subnet" "private_a" {
   cidr_block              = "192.0.3.0/24"
   availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
-  tags                    = var.tags
 }
 
 resource "aws_subnet" "private_b" {
@@ -58,7 +51,6 @@ resource "aws_subnet" "private_b" {
   cidr_block              = "192.0.4.0/24"
   availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = true
-  tags                    = var.tags
 }
 
 resource "aws_subnet" "private_c" {
@@ -66,7 +58,6 @@ resource "aws_subnet" "private_c" {
   cidr_block              = "192.0.5.0/24"
   availability_zone       = data.aws_availability_zones.available.names[2]
   map_public_ip_on_launch = true
-  tags                    = var.tags
 }
 
 resource "aws_route_table_association" "private_a" {
@@ -102,13 +93,11 @@ resource "aws_route_table_association" "public_c" {
 resource "aws_security_group" "load_balancer" {
   name   = "sg-lb-${var.application_name}-${var.environment}"
   vpc_id = aws_vpc.vpc.id
-  tags   = var.tags
 }
 
 resource "aws_security_group" "ecs" {
   name   = "sg-ecs-${var.application_name}-${var.environment}"
   vpc_id = aws_vpc.vpc.id
-  tags   = var.tags
 }
 
 resource "aws_security_group_rule" "ingress_load_balancer_http" {
