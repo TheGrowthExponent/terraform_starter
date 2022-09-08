@@ -7,6 +7,6 @@ resource "aws_ecr_repository" "repository" {
 }
 
 resource "aws_ecr_repository_policy" "ecr_policy" {
-  repository  = aws_ecr_repository.repository.name
-  policy      = data.aws_iam_policy_document.allow_ecr.json
+  repository = aws_ecr_repository.repository.name
+  policy     = data.aws_iam_policy_document.allow_ecr.json
 }
