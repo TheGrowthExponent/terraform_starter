@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "s3_bucket" {
   bucket = var.bucket
-  tags = var.tags
+  tags   = var.tags
 }
 
 resource "aws_s3_bucket_acl" "s3_bucket" {
@@ -27,3 +27,8 @@ resource "aws_s3_bucket_metric" "bucket_metric" {
   bucket = aws_s3_bucket.s3_bucket.bucket
   name   = "${var.bucket}-metric"
 }
+
+#resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
+#  bucket = aws_s3_bucket.s3_bucket.id
+#  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+#}
