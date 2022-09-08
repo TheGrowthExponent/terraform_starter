@@ -32,7 +32,3 @@ variable "account_id" {
     error_message = "The account number must be 12 characters, and only contain numbers."
   }
 }
-
-variable "tags" {
-  description = "Shared tags."
-}
