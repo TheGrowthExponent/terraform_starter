@@ -22,6 +22,18 @@ module "acm" {
   aws_route53_record = module.route53.aws_route53_record
 }
 
+module "apigw" {
+  source                                = "./modules/api-gateway"
+  api_gw_disable_resource_creation      = var.api_gw_disable_resource_creation
+  api_gw_endpoint_configuration_type    = var.api_gw_endpoint_configuration_type
+  stage_name                            = var.environment
+  method                                = var.api_gw_method
+#  lambda_arn                            = module.lambda.lambda_arn
+  region                                = var.region
+#  lambda_name                           = module.lambda.lambda_name
+  dependency_list                       = var.api_gw_dependency_list
+}
+
 module "auto_scaling" {
   source           = "./modules/auto-scaling"
   environment      = var.environment
@@ -62,7 +74,7 @@ module "ecs" {
   asg_min_size               = 1
   maximum_scaling_step_size  = 1
   minimum_scaling_step_size  = 1
-  target_capacity            = 1
+  target_capacity            = 2
   ecs_role                   = module.iam.ecs_role
   sg                         = module.vpc.sg_ecs
   aws_availability_zones     = module.vpc.aws_availability_zones

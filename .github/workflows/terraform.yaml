@@ -16,10 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Cancel previous workflow
-        uses: styfle/cancel-workflow-action@0.4.0
-        with:
-          access_token: ${{ github.token }}
       - name: Checkout
         uses: actions/checkout@v3
       - name: Configure AWS credentials
@@ -51,7 +47,7 @@ jobs:
         id: terraform
         run: |
           cd terraform
-          terraform init
+          terraform init -upgrade
           terraform fmt
           terraform validate
           terraform plan -out=".terraform_plan" -var-file terraform-dev.tfvars

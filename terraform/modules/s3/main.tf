@@ -3,6 +3,13 @@ resource "aws_s3_bucket" "s3_bucket" {
   tags   = var.tags
 }
 
+resource "aws_s3_bucket_ownership_controls" "s3_bucket" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_acl" "s3_bucket" {
   bucket = aws_s3_bucket.s3_bucket.id
   acl    = "private"
