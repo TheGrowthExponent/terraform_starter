@@ -74,13 +74,13 @@ module "ecs" {
   asg_min_size               = 1
   maximum_scaling_step_size  = 1
   minimum_scaling_step_size  = 1
-  target_capacity            = 2
+  target_capacity            = 1
   ecs_role                   = module.iam.ecs_role
   sg                         = module.vpc.sg_ecs
   aws_availability_zones     = module.vpc.aws_availability_zones
   aws_ami                    = data.aws_ami.ubuntu
-  private_subnets            = var.private_subnets
-  public_subnets             = var.public_subnets
+  private_subnets            = [var.private_subnets[0]]
+  public_subnets             = [var.public_subnets[0]]
   ecs_target_group           = module.elb.ecs_target_group
   aws_ecr_repository         = module.ecr.aws_ecr_repository
   aws_ecr_repository_version = "v0.0.1"
