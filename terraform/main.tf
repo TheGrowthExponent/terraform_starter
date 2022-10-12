@@ -14,12 +14,12 @@ provider "aws" {
 }
 
 module "acm" {
-  source             = "./modules/acm"
+  source  = "TheGrowthExponent/acm/aws"
+  version = "1.0.0"
   environment        = var.environment
   application_name   = var.application_name
   hosted_zone_id     = var.hosted_zone_id
   host_name          = var.host_name
-  aws_route53_record = module.route53.aws_route53_record
 }
 
 module "apigw" {

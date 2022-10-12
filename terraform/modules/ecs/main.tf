@@ -45,6 +45,10 @@ resource "aws_launch_configuration" "t3_micro" {
   instance_type   = "t3.micro"
   key_name        = var.aws_key.id
   security_groups = [var.sg.id]
+  lifecycle {
+    ignore_changes        = [image_id]
+    create_before_destroy = true
+  }
 }
 
 resource "aws_launch_configuration" "t3_small" {
@@ -53,6 +57,10 @@ resource "aws_launch_configuration" "t3_small" {
   instance_type   = "t3.small"
   key_name        = var.aws_key.id
   security_groups = [var.sg.id]
+  lifecycle {
+    ignore_changes        = [image_id]
+    create_before_destroy = true
+  }
 }
 
 resource "aws_launch_configuration" "t3_medium" {
@@ -61,6 +69,10 @@ resource "aws_launch_configuration" "t3_medium" {
   instance_type   = "t3.medium"
   key_name        = var.aws_key.id
   security_groups = [var.sg.id]
+  lifecycle {
+    ignore_changes        = [image_id]
+    create_before_destroy = true
+  }
 }
 
 resource "aws_autoscaling_group" "autoscaling_group" {
@@ -119,6 +131,10 @@ resource "aws_autoscaling_group" "autoscaling_group" {
     key                 = "AmazonECSManaged"
     value               = true
     propagate_at_launch = true
+  }
+    lifecycle {
+    ignore_changes        = [desired_capacity]
+    create_before_destroy = true
   }
 }
 
