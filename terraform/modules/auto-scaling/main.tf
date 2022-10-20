@@ -7,7 +7,7 @@
 #}
 #
 #resource "aws_appautoscaling_policy" "memory" {
-#  name               = "memory-${var.application_name}-${var.environment}"
+#  name               = "app-memory-${var.application_name}-${var.environment}"
 #  policy_type        = "TargetTrackingScaling"
 #  resource_id        = aws_appautoscaling_target.target.resource_id
 #  scalable_dimension = aws_appautoscaling_target.target.scalable_dimension
@@ -21,7 +21,7 @@
 #}
 #
 #resource "aws_appautoscaling_policy" "cpu" {
-#  name               = "cpu-${var.application_name}-${var.environment}"
+#  name               = "app-cpu-${var.application_name}-${var.environment}"
 #  policy_type        = "TargetTrackingScaling"
 #  resource_id        = aws_appautoscaling_target.target.resource_id
 #  scalable_dimension = aws_appautoscaling_target.target.scalable_dimension

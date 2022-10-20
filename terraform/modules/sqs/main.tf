@@ -1,9 +1,9 @@
 resource "aws_sqs_queue" "dead_letter" {
-  name = "deadletter-queue-${var.application_name}-${var.environment}"
+  name = "app-deadletter-queue-${var.application_name}-${var.environment}"
 }
 
 resource "aws_sqs_queue" "queue" {
-  name                      = "queue-${var.application_name}-${var.environment}"
+  name                      = "app-queue-${var.application_name}-${var.environment}"
   delay_seconds             = 90
   max_message_size          = 2048
   message_retention_seconds = 86400

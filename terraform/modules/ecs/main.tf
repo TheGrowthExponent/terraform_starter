@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "cluster" {
-  name = "cluster-${var.application_name}-${var.environment}"
+  name = "app-cluster-${var.application_name}-${var.environment}"
   configuration {
     execute_command_configuration {
       kms_key_id = var.aws_key.id
@@ -27,7 +27,7 @@ resource "aws_ecs_cluster_capacity_providers" "cluster_capacity_provider" {
 }
 
 resource "aws_ecs_capacity_provider" "capacity_provider" {
-  name = "capacity-provider-${var.application_name}-${var.environment}"
+  name = "app-capacity-provider-${var.application_name}-${var.environment}"
   auto_scaling_group_provider {
     auto_scaling_group_arn = aws_autoscaling_group.autoscaling_group.arn
     managed_scaling {
@@ -40,7 +40,7 @@ resource "aws_ecs_capacity_provider" "capacity_provider" {
 }
 
 resource "aws_launch_configuration" "t3_micro" {
-  name            = "t3_micro-${var.application_name}-${var.environment}"
+  name            = "app-t3_micro-${var.application_name}-${var.environment}"
   image_id        = var.aws_ami.id
   instance_type   = "t3.micro"
   key_name        = var.aws_key.id
@@ -52,7 +52,7 @@ resource "aws_launch_configuration" "t3_micro" {
 }
 
 resource "aws_launch_configuration" "t3_small" {
-  name            = "t3_small-${var.application_name}-${var.environment}"
+  name            = "app-t3_small-${var.application_name}-${var.environment}"
   image_id        = var.aws_ami.id
   instance_type   = "t3.small"
   key_name        = var.aws_key.id
@@ -64,7 +64,7 @@ resource "aws_launch_configuration" "t3_small" {
 }
 
 resource "aws_launch_configuration" "t3_medium" {
-  name            = "t3_medium-${var.application_name}-${var.environment}"
+  name            = "app-t3_medium-${var.application_name}-${var.environment}"
   image_id        = var.aws_ami.id
   instance_type   = "t3.medium"
   key_name        = var.aws_key.id
@@ -76,7 +76,7 @@ resource "aws_launch_configuration" "t3_medium" {
 }
 
 resource "aws_autoscaling_group" "autoscaling_group" {
-  name                      = "asg-${var.application_name}-${var.environment}"
+  name                      = "app-asg-${var.application_name}-${var.environment}"
   vpc_zone_identifier       = var.private_subnets
   desired_capacity          = var.target_capacity
   launch_configuration      = aws_launch_configuration.t3_small.name
@@ -98,18 +98,8 @@ resource "aws_autoscaling_group" "autoscaling_group" {
     propagate_at_launch = true
   }
   tag {
-    key                 = "Business-Service"
-    value               = "xxx"
-    propagate_at_launch = true
-  }
-  tag {
     key                 = "Environment"
     value               = var.environment
-    propagate_at_launch = true
-  }
-  tag {
-    key                 = "Owner"
-    value               = "xxx"
     propagate_at_launch = true
   }
   tag {
@@ -119,7 +109,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   }
   tag {
     key                 = "Name"
-    value               = "${var.application_name}-${var.environment}"
+    value               = "app-${var.application_name}-${var.environment}"
     propagate_at_launch = true
   }
   tag {
@@ -154,7 +144,7 @@ resource "aws_autoscaling_notification" "example_notifications" {
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "td-${var.application_name}-${var.environment}"
+  family                   = "app-td-${var.application_name}-${var.environment}"
   container_definitions    = <<TASK_DEFINITION
   [
   {
@@ -198,7 +188,7 @@ TASK_DEFINITION
 }
 
 resource "aws_ecs_service" "service" {
-  name             = "service-${var.application_name}-${var.environment}"
+  name             = "app-service-${var.application_name}-${var.environment}"
   cluster          = aws_ecs_cluster.cluster.id
   task_definition  = aws_ecs_task_definition.task_definition.arn
   desired_count    = var.target_capacity

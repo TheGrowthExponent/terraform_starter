@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "ddb" {
-  name         = "${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
+  name         = "app-${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "PK"
   range_key    = "SK"
@@ -25,4 +25,5 @@ resource "aws_dynamodb_table" "ddb" {
     name = "GSI1SK"
     type = "S"
   }
+  tags = var.tags
 }

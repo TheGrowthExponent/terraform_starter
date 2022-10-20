@@ -1,9 +1,9 @@
 resource "aws_sns_topic" "notifications" {
-  name = "notification-topic-${var.application_name}-${var.environment}"
+  name = "app-notification-topic-${var.application_name}-${var.environment}"
 }
 
 resource "aws_sns_topic" "error_notifications" {
-  name = "error-notification-topic-${var.application_name}-${var.environment}"
+  name = "app-error-notification-topic-${var.application_name}-${var.environment}"
 }
 
 resource "aws_sns_topic_policy" "sns_error_topic_policy" {

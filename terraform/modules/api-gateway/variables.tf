@@ -16,6 +16,17 @@ variable "environment" {
   }
 }
 
+variable "account_id" {
+  description = "AWS Account ID"
+  type        = string
+  sensitive   = true
+
+  validation {
+    condition     = length(var.account_id) == 12 && length(regexall("[^0-9]", var.account_id)) == 0
+    error_message = "The account number must be 12 characters, and only contain numbers."
+  }
+}
+
 variable "api_gw_disable_resource_creation" {
   description = "Specify whether to create or not the default /api/messages path or stop at /api"
 }
@@ -34,14 +45,6 @@ variable "method" {
   default = "POST"
 }
 
-#variable "lambda_arn" {
-#  description = "The ARN of Lambda to invoke"
-#}
-#
-#variable "lambda_name" {
-#  description = "The ARN of Lambda to invoke"
-#}
-
 variable "region" {
   description = "The AWS region"
 }
@@ -50,3 +53,9 @@ variable "dependency_list" {
   description = "Deployment dependency list"
   type = list(string)
 }
+
+variable "hosted_zone_id" {}
+variable "host_name" {}
+variable "certificate" {}
+variable "apigw_role" {}
+#variable "lambda_authorizer" {}

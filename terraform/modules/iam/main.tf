@@ -1,57 +1,57 @@
 resource "aws_iam_role" "ecs_service" {
-  name               = "role-ecs-service-${var.application_name}-${var.environment}"
+  name               = "app-role-ecs-service-${var.application_name}-${var.environment}"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.ecs.json
   tags               = { purpose = "Project ecs role" }
 }
 
 resource "aws_iam_role" "lambda_service" {
-  name               = "role-lambda-${var.application_name}-${var.environment}"
+  name               = "app-role-lambda-${var.application_name}-${var.environment}"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.lambda.json
   tags               = { purpose = "Project lambda role" }
 }
 
+resource "aws_iam_role" "apigw_service" {
+  name               = "app-role-apigw-${var.application_name}-${var.environment}"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.apigw.json
+  tags               = { purpose = "Project apigw role" }
+}
+
 resource "aws_iam_policy" "ecs_service_elb" {
-  name        = "policy-ecs_service_elb-${var.application_name}-${var.environment}"
+  name        = "app-policy-ecs_service_elb-${var.application_name}-${var.environment}"
   path        = "/"
   description = "Allow access to the service elb"
   policy      = data.aws_iam_policy_document.ecs_service_elb.json
 }
 
 resource "aws_iam_policy" "ecs_service_standard" {
-  name        = "policy-ecs_service_standard-${var.application_name}-${var.environment}"
+  name        = "app-policy-ecs_service_standard-${var.application_name}-${var.environment}"
   path        = "/"
   description = "Allow standard ecs actions"
   policy      = data.aws_iam_policy_document.ecs_service_standard.json
 }
 
 resource "aws_iam_policy" "ecs_service_scaling" {
-  name        = "policy-ecs_service_scaling-${var.application_name}-${var.environment}"
+  name        = "app-policy-ecs_service_scaling-${var.application_name}-${var.environment}"
   path        = "/"
   description = "Allow ecs service scaling"
   policy      = data.aws_iam_policy_document.ecs_service_scaling.json
 }
 
 resource "aws_iam_policy" "allow_ecr" {
-  name        = "policy-allow_ecr-${var.application_name}-${var.environment}"
+  name        = "app-policy-allow_ecr-${var.application_name}-${var.environment}"
   path        = "/"
   description = "Allow ecs service scaling"
   policy      = data.aws_iam_policy_document.allow_ecr.json
 }
 
 resource "aws_iam_policy" "allow_secrets" {
-  name        = "policy-allow_secrets-${var.application_name}-${var.environment}"
+  name        = "app-policy-allow_secrets-${var.application_name}-${var.environment}"
   path        = "/"
   description = "Allow reading secrets"
   policy      = data.aws_iam_policy_document.allow_secrets.json
-}
-
-resource "aws_iam_policy" "allow_s3" {
-  name        = "policy-allow_s3-${var.application_name}-${var.environment}"
-  path        = "/"
-  description = "Allow s3"
-  policy      = data.aws_iam_policy_document.allow_s3.json
 }
 
 resource "aws_iam_policy" "disallow_unauthenticated_urls" {
@@ -61,8 +61,22 @@ resource "aws_iam_policy" "disallow_unauthenticated_urls" {
   policy      = data.aws_iam_policy_document.disallow_unauthenticated_urls.json
 }
 
+resource "aws_iam_policy" "allow_s3" {
+  name        = "app-policy-allow_s3-${var.application_name}-${var.environment}"
+  path        = "/"
+  description = "Allow access to project s3 bucket"
+  policy      = data.aws_iam_policy_document.allow_s3.json
+}
+
+resource "aws_iam_policy" "allow_ses" {
+  name        = "app-policy-allow_ses-${var.application_name}-${var.environment}"
+  path        = "/"
+  description = "Allow sending emails using ses"
+  policy      = data.aws_iam_policy_document.allow_ses.json
+}
+
 resource "aws_iam_policy" "allow_logging" {
-  name        = "policy-allow_logging-${var.application_name}-${var.environment}"
+  name        = "app-policy-allow_logging-${var.application_name}-${var.environment}"
   path        = "/"
   description = "Allow logging"
   policy      = data.aws_iam_policy_document.allow_logging.json
@@ -73,6 +87,27 @@ resource "aws_iam_policy" "allow_ec2" {
   path        = "/"
   description = "Allow ec2"
   policy      = data.aws_iam_policy_document.allow_ec2.json
+}
+
+#resource "aws_iam_policy" "allow_dynamodb" {
+#  name        = "policy-allow_dynamodb-${var.application_name}-${var.environment}"
+#  path        = "/"
+#  description = "Allow DynamoDBExecutions"
+#  policy      = data.aws_iam_policy_document.allow_dynamodb.json
+#}
+
+resource "aws_iam_policy" "allow_sqs" {
+  name        = "policy-allow_sqs-${var.application_name}-${var.environment}"
+  path        = "/"
+  description = "Allow sqs"
+  policy      = data.aws_iam_policy_document.allow_sqs.json
+}
+
+resource "aws_iam_policy" "invoke_lambda" {
+  name        = "policy-invoke_lambda-${var.application_name}-${var.environment}"
+  path        = "/"
+  description = "Allow invoke lambda"
+  policy      = data.aws_iam_policy_document.invoke_lambda.json
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_service_elb" {
@@ -120,6 +155,11 @@ resource "aws_iam_role_policy_attachment" "lambda_vpc_managed_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_cloudwatch_managed_policy" {
+  role       = aws_iam_role.lambda_service.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_insights_managed_policy" {
   role       = aws_iam_role.lambda_service.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy"
@@ -140,8 +180,37 @@ resource "aws_iam_role_policy_attachment" "lambda_allow_s3" {
   policy_arn = aws_iam_policy.allow_s3.arn
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_allow_ses" {
+  role       = aws_iam_role.lambda_service.name
+  policy_arn = aws_iam_policy.allow_ses.arn
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_allow_ec2" {
   role       = aws_iam_role.lambda_service.name
   policy_arn = aws_iam_policy.allow_ec2.arn
 }
 
+#resource "aws_iam_role_policy_attachment" "lambda_allow_dynamodb" {
+#  role       = aws_iam_role.lambda_service.name
+#  policy_arn = aws_iam_policy.allow_dynamodb.arn
+#}
+
+resource "aws_iam_role_policy_attachment" "lambda_allow_sqs" {
+  role       = aws_iam_role.lambda_service.name
+  policy_arn = aws_iam_policy.allow_sqs.arn
+}
+
+resource "aws_iam_role_policy_attachment" "apigw_cloudwatch_managed_policy" {
+  role       = aws_iam_role.apigw_service.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "apigw_allow_sqs" {
+  role       = aws_iam_role.apigw_service.name
+  policy_arn = aws_iam_policy.allow_sqs.arn
+}
+
+resource "aws_iam_role_policy_attachment" "apigw_allow_lambda" {
+  role       = aws_iam_role.apigw_service.name
+  policy_arn = aws_iam_policy.invoke_lambda.arn
+}

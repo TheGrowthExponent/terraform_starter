@@ -1,5 +1,5 @@
 resource "aws_lb" "elb" {
-  name               = "lb-${var.application_name}-${var.environment}"
+  name               = "app-lb-${var.application_name}-${var.environment}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [
@@ -9,7 +9,7 @@ resource "aws_lb" "elb" {
 }
 
 resource "aws_lb_target_group" "ecs" {
-  name        = "tg-${var.application_name}-${var.environment}"
+  name        = "app-tg-${var.application_name}-${var.environment}"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id

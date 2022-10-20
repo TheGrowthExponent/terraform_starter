@@ -1,9 +1,10 @@
 resource "aws_cloudwatch_log_group" "log_group" {
-  name = "${var.application_name}-${var.environment}"
+  name = "app-${var.application_name}-${var.environment}"
 }
 
 resource "aws_cloudwatch_dashboard" "main" {
-  dashboard_name = "${var.application_name}-${var.environment}"
+  dashboard_name = "app-${var.application_name}-${var.environment}"
+
   dashboard_body = <<EOF
 {
   "widgets": [

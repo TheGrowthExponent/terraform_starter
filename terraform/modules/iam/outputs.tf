@@ -5,3 +5,7 @@ output "ecs_role" {
 output "lambda_role" {
   value = aws_iam_role.lambda_service
 }
+
+output "apigw_role" {
+  value = aws_iam_role.apigw_service
+}
