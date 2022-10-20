@@ -130,6 +130,11 @@ resource "aws_iam_role_policy_attachment" "lambda_allow_secrets" {
   policy_arn = aws_iam_policy.allow_secrets.arn
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_disallow_unauthenticated_urls" {
+  role       = aws_iam_role.lambda_service.name
+  policy_arn = aws_iam_policy.disallow_unauthenticated_urls.arn
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_allow_s3" {
   role       = aws_iam_role.lambda_service.name
   policy_arn = aws_iam_policy.allow_s3.arn
