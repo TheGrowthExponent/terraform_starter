@@ -38,7 +38,7 @@ resource "aws_api_gateway_deployment" "api" {
 resource "aws_api_gateway_stage" "stage" {
   deployment_id        = aws_api_gateway_deployment.api.id
   rest_api_id          = aws_api_gateway_rest_api.api.id
-  stage_name           = var.environment
+  stage_name           = "${var.application_name}-${var.environment}"
   xray_tracing_enabled = true
   access_log_settings {
     destination_arn = "arn:aws:logs:ap-southeast-2:${var.account_id}:log-group:/aws/api_gw/app-apigw-${var.application_name}-${var.environment}"
