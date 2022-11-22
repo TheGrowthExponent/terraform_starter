@@ -39,6 +39,17 @@ data "aws_iam_policy_document" "lambda" {
   }
 }
 
+data "aws_iam_policy_document" "sfn" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["states.amazonaws.com"]
+    }
+  }
+}
+
 data "aws_iam_policy_document" "apigw" {
   statement {
     effect  = "Allow"

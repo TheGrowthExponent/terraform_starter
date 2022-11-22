@@ -79,7 +79,7 @@ resource "aws_api_gateway_usage_plan" "api" {
   description = "API Usage Plan"
   api_stages {
     api_id = aws_api_gateway_rest_api.api.id
-    stage  = var.environment
+    stage  = "${var.application_name}-${var.environment}"
   }
   quota_settings {
     limit  = 1000

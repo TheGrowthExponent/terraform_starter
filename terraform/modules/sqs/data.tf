@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
       type        = "AWS"
       identifiers = ["*"]
     }
-    resources = [aws_sqs_queue.queue.arn,]
+    resources = [aws_sqs_queue.queue.arn, ]
     sid       = "__default_statement_ID"
   }
 }

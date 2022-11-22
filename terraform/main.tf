@@ -14,24 +14,24 @@ provider "aws" {
 }
 
 module "acm" {
-  source  = "TheGrowthExponent/acm/aws"
-  version = "1.0.0"
-  environment        = var.environment
-  application_name   = var.application_name
-  hosted_zone_id     = var.hosted_zone_id
-  host_name          = var.host_name
+  source           = "TheGrowthExponent/acm/aws"
+  version          = "1.0.0"
+  environment      = var.environment
+  application_name = var.application_name
+  hosted_zone_id   = var.hosted_zone_id
+  host_name        = var.host_name
 }
 
 module "apigw" {
-  source                                = "./modules/api-gateway"
-  api_gw_disable_resource_creation      = var.api_gw_disable_resource_creation
-  api_gw_endpoint_configuration_type    = var.api_gw_endpoint_configuration_type
-  stage_name                            = var.environment
-  method                                = var.api_gw_method
-#  lambda_arn                            = module.lambda.lambda_arn
-  region                                = var.region
-#  lambda_name                           = module.lambda.lambda_name
-  dependency_list                       = var.api_gw_dependency_list
+  source                             = "./modules/api-gateway"
+  api_gw_disable_resource_creation   = var.api_gw_disable_resource_creation
+  api_gw_endpoint_configuration_type = var.api_gw_endpoint_configuration_type
+  stage_name                         = var.environment
+  method                             = var.api_gw_method
+  #  lambda_arn                            = module.lambda.lambda_arn
+  region = var.region
+  #  lambda_name                           = module.lambda.lambda_name
+  dependency_list = var.api_gw_dependency_list
 }
 
 module "auto_scaling" {

@@ -37,12 +37,12 @@ variable "api_gw_endpoint_configuration_type" {
 
 variable "stage_name" {
   description = "The stage name for the API deployment"
-  default = "dev"
+  default     = "dev"
 }
 
 variable "method" {
   description = "The HTTP method"
-  default = "POST"
+  default     = "POST"
 }
 
 variable "region" {
@@ -51,7 +51,7 @@ variable "region" {
 
 variable "dependency_list" {
   description = "Deployment dependency list"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "hosted_zone_id" {}

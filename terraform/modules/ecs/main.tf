@@ -122,7 +122,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
     value               = true
     propagate_at_launch = true
   }
-    lifecycle {
+  lifecycle {
     ignore_changes        = [desired_capacity]
     create_before_destroy = true
   }
@@ -144,8 +144,8 @@ resource "aws_autoscaling_notification" "example_notifications" {
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "app-td-${var.application_name}-${var.environment}"
-  container_definitions    = <<TASK_DEFINITION
+  family                = "app-td-${var.application_name}-${var.environment}"
+  container_definitions = <<TASK_DEFINITION
   [
   {
     "memory" : 1024,
@@ -177,7 +177,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   }
 ]
 TASK_DEFINITION
-  network_mode             = "awsvpc"
+  network_mode          = "awsvpc"
   requires_compatibilities = [
     "FARGATE"
   ]
@@ -195,7 +195,7 @@ resource "aws_ecs_service" "service" {
   launch_type      = "FARGATE"
   platform_version = "1.4.0"
   network_configuration {
-    subnets         = var.private_subnets
+    subnets = var.private_subnets
     security_groups = [
       var.sg.id
     ]

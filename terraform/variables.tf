@@ -97,21 +97,21 @@ variable "user_info_endpoint" {}
 #API Gateway Setup
 variable "api_gw_method" {
   description = "API Gateway method (GET,POST...)"
-  default = "POST"
+  default     = "POST"
 }
 
 variable "api_gw_dependency_list" {
   description = "List of aws_api_gateway_integration* that require aws_api_gateway_deployment dependency"
-  type = list(string)
-  default = []
+  type        = list(string)
+  default     = []
 }
 
 variable "api_gw_disable_resource_creation" {
   description = "Specify whether to create or not the default /api/messages path or stop at /api"
-  default = "false"
+  default     = "false"
 }
 
 variable "api_gw_endpoint_configuration_type" {
   description = "Specify the type of endpoint for API GW to be setup as. [EDGE, REGIONAL, PRIVATE]. Defaults to EDGE"
-  default = "EDGE"
+  default     = "EDGE"
 }

@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "sns_error_topic_policy" {
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceOwner"
-      values   = [var.account_id,]
+      values   = [var.account_id, ]
     }
     effect = "Allow"
     principals {
@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceOwner"
-      values   = [var.account_id,]
+      values   = [var.account_id, ]
     }
     effect = "Allow"
     principals {

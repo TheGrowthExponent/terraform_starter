@@ -12,6 +12,13 @@ resource "aws_iam_role" "lambda_service" {
   tags               = { purpose = "Project lambda role" }
 }
 
+resource "aws_iam_role" "sfn_service" {
+  name               = "app-role-sfn-${var.application_name}-${var.environment}"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.sfn.json
+  tags               = { purpose = "Project sfn role" }
+}
+
 resource "aws_iam_role" "apigw_service" {
   name               = "app-role-apigw-${var.application_name}-${var.environment}"
   path               = "/"
@@ -198,6 +205,16 @@ resource "aws_iam_role_policy_attachment" "lambda_allow_ec2" {
 resource "aws_iam_role_policy_attachment" "lambda_allow_sqs" {
   role       = aws_iam_role.lambda_service.name
   policy_arn = aws_iam_policy.allow_sqs.arn
+}
+
+resource "aws_iam_role_policy_attachment" "sfn_allow_lambda" {
+  role       = aws_iam_role.sfn_service.name
+  policy_arn = aws_iam_policy.invoke_lambda.arn
+}
+
+resource "aws_iam_role_policy_attachment" "sfn_allow_logging" {
+  role       = aws_iam_role.sfn_service.name
+  policy_arn = aws_iam_policy.allow_logging.arn
 }
 
 resource "aws_iam_role_policy_attachment" "apigw_cloudwatch_managed_policy" {

@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "allow_ecr" {
     ]
     principals {
       identifiers = [var.ecs_role.arn] # Add CICD role arn or arn of role pushing ecr images
-      type = "AWS"
+      type        = "AWS"
     }
   }
 }
