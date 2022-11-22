@@ -27,8 +27,35 @@ variable "account_id" {
   }
 }
 
-variable "elb" {}
-variable "s3_bucket" {}
-variable "log_group" {}
-#variable "dynamodb" {}
-variable "sqs_queue" {}
+variable "api_gw_disable_resource_creation" {
+  description = "Specify whether to create or not the default /api/messages path or stop at /api"
+}
+
+variable "api_gw_endpoint_configuration_type" {
+  description = "Specify the type of endpoint for API GW to be setup as. [EDGE, REGIONAL, PRIVATE]. Defaults to EDGE"
+}
+
+variable "stage_name" {
+  description = "The stage name for the API deployment"
+  default     = "dev"
+}
+
+variable "method" {
+  description = "The HTTP method"
+  default     = "POST"
+}
+
+variable "region" {
+  description = "The AWS region"
+}
+
+variable "dependency_list" {
+  description = "Deployment dependency list"
+  type        = list(string)
+}
+
+variable "hosted_zone_id" {}
+variable "host_name" {}
+variable "certificate" {}
+variable "apigw_role" {}
+#variable "lambda_authorizer" {}

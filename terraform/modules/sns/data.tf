@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
       type        = "AWS"
       identifiers = ["*"]
     }
-    resources = [aws_sns_topic.notifications.arn ]
+    resources = [aws_sns_topic.notifications.arn]
     sid       = "__default_statement_ID"
   }
 }

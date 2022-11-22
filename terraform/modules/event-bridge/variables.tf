@@ -15,7 +15,3 @@ variable "environment" {
     error_message = "The environment tag must be no more than 8 characters, and only contain letters, numbers, and hyphens."
   }
 }
-
-variable "tags" {
-  description = "Shared tags."
-}

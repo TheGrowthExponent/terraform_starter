@@ -16,6 +16,12 @@ variable "environment" {
   }
 }
 
+variable "region" {
+  default     = "ap-southeast-2"
+  type        = string
+  description = "The region you want to deploy the infrastructure in"
+}
+
 variable "account_id" {
   description = "AWS Account ID"
   type        = string
@@ -26,9 +32,3 @@ variable "account_id" {
     error_message = "The account number must be 12 characters, and only contain numbers."
   }
 }
-
-variable "elb" {}
-variable "s3_bucket" {}
-variable "log_group" {}
-#variable "dynamodb" {}
-variable "sqs_queue" {}

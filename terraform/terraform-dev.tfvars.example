@@ -1,6 +1,7 @@
 application_name        = "my-application"                    # name that will be used when creating cloud resources
 environment             = "dev"                               # a short value denoting environment - dev, test, uat, prod
 profile                 = "cicd_user"                         # profile used to deploy cloud resources
+aws_external_role_id    = "xxxxx"                             # Added security for cross account roles
 region                  = "ap-southeast-2"                    # region to deploy resources to
 account_id              = "111111111111"                      # AWS account number
 hosted_zone_id          = "xxxxx"                             # Route53 zone id for created DNS entries in
@@ -16,4 +17,12 @@ vpc_id          = "vpc-xxx"                                   # VPC id when usin
 subnets_public  = ["subnet-xxx", "subnet-xxx"]                # subnet ids when using existing subnets
 subnets_private = ["subnet-xxx", "subnet-xxx"]
 
-####### EC2 #######
+####### OAuth #######                                         # You will need to modify OAuth module if you would like to validate or authorize AAD users
+aad_group_name         = "xxx"
+tenant_id              = "xxx"
+authorization_endpoint = "https://login.microsoftonline.com/xxx/oauth2/v2.0/authorize"
+client_id              = "xxx"
+client_secret          = "xxx"
+issuer                 = "https://login.microsoftonline.com/xxx/v2.0"
+token_endpoint         = "https://login.microsoftonline.com/xxx/oauth2/v2.0/token"
+user_info_endpoint     = "https://graph.microsoft.com/oidc/userinfo"

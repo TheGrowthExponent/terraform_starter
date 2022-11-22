@@ -16,6 +16,4 @@ variable "environment" {
   }
 }
 
-variable "tags" {
-  description = "Shared tags."
-}
+variable "ecs_role" {}

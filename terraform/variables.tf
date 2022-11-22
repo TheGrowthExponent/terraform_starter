@@ -28,6 +28,12 @@ variable "profile" {
   sensitive   = true
 }
 
+variable "aws_external_role_id" {
+  description = "AWS IAM External Role ID"
+  type        = string
+  sensitive   = true
+}
+
 variable "region" {
   default     = "ap-southeast-2"
   type        = string
@@ -56,11 +62,11 @@ variable "vpc_id" {
   }
 }
 
-variable "subnets_public" {
+variable "public_subnets" {
   description = "AWS public subnets"
 }
 
-variable "subnets_private" {
+variable "private_subnets" {
   description = "AWS private subnets"
 }
 
@@ -76,4 +82,36 @@ variable "host_name" {
 
 variable "notification_recipients" {
   description = "Email address list of notification recipients."
+}
+
+variable "aad_group_name" {}
+variable "tenant_id" {}
+variable "authorization_endpoint" {}
+variable "client_id" {}
+variable "client_secret" {}
+variable "issuer" {}
+variable "token_endpoint" {}
+variable "user_info_endpoint" {}
+
+
+#API Gateway Setup
+variable "api_gw_method" {
+  description = "API Gateway method (GET,POST...)"
+  default     = "POST"
+}
+
+variable "api_gw_dependency_list" {
+  description = "List of aws_api_gateway_integration* that require aws_api_gateway_deployment dependency"
+  type        = list(string)
+  default     = []
+}
+
+variable "api_gw_disable_resource_creation" {
+  description = "Specify whether to create or not the default /api/messages path or stop at /api"
+  default     = "false"
+}
+
+variable "api_gw_endpoint_configuration_type" {
+  description = "Specify the type of endpoint for API GW to be setup as. [EDGE, REGIONAL, PRIVATE]. Defaults to EDGE"
+  default     = "EDGE"
 }

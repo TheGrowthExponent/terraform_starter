@@ -1,3 +1,66 @@
+data "aws_iam_policy_document" "ecs" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type = "Service"
+      identifiers = [
+        "ecs-tasks.amazonaws.com",
+        "ecs.amazonaws.com",
+        "batchoperations.s3.amazonaws.com"
+      ]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "disallow_unauthenticated_urls" {
+  statement {
+    effect = "Deny"
+    actions = [
+      "lambda:InvokeFunctionUrl",
+    ]
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      values   = ["NONE"]
+      variable = "lambda:FunctionUrlAuthType"
+    }
+  }
+}
+
+data "aws_iam_policy_document" "lambda" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "sfn" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["states.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "apigw" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["apigateway.amazonaws.com"]
+    }
+  }
+}
+
 data "aws_iam_policy_document" "ecs_service_elb" {
   statement {
     effect = "Allow"
@@ -43,6 +106,15 @@ data "aws_iam_policy_document" "ecs_service_standard" {
       "*"
     ]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt"
+    ]
+    resources = [
+      "arn:aws:kms:*:${var.account_id}:key/*"
+    ]
+  }
 }
 
 data "aws_iam_policy_document" "ecs_service_scaling" {
@@ -64,6 +136,10 @@ data "aws_iam_policy_document" "ecs_service_scaling" {
       "cloudwatch:DisableAlarmActions",
       "cloudwatch:EnableAlarmActions",
       "iam:CreateServiceLinkedRole",
+      "sns:CreateTopic",
+      "sns:Subscribe",
+      "sns:Get*",
+      "sns:List*"
     ]
     resources = [
       "*"
@@ -75,10 +151,18 @@ data "aws_iam_policy_document" "allow_ecr" {
   statement {
     effect = "Allow"
     actions = [
+      "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
-      "ecr:BatchGetImage",
       "ecr:GetDownloadUrlForLayer",
-      "ecr:GetAuthorizationToken"
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:DescribeImages",
+      "ecr:BatchGetImage",
+      "ecr:GetLifecyclePolicy",
+      "ecr:GetLifecyclePolicyPreview",
+      "ecr:ListTagsForResource",
+      "ecr:DescribeImageScanFindings"
     ]
     resources = [
       "*"
@@ -86,26 +170,11 @@ data "aws_iam_policy_document" "allow_ecr" {
   }
 }
 
-data "aws_iam_policy_document" "lambda_policy" {
+data "aws_iam_policy_document" "allow_secrets" {
   statement {
     effect = "Allow"
     actions = [
-      "xray:PutTraceSegments",
-      "xray:PutTelemetryRecords",
-      "s3:ListAllMyBuckets",
-      "cloudwatch:Get*",
-      "secretsmanager:GetSecretValue",
-      "lambda:Get*",resource "aws_iam_policy" "lambda_policy" {
-  name        = "${var.application_name}-${var.environment}-lambda_policy"
-  path        = "/"
-  description = "Allow lambda access to resources"
-  policy      = data.aws_iam_policy_document.lambda_policy.json
-}
-
-      "lambda:InvokeFunction",
-      "ec2:CreateNetworkInterface",
-      "ec2:DescribeNetworkInterfaces",
-      "ec2:DeleteNetworkInterface"
+      "secretsmanager:GetSecretValue"
     ]
     resources = [
       "*"
@@ -117,68 +186,23 @@ data "aws_iam_policy_document" "allow_s3" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:PutObject",
-      "s3:GetObject",
-      "s3:GetBucketTagging",
-      "s3:GetObjectVersionTagging",
-      "s3:ListBucketVersions",
-      "s3:PutObjectVersionTagging",
-      "s3:GetObjectTagging",
-      "s3:ListBucket",
-      "s3:PutObjectTagging",
-      "s3:GetBucketVersioning",
-      "s3:GetObjectVersion"
-    ]
-    resources = [var.bucket.arn, "${var.bucket.arn}/**/*"]
-  }
-}
-
-data "aws_iam_policy_document" "allow_sqs" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "sqs:*",
-    ]
-    resources = var.queue.arn
-  }
-}
-
-data "aws_iam_policy_document" "allow_sns" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "sns:Subscribe",
-      "sns:SetTopicAttributes",
-      "sns:Receive",
-      "sns:Publish",
-      "sns:ListSubscriptionsByTopic",
-      "sns:GetTopicAttributes"
-    ]
-    resources = [var.notifications_topic.arn, "${var.notifications_topic.arn}/**/*", var.error_notifications_topic.arn, "${var.error_notifications_topic.arn}/**/*"]
-  }
-}
-
-data "aws_iam_policy_document" "lambda" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
-  }
-}
-
-data "aws_iam_policy_document" "allow_s3" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:Get*",
-      "s3:List",
+      "s3:*"
     ]
     resources = [
       var.s3_bucket.arn,
       "${var.s3_bucket.arn}/*"
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "allow_ses" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ses:*"
+    ]
+    resources = [
+      "*"
     ]
   }
 }
@@ -193,19 +217,91 @@ data "aws_iam_policy_document" "allow_logging" {
       "arn:aws:logs:ap-southeast-2:*:log-group::log-stream:*",
     ]
   }
-    statement {
+  statement {
     effect = "Allow"
     actions = [
       "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:DeleteLogGroup",
-                "logs:DeleteLogStream",
-                "logs:DescribeLogStreams",
-                "logs:FilterLogEvents",
-                "logs:PutLogEvents"
+      "logs:CreateLogStream",
+      "logs:DeleteLogGroup",
+      "logs:DeleteLogStream",
+      "logs:DescribeLogStreams",
+      "logs:DescribeLogGroups",
+      "logs:FilterLogEvents",
+      "logs:PutLogEvents",
+      "logs:GetLogEvents",
     ]
     resources = [
+      "${var.log_group.arn}:*:*",
       "${var.log_group.arn}:log-stream:*",
     ]
+  }
+}
+
+data "aws_iam_policy_document" "allow_ec2" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ec2:AttachNetworkInterface",
+      "ec2:CreateNetworkInterface",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DetachNetworkInterface",
+      "sqs:*"
+    ]
+    resources = ["*"]
+  }
+}
+
+#data "aws_iam_policy_document" "allow_dynamodb" {
+#  statement {
+#    effect = "Allow"
+#    actions = [
+#      "dynamodb:*"
+#    ]
+#    resources = [
+#      var.dynamodb.arn,
+#      "${var.dynamodb.arn}/**/*",
+#    ]
+#  }
+#}
+
+data "aws_iam_policy_document" "allow_sqs" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:GetQueueUrl",
+      "sqs:ChangeMessageVisibility",
+      "sqs:ListDeadLetterSourceQueues",
+      "sqs:SendMessageBatch",
+      "sqs:PurgeQueue",
+      "sqs:ReceiveMessage",
+      "sqs:SendMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:CreateQueue",
+      "sqs:ListQueueTags",
+      "sqs:ChangeMessageVisibilityBatch",
+      "sqs:SetQueueAttributes"
+    ]
+    resources = [
+      var.sqs_queue.arn
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:GetQueueUrl",
+      "sqs:ListQueues"
+    ]
+    resources = ["*"]
+  }
+}
+
+data "aws_iam_policy_document" "invoke_lambda" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "lambda:InvokeFunction"
+    ]
+    resources = ["*"]
   }
 }

@@ -16,12 +16,7 @@ variable "environment" {
   }
 }
 
-variable "tags" {
-  description = "Shared tags."
-}
-
-### Uncomment below to use your existing VPC
-### If using your own VPC, add `var.` prefix when referencing existing resources specified below
-variable "vpc_id" {}
-variable "public_subnets" {}
-variable "private_subnets" {}
+### Add if importing existing VPC ###
+#variable "vpc_id" {}
+#variable "public_subnets" {}
+#variable "private_subnets" {}
