@@ -1,6 +1,6 @@
 ################ Providers ################
 provider "aws" {
-  profile = var.profile
+#   profile = var.profile
   region  = local.region
 
   #  assume_role {
