@@ -20,11 +20,11 @@ module "apigw" {
   region = var.region
   #  lambda_name                           = module.lambda.lambda_name
   dependency_list = var.api_gw_dependency_list
-  account_id                         = var.account_id
-  apigw_role                         = module.iam.apigw_role
-  certificate                        = module.acm.aws_acm_certificate
-  host_name                          = var.host_name
-  hosted_zone_id                     = var.hosted_zone_id
+  account_id      = var.account_id
+  apigw_role      = module.iam.apigw_role
+  certificate     = module.acm.aws_acm_certificate
+  host_name       = var.host_name
+  hosted_zone_id  = var.hosted_zone_id
 }
 
 module "auto_scaling" {

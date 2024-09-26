@@ -10,19 +10,73 @@ resource "aws_internet_gateway" "internal_gateway" {
   vpc_id = aws_vpc.vpc.id
 }
 
-resource "aws_route_table" "route_table" {
+/* Elastic IP for NAT */
+resource "aws_eip" "nat_eip" {
+  depends_on = [aws_internet_gateway.internal_gateway]
+}
+
+/* NAT */
+resource "aws_nat_gateway" "nat" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = element(aws_subnet.public_a.*.id, 0)
+  depends_on    = [aws_internet_gateway.internal_gateway]
+  tags = {
+    Name        = "nat"
+  }
+}
+
+# resource "aws_route_table" "route_table" {
+#   vpc_id = aws_vpc.vpc.id
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     gateway_id = aws_internet_gateway.internal_gateway.id
+#   }
+# }
+
+/* Routing table for private subnet */
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat.id
+  }
+  tags = {
+    Name        = "private-route-table"
+  }
+}
+
+/* Routing table for public subnet */
+resource "aws_route_table" "public" {
   vpc_id = aws_vpc.vpc.id
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.internal_gateway.id
   }
+  tags = {
+    Name        = "public-route-table"
+  }
 }
+
+# resource "aws_route" "public_internet_gateway" {
+#   route_table_id         = aws_route_table.public.id
+#   destination_cidr_block = "0.0.0.0/0"
+#   gateway_id             = aws_internet_gateway.internal_gateway.id
+# }
+#
+# resource "aws_route" "private_nat_gateway" {
+#   route_table_id         = aws_route_table.private.id
+#   destination_cidr_block = "0.0.0.0/0"
+#   nat_gateway_id         = aws_nat_gateway.nat.id
+# }
 
 resource "aws_subnet" "public_a" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "192.0.0.0/24"
   availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
+  tags = {
+    Name = "public_a"
+  }
 }
 
 resource "aws_subnet" "public_b" {
@@ -30,6 +84,9 @@ resource "aws_subnet" "public_b" {
   cidr_block              = "192.0.1.0/24"
   availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = true
+  tags = {
+    Name = "public_b"
+  }
 }
 
 resource "aws_subnet" "public_c" {
@@ -37,6 +94,9 @@ resource "aws_subnet" "public_c" {
   cidr_block              = "192.0.2.0/24"
   availability_zone       = data.aws_availability_zones.available.names[2]
   map_public_ip_on_launch = true
+  tags = {
+    Name = "public_c"
+  }
 }
 
 resource "aws_subnet" "private_a" {
@@ -44,6 +104,9 @@ resource "aws_subnet" "private_a" {
   cidr_block              = "192.0.3.0/24"
   availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
+  tags = {
+    Name = "private_a"
+  }
 }
 
 resource "aws_subnet" "private_b" {
@@ -51,6 +114,9 @@ resource "aws_subnet" "private_b" {
   cidr_block              = "192.0.4.0/24"
   availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = true
+  tags = {
+    Name = "private_b"
+  }
 }
 
 resource "aws_subnet" "private_c" {
@@ -58,6 +124,9 @@ resource "aws_subnet" "private_c" {
   cidr_block              = "192.0.5.0/24"
   availability_zone       = data.aws_availability_zones.available.names[2]
   map_public_ip_on_launch = true
+  tags = {
+    Name = "private_c"
+  }
 }
 
 resource "aws_route_table_association" "private_a" {
