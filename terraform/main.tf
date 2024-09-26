@@ -53,6 +53,7 @@ module "dynamodb" {
   application_name = var.application_name
   account_id       = var.account_id
   region           = var.region
+  tags             = { purpose = "Application storage" }
 }
 
 module "ec2" {
