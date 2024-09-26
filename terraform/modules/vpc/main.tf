@@ -91,12 +91,12 @@ resource "aws_route_table_association" "public_c" {
 }
 
 resource "aws_security_group" "load_balancer" {
-  name   = "sg-lb-${var.application_name}-${var.environment}"
+  name   = "lb-sg-${var.application_name}-${var.environment}"
   vpc_id = aws_vpc.vpc.id
 }
 
 resource "aws_security_group" "ecs" {
-  name   = "sg-ecs-${var.application_name}-${var.environment}"
+  name   = "ecs-sg-${var.application_name}-${var.environment}"
   vpc_id = aws_vpc.vpc.id
 }
 
