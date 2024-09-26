@@ -99,8 +99,8 @@ module "elb" {
   application_name       = var.application_name
   certificate            = module.acm.aws_acm_certificate
   load_balancer_sg       = module.vpc.sg_lb
-  private_subnets        = [module.vpc.private_subnet_a.id]
-  public_subnets         = [module.vpc.public_subnet_a.id]
+  private_subnets        = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  public_subnets         = [module.vpc.public_subnet_a.id, module.vpc.public_subnet_b.id]
   vpc_id                 = module.vpc.vpc.id
   authorization_endpoint = var.authorization_endpoint
   client_id              = var.client_id

@@ -22,17 +22,17 @@ variable "resource_tags" {
   default     = {}
 }
 
-variable "profile" {
-  description = "IAM Profile"
-  type        = string
-  sensitive   = true
-}
-
-variable "aws_external_role_id" {
-  description = "AWS IAM External Role ID"
-  type        = string
-  sensitive   = true
-}
+# variable "profile" {
+#   description = "IAM Profile"
+#   type        = string
+#   sensitive   = true
+# }
+#
+# variable "aws_external_role_id" {
+#   description = "AWS IAM External Role ID"
+#   type        = string
+#   sensitive   = true
+# }
 
 variable "region" {
   default     = "ap-southeast-2"
@@ -92,7 +92,6 @@ variable "client_secret" {}
 variable "issuer" {}
 variable "token_endpoint" {}
 variable "user_info_endpoint" {}
-
 
 #API Gateway Setup
 variable "api_gw_method" {
