@@ -84,8 +84,8 @@ module "ecs" {
   sg                         = module.vpc.sg_ecs
   aws_availability_zones     = module.vpc.aws_availability_zones
   aws_ami                    = data.aws_ami.ubuntu
-  private_subnets            = [var.private_subnets[0]]
-  public_subnets             = [var.public_subnets[0]]
+  private_subnets            = [module.vpc.private_subnet_a.id]
+  public_subnets             = [module.vpc.public_subnet_a.id]
   ecs_target_group           = module.elb.ecs_target_group
   aws_ecr_repository         = module.ecr.aws_ecr_repository
   aws_ecr_repository_version = "v0.0.1"
@@ -99,9 +99,9 @@ module "elb" {
   application_name       = var.application_name
   certificate            = module.acm.aws_acm_certificate
   load_balancer_sg       = module.vpc.sg_lb
-  private_subnets        = var.private_subnets
-  public_subnets         = var.public_subnets
-  vpc_id                 = var.vpc_id
+  private_subnets        = [module.vpc.private_subnet_a.id]
+  public_subnets         = [module.vpc.public_subnet_a.id]
+  vpc_id                 = module.vpc.vpc.id
   authorization_endpoint = var.authorization_endpoint
   client_id              = var.client_id
   client_secret          = var.client_secret
