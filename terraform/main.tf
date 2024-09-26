@@ -1,17 +1,17 @@
 ################ Providers ################
-provider "aws" {
-#   profile = var.profile
-  region  = local.region
-
-  #  assume_role {
-  #    role_arn     = "arn:aws:iam::${var.account_id}:role/cicd-role"
-  #    session_name = "ci-cd"
-  #    external_id  = "asdf-asdf-asdf"
-  #  }
-  default_tags {
-    tags = local.tags
-  }
-}
+# provider "aws" {
+# #   profile = var.profile
+#   region  = local.region
+#
+#   #  assume_role {
+#   #    role_arn     = "arn:aws:iam::${var.account_id}:role/cicd-role"
+#   #    session_name = "ci-cd"
+#   #    external_id  = "asdf-asdf-asdf"
+#   #  }
+#   default_tags {
+#     tags = local.tags
+#   }
+# }
 
 module "acm" {
   source           = "TheGrowthExponent/acm/aws"
