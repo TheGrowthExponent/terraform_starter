@@ -32,6 +32,11 @@ module "apigw" {
   region = var.region
   #  lambda_name                           = module.lambda.lambda_name
   dependency_list = var.api_gw_dependency_list
+  account_id                         = var.account_id
+  apigw_role                         = module.iam.apigw_role
+  certificate                        = module.acm.aws_acm_certificate
+  host_name                          = var.host_name
+  hosted_zone_id                     = var.hosted_zone_id
 }
 
 module "auto_scaling" {
@@ -112,7 +117,8 @@ module "iam" {
   elb              = module.elb.elb
   log_group        = module.logs.log_group
   s3_bucket        = module.s3.aws_s3_bucket
-  #  queue                     = module.sqs.aws_sqs_queue
+  account_id       = var.account_id
+  sqs_queue        = module.sqs.aws_sqs_queue
   #  notifications_topic       = module.sns.sns_notifications_topic
   #  error_notifications_topic = module.sns.sns_error_notifications_topic
 }
