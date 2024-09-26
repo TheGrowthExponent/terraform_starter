@@ -51,24 +51,24 @@ variable "account_id" {
   }
 }
 
-variable "vpc_id" {
-  description = "AWS region"
-  type        = string
+# variable "vpc_id" {
+#   description = "AWS region"
+#   type        = string
+#
+#   validation {
+#     # regex(...) fails if it cannot find a match
+#     condition     = can(regex("^vpc-", var.vpc_id))
+#     error_message = "The vpc_id value must be a valid VPC id, starting with \"vpc-\"."
+#   }
+# }
 
-  validation {
-    # regex(...) fails if it cannot find a match
-    condition     = can(regex("^vpc-", var.vpc_id))
-    error_message = "The vpc_id value must be a valid VPC id, starting with \"vpc-\"."
-  }
-}
-
-variable "public_subnets" {
-  description = "AWS public subnets"
-}
-
-variable "private_subnets" {
-  description = "AWS private subnets"
-}
+# variable "public_subnets" {
+#   description = "AWS public subnets"
+# }
+#
+# variable "private_subnets" {
+#   description = "AWS private subnets"
+# }
 
 variable "hosted_zone_id" {
   type        = string
