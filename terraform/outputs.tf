@@ -9,29 +9,31 @@ output "tags" {
 }
 
 ################ VPC ################
-output "load_balancer_security_group_arn" {
-  description = "load_balancer_security_group_arn"
-  value       = module.vpc.load_balancer_sg.arn
+output "security_group_arn" {
+  description = "security_group_arn"
+  value       = module.vpc.sg.arn
 }
 
-output "ecs_task_security_group_arn" {
-  description = "ecs_task_security_group_arn"
-  value       = module.vpc.ecs_sg.arn
+################ S3 ################
+output "aws_s3_bucket" {
+  description = "aws_s3_bucket"
+  value       = module.s3.aws_s3_bucket.id
 }
 
 ################ IAM Roles ################
-output "ecs_service_role" {
-  value = module.iam.ecs_service_role
+output "ecs_role" {
+  value = module.iam.ecs_role
 }
 
 output "lambda_role" {
-  value = module.iam.lambda_role
+  value = module.iam.lambda_role.id
 }
 
 ################ EC2 ################
 output "aws_key" {
   description = "aws_key"
   value       = module.ec2.aws_key
+  sensitive   = true
 }
 
 ################ ECR ################
@@ -45,29 +47,21 @@ output "aws_ecr_repository_url" {
   value       = module.ecr.aws_ecr_repository.repository_url
 }
 
-output "aws_ecr_authorization_token" {
-  description = "aws_ecr_authorization_token"
-  value       = data.aws_ecr_authorization_token.token
-  sensitive   = true
-}
-
 ################ ECS ################
 output "aws_ecs_cluster_name" {
   description = "aws_ecs_cluster_name"
   value       = module.ecs.ecs_cluster.id
-  sensitive   = true
 }
 
 output "aws_ecs_cluster_arn" {
   description = "aws_ecs_cluster_arn"
   value       = module.ecs.ecs_cluster.arn
-  sensitive   = true
 }
 
-################ S3 ################
-output "aws_s3_bucket" {
-  description = "aws_s3_bucket"
-  value       = module.s3.aws_s3_bucket.id
+################ ACM ################
+output "aws_acm_certificate_arn" {
+  description = "aws_acm_certificate_arn"
+  value       = module.acm.aws_acm_certificate.arn
 }
 
 ################ SNS ################

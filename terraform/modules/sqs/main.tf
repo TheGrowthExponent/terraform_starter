@@ -1,10 +1,9 @@
 resource "aws_sqs_queue" "dead_letter" {
-  name = "${var.application_name}-${var.environment}-deadletter-queue"
-  tags = var.tags
+  name = "app-deadletter-queue-${var.application_name}-${var.environment}"
 }
 
 resource "aws_sqs_queue" "queue" {
-  name                      = "${var.application_name}-${var.environment}-queue"
+  name                      = "app-queue-${var.application_name}-${var.environment}"
   delay_seconds             = 90
   max_message_size          = 2048
   message_retention_seconds = 86400
@@ -17,10 +16,9 @@ resource "aws_sqs_queue" "queue" {
     redrivePermission = "byQueue",
     sourceQueueArns   = [aws_sqs_queue.dead_letter.arn]
   })
-  tags = var.tags
 }
 
-resource "aws_sqs_queue_policy" "pg2sf_queue_policy" {
+resource "aws_sqs_queue_policy" "queue_policy" {
   queue_url = aws_sqs_queue.queue.id
-  policy      = data.aws_iam_policy_document.sqs_queue_policy.json
+  policy    = data.aws_iam_policy_document.sqs_queue_policy.json
 }

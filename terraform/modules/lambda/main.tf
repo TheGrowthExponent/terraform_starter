@@ -64,25 +64,25 @@ resource "null_resource" "lambda2_dependencies" {
 }
 
 resource "aws_lambda_function" "lambda1_function" {
-  filename                       = data.archive_file.lambda1_source_package.output_path
-  function_name                  = "${var.application_name}_${var.environment}_lambda1"
-  role                           = var.lambda_role.arn
-  handler                        = "add_to_queue.lambda_handler"
-  memory_size                    = "512"
-  timeout                        = "30"
-#  reserved_concurrent_executions = "5"
+  filename      = data.archive_file.lambda1_source_package.output_path
+  function_name = "${var.application_name}_${var.environment}_lambda1"
+  role          = var.lambda_role.arn
+  handler       = "add_to_queue.lambda_handler"
+  memory_size   = "512"
+  timeout       = "30"
+  #  reserved_concurrent_executions = "5"
   tracing_config {
     mode = "Active"
   }
   layers = [
     "arn:aws:lambda:ap-southeast-2:580247275435:layer:LambdaInsightsExtension:14",
-#    aws_lambda_layer_version.snowflake_layer_v4.arn,
-#    aws_lambda_layer_version.postgres_layer_v4.arn
+    #    aws_lambda_layer_version.snowflake_layer_v4.arn,
+    #    aws_lambda_layer_version.postgres_layer_v4.arn
   ]
   runtime          = "python3.8"
   source_code_hash = data.archive_file.lambda1_source_package.output_base64sha256
   ephemeral_storage {
-    size = 10240 # Min 512 MB and the Max 10240 MB
+    size = 1024 # Min 512 MB and the Max 10240 MB
   }
   vpc_config {
     subnet_ids         = var.subnet_ids
@@ -90,38 +90,36 @@ resource "aws_lambda_function" "lambda1_function" {
   }
   environment {
     variables = {
-      ENV            = var.environment
-      LOG_LEVEL      = var.lambda_log_level
+      ENV         = var.environment
+      LOG_LEVEL   = var.lambda_log_level
       SECRET_NAME = var.secret_name
-      QUEUE_NAME     = var.queue.name
-      BUCKET_NAME     = var.bucket.name
+      QUEUE_NAME  = var.queue.name
+      BUCKET_NAME = var.bucket.name
     }
   }
 
-  # lifecycle {
-  #   # Terraform will any ignore changes to the
-  #   # environment variables after the first deploy.
-  #   ignore_changes = [environment]
-  # }
-
-  tags = var.tags
+  lifecycle {
+    # Terraform will any ignore changes to the
+    # environment variables after the first deploy.
+    ignore_changes = [environment]
+  }
 }
 
 resource "aws_lambda_function" "lambda2_function" {
-  filename                       = data.archive_file.lambda2_source_package.output_path
-  function_name                  = "${var.application_name}_${var.environment}_lambda2"
-  role                           = var.lambda_role.arn
-  handler                        = "upload_to_s3.lambda_handler"
-  memory_size                    = "512"
-  timeout                        = "30"
-#  reserved_concurrent_executions = "5"
+  filename      = data.archive_file.lambda2_source_package.output_path
+  function_name = "${var.application_name}_${var.environment}_lambda2"
+  role          = var.lambda_role.arn
+  handler       = "upload_to_s3.lambda_handler"
+  memory_size   = "512"
+  timeout       = "30"
+  #  reserved_concurrent_executions = "5"
   tracing_config {
     mode = "Active"
   }
   layers = [
     "arn:aws:lambda:ap-southeast-2:580247275435:layer:LambdaInsightsExtension:14",
-#    aws_lambda_layer_version.snowflake_layer_v4.arn,
-#    aws_lambda_layer_version.postgres_layer_v4.arn
+#        aws_lambda_layer_version.snowflake_layer_v4.arn,
+    #    aws_lambda_layer_version.postgres_layer_v4.arn
   ]
   runtime          = "python3.8"
   source_code_hash = data.archive_file.lambda2_source_package.output_base64sha256
@@ -134,27 +132,25 @@ resource "aws_lambda_function" "lambda2_function" {
   }
   environment {
     variables = {
-      ENV            = var.environment
-      LOG_LEVEL      = var.lambda_log_level
+      ENV         = var.environment
+      LOG_LEVEL   = var.lambda_log_level
       SECRET_NAME = var.secret_name
-      QUEUE_NAME     = var.queue.name
-      BUCKET_NAME     = var.bucket.name
+      QUEUE_NAME  = var.queue.name
+      BUCKET_NAME = var.bucket.name
     }
   }
 
-  # lifecycle {
-  #   # Terraform will any ignore changes to the
-  #   # environment variables after the first deploy.
-  #   ignore_changes = [environment]
-  # }
-
-  tags = var.tags
+  lifecycle {
+    # Terraform will any ignore changes to the
+    # environment variables after the first deploy.
+    ignore_changes = [environment]
+  }
 }
 
- resource "aws_lambda_event_source_mapping" "lambda_queue_event" {
-   event_source_arn = var.queue.arn
-   function_name    = aws_lambda_function.lambda2_function.arn
- }
+resource "aws_lambda_event_source_mapping" "lambda_queue_event" {
+  event_source_arn = var.queue.arn
+  function_name    = aws_lambda_function.lambda2_function.arn
+}
 
 resource "aws_lambda_permission" "allow_s3" {
   statement_id  = "AllowExecutionFromS3"

@@ -16,6 +16,8 @@ variable "environment" {
   }
 }
 
-variable "tags" {
-  description = "Shared tags."
+variable "region" {
+  description = "Region to deploy resources."
+  type        = string
+  default     = "ap-southeast-2"
 }

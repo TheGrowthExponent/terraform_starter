@@ -23,8 +23,3 @@ variable "lambda_log_level" {}
 variable "secret_name" {}
 variable "queue" {}
 variable "bucket" {}
-
-
-variable "tags" {
-  description = "Shared tags."
-}
