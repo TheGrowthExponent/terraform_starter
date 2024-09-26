@@ -9,9 +9,14 @@ output "tags" {
 }
 
 ################ VPC ################
-output "security_group_arn" {
+output "lb_security_group_arn" {
   description = "security_group_arn"
-  value       = module.vpc.sg.arn
+  value       = module.vpc.sg_lb.arn
+}
+
+output "ecs_security_group_arn" {
+  description = "security_group_arn"
+  value       = module.vpc.sg_ecs.arn
 }
 
 ################ S3 ################
