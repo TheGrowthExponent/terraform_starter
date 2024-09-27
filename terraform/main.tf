@@ -141,6 +141,8 @@ module "logs" {
 module "postgres" {
   count                  = var.create_postgres_module ? 1 : 0
   source                 = "./modules/rds/postgres"
+  environment            = var.environment
+  application_name       = var.application_name
   db_admin_user          = "dbadmin"
   db_name                = "${var.application_name}${var.environment}" # DBName must begin with a letter and contain only alphanumeric characters.
   db_subnet_group_name   = "${var.application_name}-${var.environment}"
