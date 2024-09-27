@@ -135,7 +135,7 @@ module "logs" {
   source                          = "./modules/logs"
   environment                     = var.environment
   application_name                = var.application_name
-  create_aws_cloudwatch_dashboard = 0
+  create_aws_cloudwatch_dashboard = false
 }
 
 module "postgres" {

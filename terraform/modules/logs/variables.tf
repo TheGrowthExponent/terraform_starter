@@ -25,5 +25,5 @@ variable "region" {
 ## Enable/Disable ##
 variable "create_aws_cloudwatch_dashboard" {
   description = "Specify whether to create the dashboard or not"
-  default     = "0"
+  default     = false
 }
