@@ -16,6 +16,10 @@ variable "environment" {
   }
 }
 
+variable "src_path" {
+  description = "Absolute path to the lambda function code."
+}
+
 variable "lambda_role" {}
 variable "subnet_ids" {}
 variable "load_balancer_sg" {}
