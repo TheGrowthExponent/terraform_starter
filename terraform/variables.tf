@@ -114,3 +114,8 @@ variable "api_gw_endpoint_configuration_type" {
   description = "Specify the type of endpoint for API GW to be setup as. [EDGE, REGIONAL, PRIVATE]. Defaults to EDGE"
   default     = "EDGE"
 }
+
+variable "create_lambda_module" {
+  description = "Specify whether to create the lambda module or not"
+  default     = "0"
+}
