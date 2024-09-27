@@ -29,6 +29,7 @@ module "apigw" {
 }
 
 module "auto_scaling" {
+  count            = var.create_auto_scaling_module ? 1 : 0
   source           = "./modules/auto-scaling"
   environment      = var.environment
   application_name = var.application_name
@@ -131,12 +132,14 @@ module "lambda" {
 }
 
 module "logs" {
-  source           = "./modules/logs"
-  environment      = var.environment
-  application_name = var.application_name
+  source                          = "./modules/logs"
+  environment                     = var.environment
+  application_name                = var.application_name
+  create_aws_cloudwatch_dashboard = 0
 }
 
 module "postgres" {
+  count                  = var.create_postgres_module ? 1 : 0
   source                 = "./modules/rds/postgres"
   db_admin_user          = "dbadmin"
   db_name                = "${var.application_name}${var.environment}" # DBName must begin with a letter and contain only alphanumeric characters.

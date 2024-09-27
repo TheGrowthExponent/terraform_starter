@@ -21,3 +21,9 @@ variable "region" {
   type        = string
   default     = "ap-southeast-2"
 }
+
+## Enable/Disable ##
+variable "create_aws_cloudwatch_dashboard" {
+  description = "Specify whether to create the dashboard or not"
+  default     = "0"
+}

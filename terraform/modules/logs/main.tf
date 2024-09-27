@@ -45,6 +45,7 @@ resource "aws_cloudwatch_log_group" "log_group" {
 # }
 
 resource "aws_cloudwatch_dashboard" "main" {
+  count          = var.create_aws_cloudwatch_dashboard ? 1 : 0
   dashboard_name = "app-${var.application_name}-${var.environment}"
 
   dashboard_body = <<EOF

@@ -120,7 +120,18 @@ variable "create_api-gateway_module" {
   default     = "0"
 }
 
+## Enable/Disable Modules ##
+variable "create_auto_scaling_module" {
+  description = "Specify whether to create the auto_scaling module or not"
+  default     = "0"
+}
+
 variable "create_lambda_module" {
   description = "Specify whether to create the lambda module or not"
+  default     = "0"
+}
+
+variable "create_postgres_module" {
+  description = "Specify whether to create the postgres module or not"
   default     = "0"
 }
