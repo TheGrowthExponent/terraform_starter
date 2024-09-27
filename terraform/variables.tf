@@ -115,6 +115,11 @@ variable "api_gw_endpoint_configuration_type" {
   default     = "EDGE"
 }
 
+variable "create_api-gateway_module" {
+  description = "Specify whether to create the api-gateway module or not"
+  default     = "0"
+}
+
 variable "create_lambda_module" {
   description = "Specify whether to create the lambda module or not"
   default     = "0"

@@ -11,6 +11,7 @@ module "acm" {
 }
 
 module "apigw" {
+  count            = var.create_api-gateway_module ? 1 : 0
   source                             = "./modules/api-gateway"
   api_gw_disable_resource_creation   = var.api_gw_disable_resource_creation
   api_gw_endpoint_configuration_type = var.api_gw_endpoint_configuration_type
