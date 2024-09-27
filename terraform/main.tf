@@ -89,7 +89,6 @@ module "elb" {
   certificate            = module.acm.aws_acm_certificate
   load_balancer_sg       = module.vpc.sg_lb
   private_subnets        = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  public_subnets         = [module.vpc.public_subnet_a.id, module.vpc.public_subnet_b.id]
   vpc_id                 = module.vpc.vpc.id
   authorization_endpoint = var.authorization_endpoint
   client_id              = var.client_id
@@ -132,6 +131,16 @@ module "logs" {
   source           = "./modules/logs"
   environment      = var.environment
   application_name = var.application_name
+}
+
+module "postgres" {
+  source                 = "./modules/rds/postgres"
+  db_admin_user          = "dbadmin"
+  db_name                = "${var.application_name}-${var.environment}"
+  db_subnet_group_name   = "${var.application_name}-${var.environment}"
+  subnet_ids             = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  vpc_security_group_ids = [module.vpc.sg_rds.id]
+  tags                   = { purpose = "Application storage" }
 }
 
 module "route53" {
