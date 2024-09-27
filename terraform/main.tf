@@ -113,7 +113,7 @@ module "iam" {
 
 module "lambda" {
   source           = "./modules/lambda"
-  src_path         = "/src/lambda1"
+  src_path         = "${path.root}/src/lambda1"
   environment      = var.environment
   application_name = var.application_name
   #  region           = var.region
