@@ -22,21 +22,21 @@
 resource "random_uuid" "lambda_src_hash" {
   keepers = {
     for filename in setunion(
-      fileset(var.src_path, "/**/*")
+      fileset(local.lambda_src_path, "/**/*")
     ) :
-    filename => filemd5("${var.src_path}/${filename}")
+    filename => filemd5("${local.lambda_src_path}/${filename}")
   }
 }
 
 resource "null_resource" "lambda_dependencies" {
   provisioner "local-exec" {
-    command = "pip install -r ${var.src_path}/requirements.txt -t ${var.src_path} --upgrade"
+    command = "pip install -r ${local.lambda_src_path}/requirements.txt -t ${local.lambda_src_path} --upgrade"
   }
 
   # Only re-run this if the dependencies or their versions
   # have changed since the last deployment with Terraform
   triggers = {
-    dependencies_versions = filemd5("${var.src_path}/requirements.txt")
+    dependencies_versions = filemd5("${local.lambda_src_path}/requirements.txt")
     #      source_code_hash      = random_uuid.lambda_src_hash.result # This is a suitable option too
   }
 }
