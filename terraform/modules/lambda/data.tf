@@ -2,7 +2,7 @@
 # filtering out unneeded files.
 data "archive_file" "lambda_source_package" {
   type        = "zip"
-  source_dir  = var.src_path
+  source_dir  = local.lambda_src_path
   output_path = "${path.module}/.tmp/${random_uuid.lambda_src_hash.result}_1.zip"
 
   excludes = [
