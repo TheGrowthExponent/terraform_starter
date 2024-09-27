@@ -11,6 +11,7 @@ module "acm" {
 }
 
 module "apigw" {
+  count            = var.create_api-gateway_module ? 1 : 0
   source                             = "./modules/api-gateway"
   api_gw_disable_resource_creation   = var.api_gw_disable_resource_creation
   api_gw_endpoint_configuration_type = var.api_gw_endpoint_configuration_type
@@ -111,22 +112,23 @@ module "iam" {
   #  error_notifications_topic = module.sns.sns_error_notifications_topic
 }
 
-# module "lambda" {
-#   source           = "./modules/lambda"
-#   src_path         = "src/lambda1"
-#   environment      = var.environment
-#   application_name = var.application_name
-#   #  region           = var.region
-#   #  aws_key          = module.ec2.aws_key
-#   #  log_group        = module.logs.log_group
-#   lambda_role      = module.iam.lambda_role
-#   load_balancer_sg = module.vpc.sg_lb
-#   bucket           = module.s3.aws_s3_bucket
-#   lambda_log_level = "DEBUG"
-#   queue            = module.sqs.aws_sqs_queue
-#   secret_name      = "xxx"
-#   subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-# }
+module "lambda" {
+  count            = var.create_lambda_module ? 1 : 0
+  source           = "./modules/lambda"
+  src_path         = "src/lambda1"
+  environment      = var.environment
+  application_name = var.application_name
+  #  region           = var.region
+  #  aws_key          = module.ec2.aws_key
+  #  log_group        = module.logs.log_group
+  lambda_role      = module.iam.lambda_role
+  load_balancer_sg = module.vpc.sg_lb
+  bucket           = module.s3.aws_s3_bucket
+  lambda_log_level = "DEBUG"
+  queue            = module.sqs.aws_sqs_queue
+  secret_name      = "xxx"
+  subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+}
 
 module "logs" {
   source           = "./modules/logs"
