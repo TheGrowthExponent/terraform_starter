@@ -21,7 +21,7 @@ resource "aws_nat_gateway" "nat" {
   subnet_id     = element(aws_subnet.public_a.*.id, 0)
   depends_on    = [aws_internet_gateway.internal_gateway]
   tags = {
-    Name        = "nat"
+    Name = "nat"
   }
 }
 
@@ -37,11 +37,11 @@ resource "aws_nat_gateway" "nat" {
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat.id
   }
   tags = {
-    Name        = "private-route-table"
+    Name = "private-route-table"
   }
 }
 
@@ -53,7 +53,7 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.internal_gateway.id
   }
   tags = {
-    Name        = "public-route-table"
+    Name = "public-route-table"
   }
 }
 
@@ -166,6 +166,11 @@ resource "aws_security_group" "load_balancer" {
 
 resource "aws_security_group" "ecs" {
   name   = "ecs-sg-${var.application_name}-${var.environment}"
+  vpc_id = aws_vpc.vpc.id
+}
+
+resource "aws_security_group" "rds" {
+  name   = "rds-sg-${var.application_name}-${var.environment}"
   vpc_id = aws_vpc.vpc.id
 }
 
