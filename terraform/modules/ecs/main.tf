@@ -83,7 +83,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   max_size                  = var.asg_max_size
   min_size                  = var.asg_min_size
   health_check_grace_period = 120
-  health_check_type         = "ELB"
+  health_check_type         = "ALB"
   force_delete              = true
   instance_refresh {
     strategy = "Rolling"

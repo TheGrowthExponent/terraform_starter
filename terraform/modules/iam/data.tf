@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "apigw" {
   }
 }
 
-data "aws_iam_policy_document" "ecs_service_elb" {
+data "aws_iam_policy_document" "ecs_service_alb" {
   statement {
     effect = "Allow"
     actions = [
@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "ecs_service_elb" {
       "elasticloadbalancing:RegisterTargets"
     ]
     resources = [
-      var.elb.arn
+      var.load_balancer.arn
     ]
   }
 }

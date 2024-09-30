@@ -1,4 +1,4 @@
-resource "aws_lb" "elb" {
+resource "aws_lb" "alb" {
   name               = "app-lb-${var.application_name}-${var.environment}"
   internal           = false
   load_balancer_type = "application"
@@ -26,7 +26,7 @@ resource "aws_lb_target_group" "ecs" {
 }
 
 resource "aws_lb_listener" "https" {
-  load_balancer_arn = aws_lb.elb.arn
+  load_balancer_arn = aws_lb.alb.arn
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -38,7 +38,7 @@ resource "aws_lb_listener" "https" {
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.elb.arn
+  load_balancer_arn = aws_lb.alb.arn
   port              = "80"
   protocol          = "HTTP"
   default_action {

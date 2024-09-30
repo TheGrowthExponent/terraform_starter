@@ -82,15 +82,15 @@ module "ecs" {
   aws_ami                    = data.aws_ami.ubuntu
   private_subnets            = [module.vpc.private_subnet_a.id]
   public_subnets             = [module.vpc.public_subnet_a.id]
-  ecs_target_group           = module.elb.ecs_target_group
+  ecs_target_group           = module.load-balancer.ecs_target_group
   aws_ecr_repository         = module.ecr.aws_ecr_repository
   aws_ecr_repository_version = "v0.0.1"
   s3_bucket                  = module.s3.aws_s3_bucket
   sns_notifications_topic    = module.sns.sns_notifications_topic
 }
 
-module "elb" {
-  source                 = "./modules/elb"
+module "load-balancer" {
+  source                 = "./modules/load-balancer"
   environment            = var.environment
   application_name       = var.application_name
   certificate            = module.acm.aws_acm_certificate
@@ -109,7 +109,7 @@ module "iam" {
   source           = "./modules/iam"
   environment      = var.environment
   application_name = var.application_name
-  elb              = module.elb.elb
+  load_balancer    = module.load-balancer.alb
   log_group        = module.logs.log_group
   s3_bucket        = module.s3.aws_s3_bucket
   account_id       = var.account_id
@@ -160,7 +160,7 @@ module "route53" {
   source           = "./modules/route53"
   environment      = var.environment
   application_name = var.application_name
-  elb              = module.elb.elb
+  load_balancer    = module.load-balancer.alb
   hosted_zone_id   = var.hosted_zone_id
   host_name        = var.host_name
 }
