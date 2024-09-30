@@ -17,7 +17,7 @@ resource "aws_instance" "example_server" {
   }
   instance_type = "t3.nano"
   # iam_instance_profile = aws_iam_instance_profile.example_profile.name
-  subnet_id       = var.private_subnet_id.id
+  subnet_id       = var.private_subnet_id
   key_name        = aws_key_pair.aws_key.key_name
   monitoring      = true
   security_groups = [var.sg.id]
