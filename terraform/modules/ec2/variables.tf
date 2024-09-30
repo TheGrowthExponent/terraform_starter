@@ -37,6 +37,4 @@ variable "private_subnet_id" {
   type        = string
 }
 
-variable "sg" {
-  default = ""
-}
+variable "sg" {}
