@@ -18,7 +18,7 @@ variable "environment" {
 
 variable "instance_name" {
   description = "Name of the instance."
-  default     = ""
+  default     = "example instance"
 }
 
 variable "ami" {
