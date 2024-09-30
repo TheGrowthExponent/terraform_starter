@@ -4,7 +4,7 @@ resource "aws_batch_job_definition" "batch_job_definition" {
   platform_capabilities = var.platform_capabilities
   container_properties = jsonencode({
     image      = "${var.aws_ecr_repository.repository_url}:${var.aws_ecr_repository_version}"
-    jobRoleArn = var.ecs_task_execution_role
+    jobRoleArn = var.ecs_task_execution_role.arn
 
     resourceRequirements = [
       {
@@ -22,7 +22,7 @@ resource "aws_batch_job_definition" "batch_job_definition" {
         value = var.s3_bucket_name
       }
     ]
-    executionRoleArn = var.ecs_task_execution_role
+    executionRoleArn = var.ecs_task_execution_role.arn
     tags             = var.tags
   })
 }
@@ -36,10 +36,10 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
     security_group_ids = var.security_group_ids
     subnets            = var.subnet_ids
     type               = var.compute_environment
-    instance_role      = var.ecs_instance_role
+    instance_role      = var.ecs_instance_role.arn
     instance_type      = ["optimal"]
   }
-  service_role = var.batch_service_role
+  service_role = var.batch_service_role.arn
   tags         = var.tags
 }
 
@@ -53,7 +53,7 @@ resource "aws_batch_compute_environment" "compute_environment_fargate" {
     subnets            = var.subnet_ids
     type               = var.compute_environment
   }
-  service_role = var.batch_service_role
+  service_role = var.batch_service_role.arn
   tags         = var.tags
 }
 
@@ -75,7 +75,7 @@ resource "aws_batch_job_queue" "job_queue_fargate" {
   state    = "ENABLED"
   priority = 1
   compute_environment_order {
-    compute_environment = aws_batch_compute_environment.compute_environment_ec2[0].arn
+    compute_environment = aws_batch_compute_environment.compute_environment_fargate[0].arn
     order               = 1
   }
   tags = var.tags
