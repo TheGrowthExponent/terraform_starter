@@ -159,6 +159,11 @@ resource "aws_route_table_association" "public_c" {
   route_table_id = aws_route_table.public.id
 }
 
+resource "aws_security_group" "batch" {
+  name   = "batch-sg-${var.application_name}-${var.environment}"
+  vpc_id = aws_vpc.vpc.id
+}
+
 resource "aws_security_group" "load_balancer" {
   name   = "lb-sg-${var.application_name}-${var.environment}"
   vpc_id = aws_vpc.vpc.id
@@ -208,6 +213,17 @@ resource "aws_security_group_rule" "ingress_ecs_alb" {
   to_port                  = 80
   source_security_group_id = aws_security_group.load_balancer.id
   type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "egress_batch" {
+  type      = "egress"
+  from_port = 0
+  to_port   = 65535
+  protocol  = "tcp"
+  cidr_blocks = [
+    "0.0.0.0/0"
+  ]
+  security_group_id = aws_security_group.batch.id
 }
 
 resource "aws_security_group_rule" "egress_load_balancer" {

@@ -29,6 +29,19 @@ variable "aws_ecr_repository" {}
 variable "aws_ecr_repository_version" {
   default = "latest"
 }
+
+variable "vcpu" {
+  description = "The CPU of ECS Task"
+  type        = number
+  default     = 512
+}
+
+variable "memory" {
+  description = "The Memory of ECS Task"
+  type        = number
+  default     = 1024
+}
+
 variable "sns_notifications_topic" {}
 
 variable "region" {

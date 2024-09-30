@@ -18,4 +18,9 @@ variable "environment" {
 
 variable "tags" {
   description = "Shared tags."
+  default = {
+    project          = var.project_name
+    environment      = var.environment
+    software_product = var.software_product_name
+  }
 }

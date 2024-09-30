@@ -1,3 +1,10 @@
+resource "aws_iam_role" "batch_service" {
+  name               = "app-role-batch-service-${var.application_name}-${var.environment}"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.batch.json
+  tags               = { purpose = "Project batch role" }
+}
+
 resource "aws_iam_role" "ec2_service" {
   name               = "app-role-ec2-service-${var.application_name}-${var.environment}"
   path               = "/"
@@ -172,6 +179,11 @@ resource "aws_iam_role_policy_attachment" "ecs_allow_secrets" {
 resource "aws_iam_role_policy_attachment" "ecs_allow_s3" {
   role       = aws_iam_role.ecs_service.name
   policy_arn = aws_iam_policy.allow_s3.arn
+}
+
+resource "aws_iam_role_policy_attachment" "batch_service_managed_policy" {
+  role       = aws_iam_role.batch_service.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole"
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_ssm_managed_policy" {

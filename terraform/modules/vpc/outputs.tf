@@ -30,6 +30,10 @@ output "private_subnet_b" {
 #  value = data.aws_subnet.private_c
 #}
 
+output "sg_batch" {
+  value = aws_security_group.batch
+}
+
 output "sg_lb" {
   value = aws_security_group.load_balancer
 }

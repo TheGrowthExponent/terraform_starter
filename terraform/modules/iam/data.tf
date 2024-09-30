@@ -1,3 +1,14 @@
+data "aws_iam_policy_document" "batch" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["batch.amazonaws.com"]
+    }
+  }
+}
+
 data "aws_iam_policy_document" "ec2" {
   statement {
     effect  = "Allow"
