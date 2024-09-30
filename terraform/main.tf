@@ -50,6 +50,7 @@ module "ec2" {
   source           = "./modules/ec2"
   environment      = var.environment
   application_name = var.application_name
+  ami = data.aws_ami.ubuntu.id
 }
 
 module "ecr" {
