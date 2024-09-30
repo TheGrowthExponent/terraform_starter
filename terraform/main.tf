@@ -86,7 +86,6 @@ module "ecs" {
 }
 
 module "elb" {
-  count                  = var.create_elb_module ? 1 : 0
   source                 = "./modules/elb"
   environment            = var.environment
   application_name       = var.application_name
