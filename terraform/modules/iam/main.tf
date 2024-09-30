@@ -1,3 +1,10 @@
+resource "aws_iam_role" "ec2_service" {
+  name               = "app-role-ec2-service-${var.application_name}-${var.environment}"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.ec2.json
+  tags               = { purpose = "Project ec2 role" }
+}
+
 resource "aws_iam_role" "ecs_service" {
   name               = "app-role-ecs-service-${var.application_name}-${var.environment}"
   path               = "/"
@@ -24,6 +31,11 @@ resource "aws_iam_role" "apigw_service" {
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.apigw.json
   tags               = { purpose = "Project apigw role" }
+}
+
+resource "aws_iam_instance_profile" "ec2_instance_profile" {
+  name = "ec2_instance_profile"
+  role = aws_iam_role.ec2_service.name
 }
 
 resource "aws_iam_policy" "ecs_service_elb" {
@@ -117,6 +129,21 @@ resource "aws_iam_policy" "invoke_lambda" {
   policy      = data.aws_iam_policy_document.invoke_lambda.json
 }
 
+resource "aws_iam_role_policy_attachment" "ec2_allow_secrets" {
+  role       = aws_iam_role.ec2_service.name
+  policy_arn = aws_iam_policy.allow_secrets.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_allow_logging" {
+  role       = aws_iam_role.ec2_service.name
+  policy_arn = aws_iam_policy.allow_logging.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_allow_s3" {
+  role       = aws_iam_role.ec2_service.name
+  policy_arn = aws_iam_policy.allow_s3.arn
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_service_elb" {
   role       = aws_iam_role.ecs_service.name
   policy_arn = aws_iam_policy.ecs_service_elb.arn
@@ -145,6 +172,11 @@ resource "aws_iam_role_policy_attachment" "ecs_allow_secrets" {
 resource "aws_iam_role_policy_attachment" "ecs_allow_s3" {
   role       = aws_iam_role.ecs_service.name
   policy_arn = aws_iam_policy.allow_s3.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_ssm_managed_policy" {
+  role       = aws_iam_role.ec2_service.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedEC2InstanceDefaultPolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_managed_policy" {

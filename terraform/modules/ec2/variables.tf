@@ -37,4 +37,5 @@ variable "private_subnet_id" {
   type        = string
 }
 
+variable "ec2_instance_profile" {}
 variable "sg" {}

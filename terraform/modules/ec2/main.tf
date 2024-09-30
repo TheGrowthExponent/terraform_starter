@@ -15,8 +15,8 @@ resource "aws_instance" "example_server" {
       max_price = 0.0031
     }
   }
-  instance_type = "t3.nano"
-  # iam_instance_profile = aws_iam_instance_profile.example_profile.name
+  instance_type               = "t3.nano"
+  iam_instance_profile        = var.ec2_instance_profile.id
   subnet_id                   = var.private_subnet_id
   associate_public_ip_address = false
   key_name                    = aws_key_pair.aws_key.key_name
