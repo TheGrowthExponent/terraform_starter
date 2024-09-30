@@ -38,11 +38,11 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
   role = aws_iam_role.ec2_service.name
 }
 
-resource "aws_iam_policy" "ecs_service_elb" {
-  name        = "app-policy-ecs_service_elb-${var.application_name}-${var.environment}"
+resource "aws_iam_policy" "ecs_service_alb" {
+  name        = "app-policy-ecs_service_alb-${var.application_name}-${var.environment}"
   path        = "/"
-  description = "Allow access to the service elb"
-  policy      = data.aws_iam_policy_document.ecs_service_elb.json
+  description = "Allow access to the service alb"
+  policy      = data.aws_iam_policy_document.ecs_service_alb.json
 }
 
 resource "aws_iam_policy" "ecs_service_standard" {
@@ -144,9 +144,9 @@ resource "aws_iam_role_policy_attachment" "ec2_allow_s3" {
   policy_arn = aws_iam_policy.allow_s3.arn
 }
 
-resource "aws_iam_role_policy_attachment" "ecs_service_elb" {
+resource "aws_iam_role_policy_attachment" "ecs_service_alb" {
   role       = aws_iam_role.ecs_service.name
-  policy_arn = aws_iam_policy.ecs_service_elb.arn
+  policy_arn = aws_iam_policy.ecs_service_alb.arn
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_service_standard" {

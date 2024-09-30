@@ -27,7 +27,7 @@ variable "account_id" {
   }
 }
 
-variable "elb" {}
+variable "load_balancer" {}
 variable "s3_bucket" {}
 variable "log_group" {}
 #variable "dynamodb" {}
