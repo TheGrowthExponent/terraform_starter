@@ -181,8 +181,8 @@ TASK_DEFINITION
   requires_compatibilities = [
     "FARGATE"
   ]
-  memory             = "1024"
-  cpu                = "512"
+  memory             = tostring(var.memory)
+  cpu                = tostring(var.vcpu)
   execution_role_arn = var.ecs_role.arn
   task_role_arn      = var.ecs_role.arn
 }

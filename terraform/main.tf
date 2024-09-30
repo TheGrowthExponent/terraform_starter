@@ -37,6 +37,42 @@ module "auto_scaling" {
   ecs_service      = module.ecs.ecs_service
 }
 
+module "batch_fargate" {
+  source                     = "./modules/batch"
+  environment                = var.environment
+  batch_name                 = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
+  compute_environment        = "FARGATE"
+  batch_service_role         = module.iam.batch_role
+  aws_ecr_repository         = module.ecr.aws_ecr_repository
+  aws_ecr_repository_version = "v0.0.1"
+  ecs_instance_role          = module.iam.ecs_role
+  ecs_task_execution_role    = module.iam.ecs_role
+  memory                     = 0
+  s3_bucket_name             = module.s3.aws_s3_bucket.bucket
+  security_group_ids         = []
+  subnet_ids                 = []
+  vcpu                       = 0
+  tags                       = { purpose = "Batch processing" }
+}
+
+module "batch_ec2" {
+  source                     = "./modules/batch"
+  environment                = var.environment
+  batch_name                 = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
+  compute_environment        = "EC2"
+  batch_service_role         = module.iam.batch_role
+  aws_ecr_repository         = module.ecr.aws_ecr_repository
+  aws_ecr_repository_version = "v0.0.1"
+  ecs_instance_role          = module.iam.ecs_role
+  ecs_task_execution_role    = module.iam.ecs_role
+  memory                     = 0
+  s3_bucket_name             = module.s3.aws_s3_bucket.bucket
+  security_group_ids         = []
+  subnet_ids                 = []
+  vcpu                       = 0
+  tags                       = { purpose = "Batch processing" }
+}
+
 module "dynamodb" {
   source           = "./modules/dynamodb"
   environment      = var.environment

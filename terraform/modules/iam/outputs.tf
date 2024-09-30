@@ -1,3 +1,7 @@
+output "batch_role" {
+  value = aws_iam_role.batch_service
+}
+
 output "ec2_role" {
   value = aws_iam_role.ec2_service
 }
