@@ -50,7 +50,7 @@ module "ec2" {
   source           = "./modules/ec2"
   environment      = var.environment
   application_name = var.application_name
-  ami = data.aws_ami.ubuntu.id
+  ami              = data.aws_ami.ubuntu.id
 }
 
 module "ecr" {
@@ -86,6 +86,7 @@ module "ecs" {
 }
 
 module "elb" {
+  count                  = var.create_elb_module ? 1 : 0
   source                 = "./modules/elb"
   environment            = var.environment
   application_name       = var.application_name
