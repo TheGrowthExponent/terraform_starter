@@ -16,7 +16,12 @@ resource "aws_instance" "example_server" {
     }
   }
   instance_type = "t3.nano"
-  user_data     = <<EOF
+  # iam_instance_profile = aws_iam_instance_profile.example_profile.name
+  subnet_id       = var.private_subnet_id.id
+  key_name        = aws_key_pair.aws_key.key_name
+  monitoring      = true
+  security_groups = [var.sg.id]
+  user_data       = <<EOF
 #!/bin/bash
 echo "Copying the SSH Key to the server"
 echo -e "${var.public_key}" >> /home/ubuntu/.ssh/authorized_keys

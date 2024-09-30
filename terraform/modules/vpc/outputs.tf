@@ -34,6 +34,10 @@ output "sg_lb" {
   value = aws_security_group.load_balancer
 }
 
+output "sg_ec2" {
+  value = aws_security_group.ec2
+}
+
 output "sg_ecs" {
   value = aws_security_group.ecs
 }

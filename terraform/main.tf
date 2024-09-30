@@ -47,11 +47,13 @@ module "dynamodb" {
 }
 
 module "ec2" {
-  source           = "./modules/ec2"
-  environment      = var.environment
-  application_name = var.application_name
-  instance_name    = "app-${var.application_name}-${var.environment}"
-  ami              = data.aws_ami.ubuntu.id
+  source            = "./modules/ec2"
+  environment       = var.environment
+  application_name  = var.application_name
+  instance_name     = "app-${var.application_name}-${var.environment}"
+  ami               = data.aws_ami.ubuntu.id
+  private_subnet_id = module.vpc.private_subnet_a.id
+  sg                = module.vpc.sg_ec2
 }
 
 module "ecr" {
