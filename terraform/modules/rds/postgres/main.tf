@@ -16,7 +16,7 @@ resource "aws_db_instance" "db_server" {
   port                         = 5432
   multi_az                     = true
   vpc_security_group_ids       = var.vpc_security_group_ids
-  skip_final_snapshot          = false
+  skip_final_snapshot          = true
   final_snapshot_identifier    = "${var.application_name}-${var.environment}"
   performance_insights_enabled = true
   tags                         = var.tags
