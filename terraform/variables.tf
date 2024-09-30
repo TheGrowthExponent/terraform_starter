@@ -126,6 +126,11 @@ variable "create_auto_scaling_module" {
   default     = "0"
 }
 
+variable "create_elb_module" {
+  description = "Specify whether to create the elb module or not"
+  default     = "0"
+}
+
 variable "create_lambda_module" {
   description = "Specify whether to create the lambda module or not"
   default     = "0"

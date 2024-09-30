@@ -8,7 +8,7 @@ resource "aws_key_pair" "aws_key" {
 }
 
 resource "aws_instance" "example_server" {
-  ami           = var.ami
+  ami = var.ami
   instance_market_options {
     market_type = "spot"
     spot_options {
@@ -16,7 +16,7 @@ resource "aws_instance" "example_server" {
     }
   }
   instance_type = "t4g.nano"
-  user_data = <<EOF
+  user_data     = <<EOF
 #!/bin/bash
 echo "Copying the SSH Key to the server"
 echo -e "${var.public_key}" >> /home/ubuntu/.ssh/authorized_keys
