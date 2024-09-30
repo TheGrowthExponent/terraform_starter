@@ -15,17 +15,14 @@ variable "aws_ecr_repository_version" {
 
 variable "ecs_instance_role" {
   description = "ECS Instance Role"
-  type        = string
 }
 
 variable "batch_service_role" {
   description = "Batch Service Role"
-  type        = string
 }
 
 variable "ecs_task_execution_role" {
   description = "ECS Task Execution Role"
-  type        = string
 }
 
 variable "vcpu" {
