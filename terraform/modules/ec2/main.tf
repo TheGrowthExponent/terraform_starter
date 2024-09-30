@@ -21,7 +21,7 @@ resource "aws_instance" "example_server" {
   associate_public_ip_address = false
   key_name                    = aws_key_pair.aws_key.key_name
   monitoring                  = true
-  security_groups             = [var.sg.id]
+  vpc_security_group_ids      = [var.sg.id]
   user_data                   = <<EOF
 #!/bin/bash
 echo "Copying the SSH Key to the server"
