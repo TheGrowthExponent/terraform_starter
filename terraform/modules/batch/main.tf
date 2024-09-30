@@ -39,7 +39,7 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
     instance_role      = var.ecs_instance_role.arn
     instance_type      = ["optimal"]
   }
-  service_role = var.batch_service_role
+  service_role = var.batch_service_role.arn
   tags         = var.tags
 }
 
@@ -63,7 +63,7 @@ resource "aws_batch_job_queue" "job_queue_ec2" {
   state    = "ENABLED"
   priority = 1
   compute_environment_order {
-    compute_environment = aws_batch_compute_environment.compute_environment_ec2[0].arn
+    compute_environment = aws_batch_compute_environment.compute_environment_ec2.arn
     order               = 1
   }
   tags = var.tags
@@ -75,7 +75,7 @@ resource "aws_batch_job_queue" "job_queue_fargate" {
   state    = "ENABLED"
   priority = 1
   compute_environment_order {
-    compute_environment = aws_batch_compute_environment.compute_environment_ec2[0].arn
+    compute_environment = aws_batch_compute_environment.compute_environment_ec2.arn
     order               = 1
   }
   tags = var.tags
