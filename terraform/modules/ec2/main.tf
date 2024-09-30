@@ -15,7 +15,7 @@ resource "aws_instance" "example_server" {
       max_price = 0.0031
     }
   }
-  instance_type = "t4g.nano"
+  instance_type = "t3.nano"
   user_data     = <<EOF
 #!/bin/bash
 echo "Copying the SSH Key to the server"
