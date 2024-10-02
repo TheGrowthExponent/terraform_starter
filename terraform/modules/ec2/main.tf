@@ -22,7 +22,14 @@ resource "aws_instance" "example_server" {
   key_name                    = aws_key_pair.aws_key.key_name
   monitoring                  = true
   vpc_security_group_ids      = [var.sg.id]
-  user_data                   = <<EOF
+  ebs_block_device {
+    device_name           = "/dev/sda1"
+    volume_size           = var.volume_size
+    volume_type           = "gp3"
+    throughput            = 125
+    delete_on_termination = false
+  }
+  user_data = <<EOF
 #!/bin/bash
 echo "Copying the SSH Key to the server"
 echo -e "${var.public_key}" >> /home/ubuntu/.ssh/authorized_keys
