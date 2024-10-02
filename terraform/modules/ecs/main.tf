@@ -79,7 +79,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   name                      = "app-asg-${var.application_name}-${var.environment}"
   vpc_zone_identifier       = var.private_subnets
   desired_capacity          = var.target_capacity
-  launch_configuration      = aws_launch_configuration.t3_small.name
+  launch_configuration      = aws_launch_configuration.t3_micro.name
   max_size                  = var.asg_max_size
   min_size                  = var.asg_min_size
   health_check_grace_period = 120
