@@ -148,8 +148,8 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = <<TASK_DEFINITION
   [
   {
-    "memory" : 1024,
-    "cpu" : 512,
+    "memory" : 512,
+    "cpu" : 256,
     "portMappings": [
       {
         "hostPort": 80,
