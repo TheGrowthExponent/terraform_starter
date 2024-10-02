@@ -39,3 +39,9 @@ variable "private_subnet_id" {
 
 variable "ec2_instance_profile" {}
 variable "sg" {}
+
+variable "volume_size" {
+  description = "The size of the volume in GB."
+  type        = number
+  default     = 8
+}

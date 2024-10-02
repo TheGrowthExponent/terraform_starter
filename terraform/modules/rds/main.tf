@@ -42,7 +42,7 @@ resource "aws_rds_cluster" "db_cluster" {
   final_snapshot_identifier    = var.db_name
   performance_insights_enabled = true
   backup_retention_period      = 5
-  availability_zones           = ["ap-southeast-2a", "ap-southeast-2b", "ap-southeast-2c"]
+  availability_zones           = ["ap-southeast-2a", "ap-southeast-2b"]
   tags                         = var.tags
   serverlessv2_scaling_configuration {
     max_capacity = 1.0

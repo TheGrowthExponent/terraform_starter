@@ -48,12 +48,6 @@ variable "batch_name" {
   # "${var.project_name}-${var.environment}-${var.software_product_name}"
 }
 
-variable "platform_capabilities" {
-  description = "The platform capabilities of the batch job definition"
-  type        = list(string)
-  default     = ["EC2", "FARGATE"]
-}
-
 variable "compute_environment" {
   description = "The compute environment type"
   type        = string
