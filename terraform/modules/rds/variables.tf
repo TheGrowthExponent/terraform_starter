@@ -30,7 +30,7 @@ variable "instance_class" {
 variable "engine" {
   description = "The database engine to use."
   type        = string
-  default     = "aurora-postgres"
+  default     = "aurora-postgresql"
 }
 
 variable "engine_mode" {
