@@ -57,9 +57,3 @@ resource "aws_rds_cluster_instance" "db_instance" {
   engine             = aws_rds_cluster.db_cluster.engine
   engine_version     = aws_rds_cluster.db_cluster.engine_version
 }
-
-resource "aws_rds_cluster_endpoint" "db_endpoint" {
-  cluster_identifier          = aws_rds_cluster.db_cluster.id
-  cluster_endpoint_identifier = var.db_name
-  custom_endpoint_type        = "ANY"
-}
