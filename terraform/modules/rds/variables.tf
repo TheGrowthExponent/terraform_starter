@@ -21,8 +21,34 @@ variable "db_name" {
   description = "Name of RDS DB instance"
 }
 
+variable "instance_class" {
+  description = "The instance type to use."
+  type        = string
+  default     = "db.t4g.medium"
+}
+
+variable "engine" {
+  description = "The database engine to use."
+  type        = string
+  default     = "aurora-postgres"
+}
+
+variable "engine_mode" {
+  description = "The database engine mode to use."
+  type        = string
+  default     = "provisioned"
+}
+
+variable "engine_version" {
+  description = "The version of the database engine to use."
+  type        = string
+  default     = "16"
+}
+
 variable "tags" {
-  description = "Shared tags."
+  description = "A map of tags to add to all resources."
+  type        = map(string)
+  default     = {}
 }
 
 variable "db_admin_user" {
