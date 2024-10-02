@@ -33,13 +33,13 @@ variable "aws_ecr_repository_version" {
 variable "vcpu" {
   description = "The CPU of ECS Task"
   type        = number
-  default     = 512
+  default     = 256
 }
 
 variable "memory" {
   description = "The Memory of ECS Task"
   type        = number
-  default     = 1024
+  default     = 512
 }
 
 variable "sns_notifications_topic" {}
