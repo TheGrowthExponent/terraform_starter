@@ -148,8 +148,8 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = <<TASK_DEFINITION
   [
   {
-    "memory" : "${tostring(var.memory)}",
-    "cpu" : "${tostring(var.vcpu)}",
+    "memory" : "1024",
+    "cpu" : "512",
     "portMappings": [
       {
         "hostPort": 80,
