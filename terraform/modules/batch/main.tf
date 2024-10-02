@@ -1,7 +1,7 @@
 resource "aws_batch_job_definition" "batch_job_definition" {
   name                  = var.batch_name
   type                  = "container"
-  platform_capabilities = var.platform_capabilities
+  platform_capabilities = [var.compute_environment]
   container_properties = jsonencode({
     image      = "${var.aws_ecr_repository.repository_url}:${var.aws_ecr_repository_version}"
     jobRoleArn = var.ecs_task_execution_role.arn

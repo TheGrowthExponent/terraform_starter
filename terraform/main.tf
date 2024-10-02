@@ -63,7 +63,7 @@ module "batch_ec2" {
   batch_service_role         = module.iam.batch_role
   aws_ecr_repository         = module.ecr.aws_ecr_repository
   aws_ecr_repository_version = "v0.0.1"
-  ecs_instance_role          = module.iam.ecs_role
+  ecs_instance_role          = module.iam.ec2_instance_profile
   ecs_task_execution_role    = module.iam.ecs_role
   memory                     = 1024
   s3_bucket_name             = module.s3.aws_s3_bucket.bucket
