@@ -32,9 +32,9 @@ variable "load_balancer" {
   type        = map(string)
 }
 
-variable "s3_bucket" {
-  description = "S3 bucket"
-  type        = map(string)
+variable "s3_bucket_arn" {
+  description = "S3 bucket ARN"
+  type        = string
 }
 
 variable "log_group_arn" {

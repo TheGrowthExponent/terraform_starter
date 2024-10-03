@@ -213,8 +213,8 @@ data "aws_iam_policy_document" "allow_s3" {
       "s3:*"
     ]
     resources = [
-      var.s3_bucket.arn,
-      "${var.s3_bucket.arn}/*"
+      var.s3_bucket_arn,
+      "${var.s3_bucket_arn}/*"
     ]
   }
 }

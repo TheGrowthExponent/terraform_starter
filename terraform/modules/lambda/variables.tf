@@ -52,7 +52,12 @@ variable "queue" {
   type        = map(string)
 }
 
-variable "bucket" {
-  description = "The S3 bucket"
-  type        = map(string)
+variable "bucket_name" {
+  description = "The S3 bucket name"
+  type        = string
+}
+
+variable "bucket_arn" {
+  description = "The S3 bucket ARN"
+  type        = string
 }

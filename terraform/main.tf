@@ -138,7 +138,7 @@ module "iam" {
   application_name = var.application_name
   load_balancer    = module.load-balancer.alb
   log_group_arn    = module.logs.log_group.arn
-  s3_bucket        = module.s3.aws_s3_bucket
+  s3_bucket_arn    = module.s3.aws_s3_bucket.arn
   account_id       = var.account_id
   sqs_queue        = module.sqs.aws_sqs_queue
   #  notifications_topic       = module.sns.sns_notifications_topic
@@ -155,7 +155,8 @@ module "lambda" {
   #  log_group        = module.logs.log_group
   lambda_role      = module.iam.lambda_role
   load_balancer_sg = module.vpc.sg_lb
-  bucket           = module.s3.aws_s3_bucket
+  bucket_name      = module.s3.aws_s3_bucket.id
+  bucket_arn       = module.s3.aws_s3_bucket.arn
   lambda_log_level = "DEBUG"
   queue            = module.sqs.aws_sqs_queue
   secret_name      = "xxx"

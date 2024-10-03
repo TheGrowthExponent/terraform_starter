@@ -70,7 +70,7 @@ resource "aws_lambda_function" "lambda_function" {
       LOG_LEVEL   = var.lambda_log_level
       SECRET_NAME = var.secret_name
       QUEUE_NAME  = var.queue.name
-      BUCKET_NAME = var.bucket.name
+      BUCKET_NAME = var.bucket_name
     }
   }
 
@@ -91,7 +91,7 @@ resource "aws_lambda_permission" "allow_s3" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda_function.function_name
   principal     = "s3.amazonaws.com"
-  source_arn    = var.bucket.arn
+  source_arn    = var.bucket_arn
 }
 
 # resource "aws_lambda_permission" "allow_event_rule_cron_12" {
