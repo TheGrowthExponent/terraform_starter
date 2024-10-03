@@ -47,11 +47,11 @@ module "batch_fargate" {
   aws_ecr_repository_version = "v0.0.1"
   ecs_instance_role          = module.iam.ec2_instance_profile
   ecs_task_execution_role    = module.iam.ecs_role
-  memory                     = 1024
+  memory                     = 512
   s3_bucket_name             = module.s3.aws_s3_bucket.bucket
   security_group_ids         = [module.vpc.sg_batch.id]
   subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                       = 512
+  vcpu                       = 256
   tags                       = { purpose = "Batch processing" }
 }
 
@@ -65,11 +65,11 @@ module "batch_ec2" {
   aws_ecr_repository_version = "v0.0.1"
   ecs_instance_role          = module.iam.ec2_instance_profile
   ecs_task_execution_role    = module.iam.ecs_role
-  memory                     = 1024
+  memory                     = 512
   s3_bucket_name             = module.s3.aws_s3_bucket.bucket
   security_group_ids         = [module.vpc.sg_batch.id]
   subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                       = 512
+  vcpu                       = 256
   tags                       = { purpose = "Batch processing" }
 }
 
