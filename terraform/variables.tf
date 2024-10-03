@@ -174,3 +174,15 @@ variable "create_postgres_module" {
   type        = string
   default     = "0"
 }
+
+variable "batch_memory" {
+  description = "The Memory of ECS Task"
+  type        = string
+  default     = "512"
+}
+
+variable "batch_vcpu" {
+  description = "The vCPU of ECS Task"
+  type        = string
+  default     = "4"
+}

@@ -45,11 +45,11 @@ module "batch_fargate" {
   aws_ecr_repository_version  = "v0.0.1"
   ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
   ecs_task_execution_role_arn = module.iam.ecs_role.arn
-  memory                      = 512
+  memory                      = var.batch_memory
   s3_bucket_name              = module.s3.aws_s3_bucket.bucket
   security_group_ids          = [module.vpc.sg_batch.id]
   subnet_ids                  = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                        = 0.25
+  vcpu                        = var.batch_vcpu
 }
 
 module "batch_ec2" {
@@ -61,11 +61,11 @@ module "batch_ec2" {
   aws_ecr_repository_version  = "v0.0.1"
   ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
   ecs_task_execution_role_arn = module.iam.ecs_role.arn
-  memory                      = 512
+  memory                      = var.batch_memory
   s3_bucket_name              = module.s3.aws_s3_bucket.bucket
   security_group_ids          = [module.vpc.sg_batch.id]
   subnet_ids                  = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                        = 0.25
+  vcpu                        = var.batch_vcpu
 }
 
 module "dynamodb" {
