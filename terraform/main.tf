@@ -100,7 +100,7 @@ module "ecs" {
   environment               = var.environment
   application_name          = var.application_name
   region                    = var.region
-  aws_key                   = module.ec2.aws_key.id
+  aws_key                   = module.ec2.aws_key.key_name
   log_group_name            = module.logs.log_group.id
   asg_max_size              = 2
   asg_min_size              = 1
@@ -154,7 +154,7 @@ module "lambda" {
   environment      = var.environment
   application_name = var.application_name
   #  region           = var.region
-  #  aws_key          = module.ec2.aws_key
+  #  aws_key          = module.ec2.aws_key.id
   #  log_group        = module.logs.log_group
   lambda_role_arn     = module.iam.lambda_role.arn
   load_balancer_sg_id = module.vpc.sg_lb.id
