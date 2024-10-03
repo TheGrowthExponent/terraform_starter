@@ -11,19 +11,18 @@ module "acm" {
 }
 
 module "apigw" {
-  count                              = var.create_api-gateway_module ? 1 : 0
-  source                             = "./modules/api-gateway"
-  api_gw_disable_resource_creation   = var.api_gw_disable_resource_creation
+  count  = var.create_api-gateway_module ? 1 : 0
+  source = "./modules/api-gateway"
+  # api_gw_disable_resource_creation   = var.api_gw_disable_resource_creation
   api_gw_endpoint_configuration_type = var.api_gw_endpoint_configuration_type
-  stage_name                         = var.environment
-  method                             = var.api_gw_method
+  # stage_name                         = var.environment
+  # method                             = var.api_gw_method
   #  lambda_arn                            = module.lambda.lambda_arn
-  region = var.region
   #  lambda_name                           = module.lambda.lambda_name
-  dependency_list = var.api_gw_dependency_list
-  account_id      = var.account_id
-  apigw_role      = module.iam.apigw_role
-  certificate     = module.acm.aws_acm_certificate
+  # dependency_list = var.api_gw_dependency_list
+  account_id = var.account_id
+  # apigw_role     = module.iam.apigw_role
+  certificate_arn = module.acm.aws_acm_certificate.arn
   host_name       = var.host_name
   hosted_zone_id  = var.hosted_zone_id
 }
@@ -33,53 +32,46 @@ module "auto_scaling" {
   source           = "./modules/auto-scaling"
   environment      = var.environment
   application_name = var.application_name
-  ecs_cluster      = module.ecs.ecs_cluster
-  ecs_service      = module.ecs.ecs_service
+  ecs_cluster_name = module.ecs.ecs_cluster.name
+  ecs_service_name = module.ecs.ecs_service.name
 }
 
 module "batch_fargate" {
-  source                     = "./modules/batch"
-  environment                = var.environment
-  batch_name                 = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
-  compute_environment        = "FARGATE"
-  batch_service_role         = module.iam.batch_role
-  aws_ecr_repository         = module.ecr.aws_ecr_repository
-  aws_ecr_repository_version = "v0.0.1"
-  ecs_instance_role          = module.iam.ec2_instance_profile
-  ecs_task_execution_role    = module.iam.ecs_role
-  memory                     = 512
-  s3_bucket_name             = module.s3.aws_s3_bucket.bucket
-  security_group_ids         = [module.vpc.sg_batch.id]
-  subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                       = 0.25
-  tags                       = { purpose = "Batch processing" }
+  source                      = "./modules/batch"
+  batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
+  compute_environment         = "FARGATE"
+  batch_service_role_arn      = module.iam.batch_role.arn
+  aws_ecr_repository_url      = module.ecr.aws_ecr_repository.repository_url
+  aws_ecr_repository_version  = "v0.0.1"
+  ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
+  ecs_task_execution_role_arn = module.iam.ecs_role.arn
+  memory                      = var.batch_memory
+  s3_bucket_name              = module.s3.aws_s3_bucket.bucket
+  security_group_ids          = [module.vpc.sg_batch.id]
+  subnet_ids                  = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  vcpu                        = var.batch_vcpu
 }
 
 module "batch_ec2" {
-  source                     = "./modules/batch"
-  environment                = var.environment
-  batch_name                 = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
-  compute_environment        = "EC2"
-  batch_service_role         = module.iam.batch_role
-  aws_ecr_repository         = module.ecr.aws_ecr_repository
-  aws_ecr_repository_version = "v0.0.1"
-  ecs_instance_role          = module.iam.ec2_instance_profile
-  ecs_task_execution_role    = module.iam.ecs_role
-  memory                     = 512
-  s3_bucket_name             = module.s3.aws_s3_bucket.bucket
-  security_group_ids         = [module.vpc.sg_batch.id]
-  subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                       = 0.25
-  tags                       = { purpose = "Batch processing" }
+  source                      = "./modules/batch"
+  batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
+  compute_environment         = "EC2"
+  batch_service_role_arn      = module.iam.batch_role.arn
+  aws_ecr_repository_url      = module.ecr.aws_ecr_repository.repository_url
+  aws_ecr_repository_version  = "v0.0.1"
+  ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
+  ecs_task_execution_role_arn = module.iam.ecs_role.arn
+  memory                      = var.batch_memory
+  s3_bucket_name              = module.s3.aws_s3_bucket.bucket
+  security_group_ids          = [module.vpc.sg_batch.id]
+  subnet_ids                  = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  vcpu                        = var.batch_vcpu
 }
 
 module "dynamodb" {
-  source           = "./modules/dynamodb"
-  environment      = var.environment
-  application_name = var.application_name
-  account_id       = var.account_id
-  region           = var.region
-  tags             = { purpose = "Application storage" }
+  source     = "./modules/dynamodb"
+  table_name = "app-${var.application_name}-${var.environment}-ExampleTable"
+  tags       = { purpose = "Application storage" }
 }
 
 module "ec2" {
@@ -89,48 +81,47 @@ module "ec2" {
   instance_name        = "app-${var.application_name}-${var.environment}"
   ami                  = data.aws_ami.ubuntu.id
   private_subnet_id    = module.vpc.private_subnet_a.id
-  ec2_instance_profile = module.iam.ec2_instance_profile
-  sg                   = module.vpc.sg_ec2
+  ec2_instance_profile = module.iam.ec2_instance_profile.id
+  sg_id                = module.vpc.sg_ec2.id
+  user_data            = local.user_data
 }
 
 module "ecr" {
-  source           = "./modules/ecr"
-  environment      = var.environment
-  application_name = var.application_name
-  ecs_role         = module.iam.ecs_role
+  source          = "./modules/ecr"
+  ecs_role_arn    = module.iam.ecs_role.arn
+  repository_name = "app-${var.application_name}-${var.environment}"
 }
 
 module "ecs" {
-  source                     = "./modules/ecs"
-  environment                = var.environment
-  application_name           = var.application_name
-  region                     = var.region
-  aws_key                    = module.ec2.aws_key
-  log_group                  = module.logs.log_group
-  asg_max_size               = 2
-  asg_min_size               = 1
-  maximum_scaling_step_size  = 1
-  minimum_scaling_step_size  = 1
-  target_capacity            = 1
-  ecs_role                   = module.iam.ecs_role
-  sg                         = module.vpc.sg_ecs
-  aws_availability_zones     = module.vpc.aws_availability_zones
-  aws_ami                    = data.aws_ami.ubuntu
-  private_subnets            = [module.vpc.private_subnet_a.id]
-  public_subnets             = [module.vpc.public_subnet_a.id]
-  ecs_target_group           = module.load-balancer.ecs_target_group
-  aws_ecr_repository         = module.ecr.aws_ecr_repository
-  aws_ecr_repository_version = "v0.0.1"
-  s3_bucket                  = module.s3.aws_s3_bucket
-  sns_notifications_topic    = module.sns.sns_notifications_topic
+  source                    = "./modules/ecs"
+  environment               = var.environment
+  application_name          = var.application_name
+  region                    = var.region
+  aws_key                   = module.ec2.aws_key.id
+  log_group_name            = module.logs.log_group.id
+  asg_max_size              = 2
+  asg_min_size              = 1
+  maximum_scaling_step_size = 1
+  minimum_scaling_step_size = 1
+  target_capacity           = 1
+  ecs_role_arn              = module.iam.ecs_role.arn
+  sg_id                     = module.vpc.sg_ecs.id
+  aws_ami                   = data.aws_ami.ubuntu.id
+  private_subnets           = [module.vpc.private_subnet_a.id]
+  # public_subnets             = [module.vpc.public_subnet_a.id]
+  ecs_target_group_arn              = module.load-balancer.ecs_target_group_arn
+  aws_ecr_repository_repository_url = module.ecr.aws_ecr_repository.repository_url
+  aws_ecr_repository_version        = "v0.0.1"
+  s3_bucket_name                    = module.s3.aws_s3_bucket.id
+  sns_notifications_topic_arn       = module.sns.sns_notifications_topic.arn
 }
 
 module "load-balancer" {
   source                 = "./modules/load-balancer"
   environment            = var.environment
   application_name       = var.application_name
-  certificate            = module.acm.aws_acm_certificate
-  load_balancer_sg       = module.vpc.sg_lb
+  certificate_arn        = module.acm.aws_acm_certificate.arn
+  load_balancer_sg_id    = module.vpc.sg_lb.id
   private_subnets        = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   vpc_id                 = module.vpc.vpc.id
   authorization_endpoint = var.authorization_endpoint
@@ -142,16 +133,15 @@ module "load-balancer" {
 }
 
 module "iam" {
-  source           = "./modules/iam"
-  environment      = var.environment
-  application_name = var.application_name
-  load_balancer    = module.load-balancer.alb
-  log_group        = module.logs.log_group
-  s3_bucket        = module.s3.aws_s3_bucket
-  account_id       = var.account_id
-  sqs_queue        = module.sqs.aws_sqs_queue
+  source            = "./modules/iam"
+  environment       = var.environment
+  application_name  = var.application_name
+  load_balancer_arn = module.load-balancer.alb.arn
+  log_group_arn     = module.logs.log_group.arn
+  s3_bucket_arn     = module.s3.aws_s3_bucket.arn
+  account_id        = var.account_id
+  sqs_queue_arn     = module.sqs.aws_sqs_queue.arn
   #  notifications_topic       = module.sns.sns_notifications_topic
-  #  error_notifications_topic = module.sns.sns_error_notifications_topic
 }
 
 module "lambda" {
@@ -163,13 +153,15 @@ module "lambda" {
   #  region           = var.region
   #  aws_key          = module.ec2.aws_key
   #  log_group        = module.logs.log_group
-  lambda_role      = module.iam.lambda_role
-  load_balancer_sg = module.vpc.sg_lb
-  bucket           = module.s3.aws_s3_bucket
-  lambda_log_level = "DEBUG"
-  queue            = module.sqs.aws_sqs_queue
-  secret_name      = "xxx"
-  subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  lambda_role_arn     = module.iam.lambda_role.arn
+  load_balancer_sg_id = module.vpc.sg_lb.id
+  bucket_name         = module.s3.aws_s3_bucket.id
+  bucket_arn          = module.s3.aws_s3_bucket.arn
+  lambda_log_level    = "DEBUG"
+  queue_name          = module.sqs.aws_sqs_queue.id
+  queue_arn           = module.sqs.aws_sqs_queue.arn
+  secret_name         = "xxx"
+  subnet_ids          = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
 }
 
 module "logs" {
@@ -182,44 +174,42 @@ module "logs" {
 module "postgres" {
   count                  = var.create_postgres_module ? 1 : 0
   source                 = "./modules/rds"
-  environment            = var.environment
-  application_name       = var.application_name
   db_admin_user          = "dbadmin"
   db_name                = "${var.application_name}${var.environment}" # DBName must begin with a letter and contain only alphanumeric characters.
   db_subnet_group_name   = "${var.application_name}-${var.environment}"
   subnet_ids             = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   vpc_security_group_ids = [module.vpc.sg_rds.id]
-  instance_class         = "db.t4g.medium"
-  tags                   = { purpose = "Application storage" }
+  instance_class         = "db.serverless"
 }
 
 module "route53" {
-  source           = "./modules/route53"
-  environment      = var.environment
-  application_name = var.application_name
-  load_balancer    = module.load-balancer.alb
-  hosted_zone_id   = var.hosted_zone_id
-  host_name        = var.host_name
+  source                 = "./modules/route53"
+  load_balancer_dns_name = module.load-balancer.alb.dns_name
+  hosted_zone_id         = var.hosted_zone_id
+  host_name              = var.host_name
 }
 
 module "s3" {
-  source = "./modules/s3"
-  tags   = { purpose = "Application storage" }
-  bucket = "${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
+  source      = "./modules/s3"
+  tags        = { purpose = "Application storage" }
+  bucket_name = "${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
 }
 
 module "sns" {
   source                  = "./modules/sns"
-  environment             = var.environment
-  application_name        = var.application_name
-  account_id              = var.account_id
+  topic_name              = "app-notification-topic-${var.application_name}-${var.environment}"
+  notification_recipients = var.notification_recipients
+}
+
+module "sns-error" {
+  source                  = "./modules/sns"
+  topic_name              = "app-error-notification-topic-${var.application_name}-${var.environment}"
   notification_recipients = var.notification_recipients
 }
 
 module "sqs" {
-  source           = "./modules/sqs"
-  environment      = var.environment
-  application_name = var.application_name
+  source     = "./modules/sqs"
+  queue_name = "app-${var.application_name}-${var.environment}-ExampleQueue"
 }
 
 module "vpc" {

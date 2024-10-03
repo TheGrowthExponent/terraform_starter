@@ -16,21 +16,58 @@ variable "environment" {
   }
 }
 
-variable "aws_availability_zones" {}
-variable "ecs_target_group" {}
-variable "public_subnets" {}
-variable "private_subnets" {}
-variable "sg" {}
-variable "ecs_role" {}
-variable "aws_key" {}
-variable "log_group" {}
-variable "aws_ami" {}
-variable "aws_ecr_repository" {}
-variable "aws_ecr_repository_version" {
-  default = "latest"
+variable "ecs_target_group_arn" {
+  description = "The ECS Target Group ARN"
+  type        = string
 }
 
-variable "vcpu" {
+# variable "public_subnets" {
+#   description = "The Public Subnet IDs"
+#   type        = list(string)
+# }
+
+variable "private_subnets" {
+  description = "The Private Subnet IDs"
+  type        = list(string)
+}
+
+variable "sg_id" {
+  description = "The Security Group"
+  type        = string
+}
+
+variable "ecs_role_arn" {
+  description = "The ECS Role ARN"
+  type        = string
+}
+
+variable "aws_key" {
+  description = "The AWS Key"
+  type        = string
+}
+
+variable "log_group_name" {
+  description = "The Log Group"
+  type        = string
+}
+
+variable "aws_ami" {
+  description = "The AMI"
+  type        = string
+}
+
+variable "aws_ecr_repository_repository_url" {
+  description = "The ECR Repository URL"
+  type        = string
+}
+
+variable "aws_ecr_repository_version" {
+  description = "The ECR Repository Version"
+  type        = string
+  default     = "latest"
+}
+
+variable "cpu" {
   description = "The CPU of ECS Task"
   type        = number
   default     = 256
@@ -42,10 +79,15 @@ variable "memory" {
   default     = 512
 }
 
-variable "sns_notifications_topic" {}
+variable "sns_notifications_topic_arn" {
+  description = "The SNS Notifications Topic"
+  type        = string
+}
 
 variable "region" {
-  default = "ap-southeast-2"
+  description = "The region"
+  type        = string
+  default     = "ap-southeast-2"
 }
 
 variable "asg_max_size" {
@@ -78,4 +120,7 @@ variable "target_capacity" {
   default     = 1
 }
 
-variable "s3_bucket" {}
+variable "s3_bucket_name" {
+  description = "The S3 Bucket"
+  type        = string
+}

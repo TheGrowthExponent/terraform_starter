@@ -3,26 +3,30 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "environment" {
-  description = "Environment to be used e.g dev/prod/uat"
+variable "aws_ecr_repository_url" {
+  description = "The name of the ECR repository"
   type        = string
 }
 
-variable "aws_ecr_repository" {}
 variable "aws_ecr_repository_version" {
-  default = "latest"
+  description = "The version of the ECR repository"
+  type        = string
+  default     = "latest"
 }
 
-variable "ecs_instance_role" {
-  description = "ECS Instance Role"
+variable "ecs_instance_role_arn" {
+  description = "ECS Instance Role ARN"
+  type        = string
 }
 
-variable "batch_service_role" {
+variable "batch_service_role_arn" {
   description = "Batch Service Role"
+  type        = string
 }
 
-variable "ecs_task_execution_role" {
+variable "ecs_task_execution_role_arn" {
   description = "ECS Task Execution Role"
+  type        = string
 }
 
 variable "vcpu" {
@@ -45,7 +49,6 @@ variable "s3_bucket_name" {
 variable "batch_name" {
   description = "The name of the batch job definition"
   type        = string
-  # "${var.project_name}-${var.environment}-${var.software_product_name}"
 }
 
 variable "compute_environment" {
@@ -57,8 +60,4 @@ variable "compute_environment" {
 variable "security_group_ids" {
   description = "The security group ids of the batch job definition"
   type        = list(string)
-}
-
-variable "tags" {
-  description = "Batch tags."
 }

@@ -17,4 +17,3 @@ output "aws_api_gateway_api_key" {
 #output "aws_api_gateway_authorizer" {
 #  value = aws_api_gateway_authorizer.apigw_authorizer
 #}
-

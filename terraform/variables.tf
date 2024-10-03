@@ -82,56 +82,107 @@ variable "host_name" {
 
 variable "notification_recipients" {
   description = "Email address list of notification recipients."
+  type        = list(string)
 }
 
-variable "aad_group_name" {}
-variable "tenant_id" {}
-variable "authorization_endpoint" {}
-variable "client_id" {}
-variable "client_secret" {}
-variable "issuer" {}
-variable "token_endpoint" {}
-variable "user_info_endpoint" {}
+# variable "aad_group_name" {
+#   description = "Azure AAD group name"
+#   type        = string
+# }
+
+# variable "tenant_id" {
+#   description = "Azure AAD tenant ID"
+#   type        = string
+# }
+
+variable "authorization_endpoint" {
+  description = "Azure AAD authorization endpoint"
+  type        = string
+}
+
+variable "client_id" {
+  description = "Azure AAD client ID"
+  type        = string
+}
+
+variable "client_secret" {
+  description = "Azure AAD client secret"
+  type        = string
+}
+
+variable "issuer" {
+  description = "Azure AAD issuer"
+  type        = string
+}
+
+variable "token_endpoint" {
+  description = "Azure AAD token endpoint"
+  type        = string
+}
+
+variable "user_info_endpoint" {
+  description = "Azure AAD user info endpoint"
+  type        = string
+}
 
 #API Gateway Setup
-variable "api_gw_method" {
-  description = "API Gateway method (GET,POST...)"
-  default     = "POST"
-}
+# variable "api_gw_method" {
+#   description = "API Gateway method (GET,POST...)"
+#   type        = string
+#   default     = "POST"
+# }
 
-variable "api_gw_dependency_list" {
-  description = "List of aws_api_gateway_integration* that require aws_api_gateway_deployment dependency"
-  type        = list(string)
-  default     = []
-}
+# variable "api_gw_dependency_list" {
+#   description = "List of aws_api_gateway_integration* that require aws_api_gateway_deployment dependency"
+#   type        = list(string)
+#   default     = []
+# }
 
-variable "api_gw_disable_resource_creation" {
-  description = "Specify whether to create or not the default /api/messages path or stop at /api"
-  default     = "false"
-}
+# variable "api_gw_disable_resource_creation" {
+#   description = "Specify whether to create or not the default /api/messages path or stop at /api"
+#   type        = string
+#   default     = "false"
+# }
 
 variable "api_gw_endpoint_configuration_type" {
   description = "Specify the type of endpoint for API GW to be setup as. [EDGE, REGIONAL, PRIVATE]. Defaults to EDGE"
+  type        = string
   default     = "EDGE"
 }
 
 variable "create_api-gateway_module" {
   description = "Specify whether to create the api-gateway module or not"
+  type        = string
   default     = "0"
 }
 
 ## Enable/Disable Modules ##
 variable "create_auto_scaling_module" {
   description = "Specify whether to create the auto_scaling module or not"
+  type        = string
   default     = "0"
 }
 
 variable "create_lambda_module" {
   description = "Specify whether to create the lambda module or not"
+  type        = string
   default     = "0"
 }
 
 variable "create_postgres_module" {
   description = "Specify whether to create the postgres module or not"
+  type        = string
   default     = "0"
+}
+
+variable "batch_memory" {
+  description = "The Memory of ECS Task"
+  type        = string
+  default     = "512"
+}
+
+variable "batch_vcpu" {
+  description = "The vCPU of ECS Task"
+  type        = string
+  default     = "4"
 }

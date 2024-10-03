@@ -1,19 +1,10 @@
 ################ Variables ################
-variable "application_name" {
-  description = "Name of the application."
+variable "repository_name" {
+  description = "The name of the ECR repository."
   type        = string
-  default     = "example"
 }
 
-variable "environment" {
-  description = "Name of the environment."
+variable "ecs_role_arn" {
+  description = "The ECS role ARN"
   type        = string
-  default     = "dev"
-
-  validation {
-    condition     = length(var.environment) <= 8 && length(regexall("[^a-zA-Z0-9-]", var.environment)) == 0
-    error_message = "The environment tag must be no more than 8 characters, and only contain letters, numbers, and hyphens."
-  }
 }
-
-variable "ecs_role" {}

@@ -2,11 +2,11 @@ resource "aws_ecs_cluster" "cluster" {
   name = "app-cluster-${var.application_name}-${var.environment}"
   configuration {
     execute_command_configuration {
-      kms_key_id = var.aws_key.id
+      kms_key_id = var.aws_key
       logging    = "OVERRIDE"
       log_configuration {
         cloud_watch_encryption_enabled = false // true
-        cloud_watch_log_group_name     = var.log_group.id
+        cloud_watch_log_group_name     = var.log_group_name
       }
     }
   }
@@ -41,10 +41,10 @@ resource "aws_ecs_capacity_provider" "capacity_provider" {
 
 resource "aws_launch_configuration" "t3_micro" {
   name            = "app-t3_micro-${var.application_name}-${var.environment}"
-  image_id        = var.aws_ami.id
+  image_id        = var.aws_ami
   instance_type   = "t3.micro"
-  key_name        = var.aws_key.id
-  security_groups = [var.sg.id]
+  key_name        = var.aws_key
+  security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
     create_before_destroy = true
@@ -53,10 +53,10 @@ resource "aws_launch_configuration" "t3_micro" {
 
 resource "aws_launch_configuration" "t3_small" {
   name            = "app-t3_small-${var.application_name}-${var.environment}"
-  image_id        = var.aws_ami.id
+  image_id        = var.aws_ami
   instance_type   = "t3.small"
-  key_name        = var.aws_key.id
-  security_groups = [var.sg.id]
+  key_name        = var.aws_key
+  security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
     create_before_destroy = true
@@ -65,10 +65,10 @@ resource "aws_launch_configuration" "t3_small" {
 
 resource "aws_launch_configuration" "t3_medium" {
   name            = "app-t3_medium-${var.application_name}-${var.environment}"
-  image_id        = var.aws_ami.id
+  image_id        = var.aws_ami
   instance_type   = "t3.medium"
-  key_name        = var.aws_key.id
-  security_groups = [var.sg.id]
+  key_name        = var.aws_key
+  security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
     create_before_destroy = true
@@ -140,7 +140,7 @@ resource "aws_autoscaling_notification" "example_notifications" {
     "autoscaling:EC2_INSTANCE_TERMINATE_ERROR",
   ]
 
-  topic_arn = var.sns_notifications_topic.arn
+  topic_arn = var.sns_notifications_topic_arn
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
@@ -160,15 +160,15 @@ resource "aws_ecs_task_definition" "task_definition" {
     "environment": [
       {
         "name": "S3BUCKET",
-        "value": "${var.s3_bucket.id}"
+        "value": "${var.s3_bucket_name}"
       }
     ],
-    "image": "${var.aws_ecr_repository.repository_url}:${var.aws_ecr_repository_version}",
+    "image": "${var.aws_ecr_repository_repository_url}:${var.aws_ecr_repository_version}",
     "essential": true,
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "${var.log_group.id}",
+          "awslogs-group": "${var.log_group_name}",
           "awslogs-region": "${var.region}",
           "awslogs-stream-prefix": "${var.application_name}-${var.environment}"
         }
@@ -182,9 +182,9 @@ TASK_DEFINITION
     "FARGATE"
   ]
   memory             = tostring(var.memory)
-  cpu                = tostring(var.vcpu)
-  execution_role_arn = var.ecs_role.arn
-  task_role_arn      = var.ecs_role.arn
+  cpu                = tostring(var.cpu)
+  execution_role_arn = var.ecs_role_arn
+  task_role_arn      = var.ecs_role_arn
 }
 
 resource "aws_ecs_service" "service" {
@@ -197,12 +197,12 @@ resource "aws_ecs_service" "service" {
   network_configuration {
     subnets = var.private_subnets
     security_groups = [
-      var.sg.id
+      var.sg_id
     ]
     assign_public_ip = true
   }
   load_balancer {
-    target_group_arn = var.ecs_target_group.arn
+    target_group_arn = var.ecs_target_group_arn
     container_name   = var.application_name
     container_port   = 80
   }

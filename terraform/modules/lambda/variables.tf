@@ -17,13 +17,52 @@ variable "environment" {
 }
 
 variable "src_path" {
-  description = "Absolute path to the lambda function code."
+  description = "Path to the lambda function code."
+  type        = string
 }
 
-variable "lambda_role" {}
-variable "subnet_ids" {}
-variable "load_balancer_sg" {}
-variable "lambda_log_level" {}
-variable "secret_name" {}
-variable "queue" {}
-variable "bucket" {}
+variable "lambda_role_arn" {
+  description = "The the IAM role that the Lambda function assumes when it executes your function to access any other AWS services."
+  type        = string
+}
+
+variable "subnet_ids" {
+  description = "The Subnet IDs"
+  type        = list(string)
+}
+
+variable "load_balancer_sg_id" {
+  description = "The Security Group for the Load Balancer"
+  type        = string
+}
+
+variable "lambda_log_level" {
+  description = "The log level for the Lambda function"
+  type        = string
+  default     = "INFO"
+}
+
+variable "secret_name" {
+  description = "The name of the secret in Secrets Manager"
+  type        = string
+}
+
+variable "queue_arn" {
+  description = "The queue ARN"
+  type        = string
+}
+
+variable "queue_name" {
+  description = "The queue name"
+  type        = string
+}
+
+variable "bucket_name" {
+  description = "The S3 bucket name"
+  type        = string
+}
+
+variable "bucket_arn" {
+  description = "The S3 bucket ARN"
+  type        = string
+}

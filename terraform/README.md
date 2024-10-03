@@ -21,7 +21,7 @@ as it contains sensitive information. It should only be used for local developme
 ### Initialize Terraform env
 
 ```bash
-terraform init -upgrade 
+terraform init -upgrade
 ```
 
 ### Format and Validate Templates

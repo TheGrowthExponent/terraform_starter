@@ -13,3 +13,4 @@ terraform/.terraform_plan_dev
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/.terraform.tfstate.lock.info
+/.venv/

@@ -18,6 +18,7 @@ variable "environment" {
 
 variable "instance_name" {
   description = "Name of the instance."
+  type        = string
   default     = "example instance"
 }
 
@@ -37,11 +38,24 @@ variable "private_subnet_id" {
   type        = string
 }
 
-variable "ec2_instance_profile" {}
-variable "sg" {}
+variable "ec2_instance_profile" {
+  description = "The instance profile to use for the instance."
+  type        = string
+}
+
+variable "sg_id" {
+  description = "The security group to use for the instance."
+  type        = string
+}
 
 variable "volume_size" {
   description = "The size of the volume in GB."
   type        = number
   default     = 8
+}
+
+variable "user_data" {
+  description = "The user data to use for the instance."
+  type        = string
+  default     = ""
 }

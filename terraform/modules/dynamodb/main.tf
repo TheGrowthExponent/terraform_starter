@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "ddb" {
-  name         = "app-${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
+  name         = var.table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "PK"
   range_key    = "SK"

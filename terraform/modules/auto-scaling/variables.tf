@@ -16,6 +16,12 @@ variable "environment" {
   }
 }
 
-variable "ecs_cluster" {}
+variable "ecs_cluster_name" {
+  description = "The ECS cluster"
+  type        = string
+}
 
-variable "ecs_service" {}
+variable "ecs_service_name" {
+  description = "The ECS service name"
+  type        = string
+}

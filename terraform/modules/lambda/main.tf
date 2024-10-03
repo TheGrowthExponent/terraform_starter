@@ -28,23 +28,21 @@ resource "random_uuid" "lambda_src_hash" {
   }
 }
 
-resource "null_resource" "lambda_dependencies" {
+resource "terraform_data" "lambda_dependencies" {
+  triggers_replace = [
+    # filemd5("${local.lambda_src_path}/requirements.txt")
+    random_uuid.lambda_src_hash.result
+  ]
+
   provisioner "local-exec" {
     command = "pip install -r ${local.lambda_src_path}/requirements.txt -t ${local.lambda_src_path} --upgrade"
-  }
-
-  # Only re-run this if the dependencies or their versions
-  # have changed since the last deployment with Terraform
-  triggers = {
-    dependencies_versions = filemd5("${local.lambda_src_path}/requirements.txt")
-    #      source_code_hash      = random_uuid.lambda_src_hash.result # This is a suitable option too
   }
 }
 
 resource "aws_lambda_function" "lambda_function" {
   filename      = data.archive_file.lambda_source_package.output_path
   function_name = "${var.application_name}_${var.environment}_lambda"
-  role          = var.lambda_role.arn
+  role          = var.lambda_role_arn
   handler       = "add_to_queue.lambda_handler"
   memory_size   = "512"
   timeout       = "30"
@@ -64,15 +62,15 @@ resource "aws_lambda_function" "lambda_function" {
   }
   vpc_config {
     subnet_ids         = var.subnet_ids
-    security_group_ids = [var.load_balancer_sg.id]
+    security_group_ids = [var.load_balancer_sg_id]
   }
   environment {
     variables = {
       ENV         = var.environment
       LOG_LEVEL   = var.lambda_log_level
       SECRET_NAME = var.secret_name
-      QUEUE_NAME  = var.queue.name
-      BUCKET_NAME = var.bucket.name
+      QUEUE_NAME  = var.queue_name
+      BUCKET_NAME = var.bucket_name
     }
   }
 
@@ -84,7 +82,7 @@ resource "aws_lambda_function" "lambda_function" {
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_queue_event" {
-  event_source_arn = var.queue.arn
+  event_source_arn = var.queue_arn
   function_name    = aws_lambda_function.lambda_function.arn
 }
 
@@ -93,7 +91,7 @@ resource "aws_lambda_permission" "allow_s3" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda_function.function_name
   principal     = "s3.amazonaws.com"
-  source_arn    = var.bucket.arn
+  source_arn    = var.bucket_arn
 }
 
 # resource "aws_lambda_permission" "allow_event_rule_cron_12" {

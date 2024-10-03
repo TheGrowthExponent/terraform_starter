@@ -1,9 +1,7 @@
 resource "aws_db_subnet_group" "default" {
   name       = var.db_subnet_group_name
   subnet_ids = var.subnet_ids
-  tags       = var.tags
 }
-
 
 # resource "aws_db_instance" "db_server" {
 #   db_name                      = var.db_name
@@ -22,10 +20,7 @@ resource "aws_db_subnet_group" "default" {
 #   skip_final_snapshot          = true
 #   final_snapshot_identifier    = "${var.application_name}-${var.environment}"
 #   performance_insights_enabled = true
-#   tags                         = var.tags
 # }
-
-
 
 resource "aws_rds_cluster" "db_cluster" {
   cluster_identifier           = var.db_name
@@ -43,7 +38,6 @@ resource "aws_rds_cluster" "db_cluster" {
   performance_insights_enabled = true
   backup_retention_period      = 5
   availability_zones           = ["ap-southeast-2a", "ap-southeast-2b"]
-  tags                         = var.tags
   serverlessv2_scaling_configuration {
     max_capacity = 1.0
     min_capacity = 0.5

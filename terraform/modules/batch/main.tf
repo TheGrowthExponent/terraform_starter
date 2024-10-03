@@ -3,17 +3,17 @@ resource "aws_batch_job_definition" "batch_job_definition" {
   type                  = "container"
   platform_capabilities = [var.compute_environment]
   container_properties = jsonencode({
-    image      = "${var.aws_ecr_repository.repository_url}:${var.aws_ecr_repository_version}"
-    jobRoleArn = var.ecs_task_execution_role.arn
+    image      = "${var.aws_ecr_repository_url}:${var.aws_ecr_repository_version}"
+    jobRoleArn = var.ecs_task_execution_role_arn
 
     resourceRequirements = [
       {
         type  = "VCPU"
-        value = var.vcpu
+        value = tostring(var.vcpu)
       },
       {
         type  = "MEMORY"
-        value = var.memory
+        value = tostring(var.memory)
       }
     ]
     environment = [
@@ -22,8 +22,7 @@ resource "aws_batch_job_definition" "batch_job_definition" {
         value = var.s3_bucket_name
       }
     ]
-    executionRoleArn = var.ecs_task_execution_role.arn
-    tags             = var.tags
+    executionRoleArn = var.ecs_task_execution_role_arn
   })
 }
 
@@ -32,15 +31,20 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
   compute_environment_name = var.batch_name
   type                     = "MANAGED"
   compute_resources {
-    max_vcpus          = 0.5
-    security_group_ids = var.security_group_ids
-    subnets            = var.subnet_ids
-    type               = var.compute_environment
-    instance_role      = var.ecs_instance_role.arn
-    instance_type      = ["optimal"]
+    allocation_strategy = "BEST_FIT_PROGRESSIVE"
+    max_vcpus           = 4
+    min_vcpus           = 0
+    security_group_ids  = var.security_group_ids
+    subnets             = var.subnet_ids
+    type                = var.compute_environment
+    instance_role       = var.ecs_instance_role_arn
+    instance_type       = ["optimal"]
   }
-  service_role = var.batch_service_role.arn
-  tags         = var.tags
+  update_policy {
+    job_execution_timeout_minutes = 30
+    terminate_jobs_on_update      = false
+  }
+  service_role = var.batch_service_role_arn
 }
 
 resource "aws_batch_compute_environment" "compute_environment_fargate" {
@@ -48,13 +52,18 @@ resource "aws_batch_compute_environment" "compute_environment_fargate" {
   compute_environment_name = var.batch_name
   type                     = "MANAGED"
   compute_resources {
-    max_vcpus          = 0.5
-    security_group_ids = var.security_group_ids
-    subnets            = var.subnet_ids
-    type               = var.compute_environment
+    allocation_strategy = "BEST_FIT_PROGRESSIVE"
+    max_vcpus           = 4
+    min_vcpus           = 0
+    security_group_ids  = var.security_group_ids
+    subnets             = var.subnet_ids
+    type                = var.compute_environment
   }
-  service_role = var.batch_service_role.arn
-  tags         = var.tags
+  update_policy {
+    job_execution_timeout_minutes = 30
+    terminate_jobs_on_update      = false
+  }
+  service_role = var.batch_service_role_arn
 }
 
 resource "aws_batch_job_queue" "job_queue_ec2" {
@@ -66,7 +75,6 @@ resource "aws_batch_job_queue" "job_queue_ec2" {
     compute_environment = aws_batch_compute_environment.compute_environment_ec2[0].arn
     order               = 1
   }
-  tags = var.tags
 }
 
 resource "aws_batch_job_queue" "job_queue_fargate" {
@@ -78,5 +86,4 @@ resource "aws_batch_job_queue" "job_queue_fargate" {
     compute_environment = aws_batch_compute_environment.compute_environment_fargate[0].arn
     order               = 1
   }
-  tags = var.tags
 }

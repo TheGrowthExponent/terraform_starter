@@ -18,7 +18,7 @@ resource "aws_eip" "nat_eip" {
 /* NAT */
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat_eip.id
-  subnet_id     = element(aws_subnet.public_a.*.id, 0)
+  subnet_id     = aws_subnet.public_a.id
   depends_on    = [aws_internet_gateway.internal_gateway]
   tags = {
     Name = "nat"

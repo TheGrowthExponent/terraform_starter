@@ -15,3 +15,12 @@ the state of your deployed infrastructure.
 
 <span style="color: red">DO NOT</span> commit your _terraform-dev.tfvars_ file to GitHub
 as it contains sensitive information. It should only be used for local development.
+
+## Linting
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files
+```

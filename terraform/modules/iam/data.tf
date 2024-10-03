@@ -103,7 +103,7 @@ data "aws_iam_policy_document" "ecs_service_alb" {
       "elasticloadbalancing:RegisterTargets"
     ]
     resources = [
-      var.load_balancer.arn
+      var.load_balancer_arn
     ]
   }
 }
@@ -213,8 +213,8 @@ data "aws_iam_policy_document" "allow_s3" {
       "s3:*"
     ]
     resources = [
-      var.s3_bucket.arn,
-      "${var.s3_bucket.arn}/*"
+      var.s3_bucket_arn,
+      "${var.s3_bucket_arn}/*"
     ]
   }
 }
@@ -255,8 +255,8 @@ data "aws_iam_policy_document" "allow_logging" {
       "logs:GetLogEvents",
     ]
     resources = [
-      "${var.log_group.arn}:*:*",
-      "${var.log_group.arn}:log-stream:*",
+      "${var.log_group_arn}:*:*",
+      "${var.log_group_arn}:log-stream:*",
     ]
   }
 }
@@ -307,7 +307,7 @@ data "aws_iam_policy_document" "allow_sqs" {
       "sqs:SetQueueAttributes"
     ]
     resources = [
-      var.sqs_queue.arn
+      var.sqs_queue_arn
     ]
   }
   statement {
