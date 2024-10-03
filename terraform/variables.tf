@@ -181,8 +181,14 @@ variable "batch_memory" {
   default     = "512"
 }
 
-variable "batch_vcpu" {
+variable "batch_fargate_vcpu" {
   description = "The vCPU of ECS Task"
   type        = string
-  default     = "4"
+  default     = "0.25"
+}
+
+variable "batch_ec2_vcpu" {
+  description = "The vCPU of ECS Task"
+  type        = string
+  default     = "1"
 }
