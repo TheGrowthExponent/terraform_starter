@@ -37,6 +37,7 @@ module "auto_scaling" {
 }
 
 module "batch_fargate" {
+  count                       = var.create_batch_module ? 1 : 0
   source                      = "./modules/batch"
   batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
   compute_environment         = "FARGATE"
@@ -53,6 +54,7 @@ module "batch_fargate" {
 }
 
 module "batch_ec2" {
+  count                       = var.create_batch_module ? 1 : 0
   source                      = "./modules/batch"
   batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
   compute_environment         = "EC2"
@@ -75,6 +77,7 @@ module "dynamodb" {
 }
 
 module "ec2" {
+  count                = var.create_ec2_module ? 1 : 0
   source               = "./modules/ec2"
   environment          = var.environment
   application_name     = var.application_name

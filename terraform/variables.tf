@@ -175,6 +175,18 @@ variable "create_postgres_module" {
   default     = "0"
 }
 
+variable "create_batch_module" {
+  description = "Specify whether to create the batch module or not"
+  type        = string
+  default     = "0"
+}
+
+variable "create_ec2_module" {
+  description = "Specify whether to create the ec2 module or not"
+  type        = string
+  default     = "0"
+}
+
 variable "batch_memory" {
   description = "The Memory of ECS Task"
   type        = string
