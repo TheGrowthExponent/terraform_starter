@@ -85,6 +85,7 @@ module "ec2" {
   private_subnet_id    = module.vpc.private_subnet_a.id
   ec2_instance_profile = module.iam.ec2_instance_profile
   sg                   = module.vpc.sg_ec2
+  user_data            = local.user_data
 }
 
 module "ecr" {
@@ -143,7 +144,6 @@ module "iam" {
   account_id       = var.account_id
   sqs_queue        = module.sqs.aws_sqs_queue
   #  notifications_topic       = module.sns.sns_notifications_topic
-  #  error_notifications_topic = module.sns.sns_error_notifications_topic
 }
 
 module "lambda" {
@@ -174,8 +174,6 @@ module "logs" {
 module "postgres" {
   count                  = var.create_postgres_module ? 1 : 0
   source                 = "./modules/rds"
-  environment            = var.environment
-  application_name       = var.application_name
   db_admin_user          = "dbadmin"
   db_name                = "${var.application_name}${var.environment}" # DBName must begin with a letter and contain only alphanumeric characters.
   db_subnet_group_name   = "${var.application_name}-${var.environment}"
@@ -186,12 +184,10 @@ module "postgres" {
 }
 
 module "route53" {
-  source           = "./modules/route53"
-  environment      = var.environment
-  application_name = var.application_name
-  load_balancer    = module.load-balancer.alb
-  hosted_zone_id   = var.hosted_zone_id
-  host_name        = var.host_name
+  source         = "./modules/route53"
+  load_balancer  = module.load-balancer.alb
+  hosted_zone_id = var.hosted_zone_id
+  host_name      = var.host_name
 }
 
 module "s3" {

@@ -44,11 +44,17 @@ variable "ec2_instance_profile" {
 
 variable "sg" {
   description = "The security group to use for the instance."
-  type        = string
+  type        = map(string)
 }
 
 variable "volume_size" {
   description = "The size of the volume in GB."
   type        = number
   default     = 8
+}
+
+variable "user_data" {
+  description = "The user data to use for the instance."
+  type        = string
+  default     = ""
 }

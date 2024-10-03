@@ -16,12 +16,6 @@ variable "environment" {
   }
 }
 
-variable "region" {
-  description = "Region to deploy resources."
-  type        = string
-  default     = "ap-southeast-2"
-}
-
 ## Enable/Disable ##
 variable "create_aws_cloudwatch_dashboard" {
   description = "Specify whether to create the dashboard or not"

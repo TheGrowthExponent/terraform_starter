@@ -17,8 +17,8 @@ variable "environment" {
 }
 
 variable "load_balancer_sg" {
-  description = "The Security Group ID for the Load Balancer"
-  type        = string
+  description = "The Security Group for the Load Balancer"
+  type        = map(string)
 }
 
 variable "vpc_id" {

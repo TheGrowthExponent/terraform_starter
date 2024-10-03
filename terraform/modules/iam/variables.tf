@@ -39,7 +39,7 @@ variable "s3_bucket" {
 
 variable "log_group" {
   description = "ARN of the log group"
-  type        = string
+  type        = map(string)
 }
 
 # variable "dynamodb" {

@@ -29,11 +29,7 @@ resource "aws_instance" "example_server" {
     throughput            = 125
     delete_on_termination = false
   }
-  user_data = <<EOF
-#!/bin/bash
-echo "Copying the SSH Key to the server"
-echo -e "${var.public_key}" >> /home/ubuntu/.ssh/authorized_keys
-EOF
+  user_data = var.user_data
   tags = {
     Name = var.instance_name
   }

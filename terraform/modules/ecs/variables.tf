@@ -18,7 +18,7 @@ variable "environment" {
 
 variable "ecs_target_group" {
   description = "The ECS Target Group"
-  type        = string
+  type        = map(string)
 }
 
 variable "public_subnets" {

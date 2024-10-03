@@ -75,11 +75,6 @@ output "sns_notifications_topic" {
   value       = module.sns.sns_notifications_topic.arn
 }
 
-output "sns_error_notifications_topic" {
-  description = "sns_error_notifications_topic"
-  value       = module.sns.sns_error_notifications_topic.arn
-}
-
 ################ SQS ################
 output "aws_sqs_queue" {
   description = "aws_sqs_queue"

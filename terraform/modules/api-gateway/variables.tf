@@ -27,10 +27,10 @@ variable "account_id" {
   }
 }
 
-variable "api_gw_disable_resource_creation" {
-  description = "Specify whether to create or not the default /api/messages path or stop at /api"
-  type        = bool
-}
+# variable "api_gw_disable_resource_creation" {
+#   description = "Specify whether to create or not the default /api/messages path or stop at /api"
+#   type        = bool
+# }
 
 variable "api_gw_endpoint_configuration_type" {
   description = "Specify the type of endpoint for API GW to be setup as. [EDGE, REGIONAL, PRIVATE]. Defaults to EDGE"
@@ -43,16 +43,16 @@ variable "stage_name" {
   default     = "dev"
 }
 
-variable "method" {
-  description = "The HTTP method"
-  type        = string
-  default     = "POST"
-}
+# variable "method" {
+#   description = "The HTTP method"
+#   type        = string
+#   default     = "POST"
+# }
 
-variable "dependency_list" {
-  description = "Deployment dependency list"
-  type        = list(string)
-}
+# variable "dependency_list" {
+#   description = "Deployment dependency list"
+#   type        = list(string)
+# }
 
 variable "hosted_zone_id" {
   description = "The Route53 Hosted Zone ID"
