@@ -169,7 +169,7 @@ module "lambda" {
   lambda_log_level = "DEBUG"
   queue            = module.sqs.aws_sqs_queue
   secret_name      = "xxx"
-  subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  # subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
 }
 
 module "logs" {
@@ -189,7 +189,7 @@ module "postgres" {
   db_subnet_group_name   = "${var.application_name}-${var.environment}"
   subnet_ids             = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   vpc_security_group_ids = [module.vpc.sg_rds.id]
-  instance_class         = "db.t4g.medium"
+  instance_class         = "db.serverless"
   tags                   = { purpose = "Application storage" }
 }
 
@@ -217,9 +217,8 @@ module "sns" {
 }
 
 module "sqs" {
-  source           = "./modules/sqs"
-  environment      = var.environment
-  application_name = var.application_name
+  source     = "./modules/sqs"
+  queue_name = "app-${var.application_name}-${var.environment}-ExampleQueue"
 }
 
 module "vpc" {

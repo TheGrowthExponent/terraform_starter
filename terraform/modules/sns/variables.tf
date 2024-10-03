@@ -23,4 +23,5 @@ variable "account_id" {
 
 variable "notification_recipients" {
   description = "Email address list of notification recipients."
+  type        = list(string)
 }

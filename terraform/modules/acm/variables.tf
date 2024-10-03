@@ -16,6 +16,17 @@ variable "environment" {
   }
 }
 
-variable "hosted_zone_id" {}
-variable "host_name" {}
-variable "aws_route53_record" {}
+variable "hosted_zone_id" {
+  description = "The Route53 Hosted Zone ID"
+  type        = string
+}
+
+variable "host_name" {
+  description = "The Route53 Host Name"
+  type        = string
+}
+
+variable "aws_route53_record" {
+  description = "The Route53 Record"
+  type        = string
+}

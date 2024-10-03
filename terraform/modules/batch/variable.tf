@@ -45,7 +45,6 @@ variable "s3_bucket_name" {
 variable "batch_name" {
   description = "The name of the batch job definition"
   type        = string
-  # "${var.project_name}-${var.environment}-${var.software_product_name}"
 }
 
 variable "compute_environment" {
@@ -61,4 +60,5 @@ variable "security_group_ids" {
 
 variable "tags" {
   description = "Batch tags."
+  type        = map(string)
 }

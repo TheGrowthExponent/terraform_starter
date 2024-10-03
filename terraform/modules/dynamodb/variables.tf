@@ -35,4 +35,5 @@ variable "account_id" {
 
 variable "tags" {
   description = "DDB tags."
+  type        = map(string)
 }

@@ -17,6 +17,17 @@ variable "environment" {
 }
 
 ### Add if importing existing VPC ###
-#variable "vpc_id" {}
-#variable "public_subnets" {}
-#variable "private_subnets" {}
+# variable "vpc_id" {
+#   description = "The VPC Id"
+#   type        = string
+# }
+#
+# variable "public_subnets" {
+#   description = "The Public Subnet IDs"
+#   type        = list(string)
+# }
+#
+# variable "private_subnets" {
+#   description = "The Private Subnet IDs"
+#   type        = list(string)
+# }

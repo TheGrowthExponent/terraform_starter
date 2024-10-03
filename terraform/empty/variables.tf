@@ -18,9 +18,9 @@ variable "environment" {
 
 variable "tags" {
   description = "Shared tags."
+  type        = map(string)
   default = {
-    project          = var.project_name
+    application_name = var.application_name
     environment      = var.environment
-    software_product = var.software_product_name
   }
 }

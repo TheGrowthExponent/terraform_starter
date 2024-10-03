@@ -27,8 +27,27 @@ variable "account_id" {
   }
 }
 
-variable "load_balancer" {}
-variable "s3_bucket" {}
-variable "log_group" {}
-#variable "dynamodb" {}
-variable "sqs_queue" {}
+variable "load_balancer" {
+  description = "ARN of the load balancer"
+  type        = string
+}
+
+variable "s3_bucket" {
+  description = "ARN of the S3 bucket"
+  type        = string
+}
+
+variable "log_group" {
+  description = "ARN of the log group"
+  type        = string
+}
+
+# variable "dynamodb" {
+#   description = "ARN of the dynamodb table"
+#   type        = string
+# }
+
+variable "sqs_queue" {
+  description = "ARN of the SQS queue"
+  type        = string
+}

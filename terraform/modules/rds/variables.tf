@@ -17,14 +17,14 @@ variable "environment" {
 }
 
 variable "db_name" {
-  type        = string
   description = "Name of RDS DB instance"
+  type        = string
 }
 
 variable "instance_class" {
   description = "The instance type to use. `db.serverless` is only available for Aurora."
   type        = string
-  default     = "db.t4g.medium"
+  default     = "db.serverless"
 }
 
 variable "engine" {
@@ -52,8 +52,8 @@ variable "tags" {
 }
 
 variable "db_admin_user" {
-  type        = string
   description = "Backend database admin username. This variable should be retrieved from an [environment variable](https://www.terraform.io/cli/config/environment-variables#tf_var_name) or a secure secret store like [AWS Secrets Manager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret). DO NOT HARDCODE."
+  type        = string
   sensitive   = true
 }
 
@@ -64,8 +64,10 @@ variable "db_subnet_group_name" {
 
 variable "subnet_ids" {
   description = "Subnets to allow access to RDS"
+  type        = list(string)
 }
 
 variable "vpc_security_group_ids" {
   description = "List of VPC security groups to associate to RDS"
+  type        = list(string)
 }

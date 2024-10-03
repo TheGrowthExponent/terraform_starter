@@ -16,4 +16,7 @@ variable "environment" {
   }
 }
 
-variable "ecs_role" {}
+variable "ecs_role" {
+  description = "The ECS role ARN"
+  type        = string
+}

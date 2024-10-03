@@ -16,13 +16,52 @@ variable "environment" {
   }
 }
 
-variable "load_balancer_sg" {}
-variable "vpc_id" {}
-variable "private_subnets" {}
-variable "certificate" {}
-variable "authorization_endpoint" {}
-variable "client_id" {}
-variable "client_secret" {}
-variable "issuer" {}
-variable "token_endpoint" {}
-variable "user_info_endpoint" {}
+variable "load_balancer_sg" {
+  description = "The Security Group ID for the Load Balancer"
+  type        = string
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "The VPC Id"
+}
+
+variable "private_subnets" {
+  description = "The Private Subnet IDs"
+  type        = list(string)
+}
+
+variable "certificate" {
+  description = "The ARN of the certificate"
+  type        = string
+}
+
+variable "authorization_endpoint" {
+  description = "Azure AAD authorization endpoint"
+  type        = string
+}
+
+variable "client_id" {
+  description = "Azure AAD client id"
+  type        = string
+}
+
+variable "client_secret" {
+  description = "Azure AAD client secret"
+  type        = string
+}
+
+variable "issuer" {
+  description = "Azure AAD issuer"
+  type        = string
+}
+
+variable "token_endpoint" {
+  description = "Azure AAD token endpoint"
+  type        = string
+}
+
+variable "user_info_endpoint" {
+  description = "Azure AAD user info endpoint"
+  type        = string
+}

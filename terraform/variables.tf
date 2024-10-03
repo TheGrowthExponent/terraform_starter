@@ -86,42 +86,42 @@ variable "notification_recipients" {
 }
 
 variable "aad_group_name" {
-  description = "Azure AD group name"
+  description = "Azure AAD group name"
   type        = string
 }
 
 variable "tenant_id" {
-  description = "Azure AD tenant ID"
+  description = "Azure AAD tenant ID"
   type        = string
 }
 
 variable "authorization_endpoint" {
-  description = "Azure AD authorization endpoint"
+  description = "Azure AAD authorization endpoint"
   type        = string
 }
 
 variable "client_id" {
-  description = "Azure AD client ID"
+  description = "Azure AAD client ID"
   type        = string
 }
 
 variable "client_secret" {
-  description = "Azure AD client secret"
+  description = "Azure AAD client secret"
   type        = string
 }
 
 variable "issuer" {
-  description = "Azure AD issuer"
+  description = "Azure AAD issuer"
   type        = string
 }
 
 variable "token_endpoint" {
-  description = "Azure AD token endpoint"
+  description = "Azure AAD token endpoint"
   type        = string
 }
 
 variable "user_info_endpoint" {
-  description = "Azure AD user info endpoint"
+  description = "Azure AAD user info endpoint"
   type        = string
 }
 

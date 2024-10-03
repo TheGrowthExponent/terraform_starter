@@ -9,11 +9,11 @@ resource "aws_batch_job_definition" "batch_job_definition" {
     resourceRequirements = [
       {
         type  = "VCPU"
-        value = var.vcpu
+        value = tostring(var.vcpu)
       },
       {
         type  = "MEMORY"
-        value = var.memory
+        value = tostring(var.memory)
       }
     ]
     environment = [
@@ -32,12 +32,18 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
   compute_environment_name = var.batch_name
   type                     = "MANAGED"
   compute_resources {
-    max_vcpus          = 0.5
-    security_group_ids = var.security_group_ids
-    subnets            = var.subnet_ids
-    type               = var.compute_environment
-    instance_role      = var.ecs_instance_role.arn
-    instance_type      = ["optimal"]
+    allocation_strategy = "BEST_FIT_PROGRESSIVE"
+    max_vcpus           = 4
+    min_vcpus           = 0
+    security_group_ids  = var.security_group_ids
+    subnets             = var.subnet_ids
+    type                = var.compute_environment
+    instance_role       = var.ecs_instance_role.arn
+    instance_type       = ["optimal"]
+  }
+  update_policy {
+    job_execution_timeout_minutes = 30
+    terminate_jobs_on_update      = false
   }
   service_role = var.batch_service_role.arn
   tags         = var.tags
@@ -48,10 +54,16 @@ resource "aws_batch_compute_environment" "compute_environment_fargate" {
   compute_environment_name = var.batch_name
   type                     = "MANAGED"
   compute_resources {
-    max_vcpus          = 0.5
-    security_group_ids = var.security_group_ids
-    subnets            = var.subnet_ids
-    type               = var.compute_environment
+    allocation_strategy = "BEST_FIT_PROGRESSIVE"
+    max_vcpus           = 4
+    min_vcpus           = 0
+    security_group_ids  = var.security_group_ids
+    subnets             = var.subnet_ids
+    type                = var.compute_environment
+  }
+  update_policy {
+    job_execution_timeout_minutes = 30
+    terminate_jobs_on_update      = false
   }
   service_role = var.batch_service_role.arn
   tags         = var.tags

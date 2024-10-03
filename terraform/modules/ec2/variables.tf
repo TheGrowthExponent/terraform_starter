@@ -37,8 +37,15 @@ variable "private_subnet_id" {
   type        = string
 }
 
-variable "ec2_instance_profile" {}
-variable "sg" {}
+variable "ec2_instance_profile" {
+  description = "The instance profile to use for the instance."
+  type        = string
+}
+
+variable "sg" {
+  description = "The security group to use for the instance."
+  type        = string
+}
 
 variable "volume_size" {
   description = "The size of the volume in GB."

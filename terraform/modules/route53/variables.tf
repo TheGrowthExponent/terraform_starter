@@ -16,7 +16,22 @@ variable "environment" {
   }
 }
 
-variable "hosted_zone_id" {}
-variable "host_name" {}
-#variable "cname_destination_url" {}
-variable "load_balancer" {}
+variable "hosted_zone_id" {
+  description = "The Route53 Hosted Zone ID"
+  type        = string
+}
+
+variable "host_name" {
+  description = "The Route53 Host Name"
+  type        = string
+}
+
+# variable "cname_destination_url" {
+#   description = "The CNAME destination URL"
+#   type        = string
+# }
+
+variable "load_balancer" {
+  description = "The Load Balancer DNS Name"
+  type        = string
+}
