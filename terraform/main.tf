@@ -51,7 +51,7 @@ module "batch_fargate" {
   s3_bucket_name             = module.s3.aws_s3_bucket.bucket
   security_group_ids         = [module.vpc.sg_batch.id]
   subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                       = 256
+  vcpu                       = 0.25
   tags                       = { purpose = "Batch processing" }
 }
 
@@ -69,7 +69,7 @@ module "batch_ec2" {
   s3_bucket_name             = module.s3.aws_s3_bucket.bucket
   security_group_ids         = [module.vpc.sg_batch.id]
   subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                       = 256
+  vcpu                       = 0.25
   tags                       = { purpose = "Batch processing" }
 }
 

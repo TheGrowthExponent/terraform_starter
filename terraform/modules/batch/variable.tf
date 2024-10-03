@@ -26,15 +26,15 @@ variable "ecs_task_execution_role" {
 }
 
 variable "vcpu" {
-  description = "The CPU of ECS Task"
+  description = "The vCPU of ECS Task"
   type        = number
-  default     = 512
+  default     = 0.25
 }
 
 variable "memory" {
   description = "The Memory of ECS Task"
   type        = number
-  default     = 1024
+  default     = 512
 }
 
 variable "s3_bucket_name" {
