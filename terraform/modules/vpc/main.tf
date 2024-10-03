@@ -277,15 +277,6 @@ resource "aws_network_acl" "ec2" {
   ]
 }
 
-resource "aws_network_acl" "ecs" {
-  vpc_id = aws_vpc.vpc.id
-  subnet_ids = [
-    aws_subnet.private_a.id,
-    aws_subnet.private_b.id,
-    aws_subnet.private_c.id
-  ]
-}
-
 resource "aws_network_acl_rule" "load_balancer_http" {
   network_acl_id = aws_network_acl.load_balancer.id
   rule_number    = 100
@@ -299,7 +290,7 @@ resource "aws_network_acl_rule" "load_balancer_http" {
 
 resource "aws_network_acl_rule" "load_balancer_https" {
   network_acl_id = aws_network_acl.load_balancer.id
-  rule_number    = 200
+  rule_number    = 110
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
@@ -310,7 +301,7 @@ resource "aws_network_acl_rule" "load_balancer_https" {
 
 resource "aws_network_acl_rule" "ingress_load_balancer_ephemeral" {
   network_acl_id = aws_network_acl.load_balancer.id
-  rule_number    = 300
+  rule_number    = 120
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
@@ -321,7 +312,7 @@ resource "aws_network_acl_rule" "ingress_load_balancer_ephemeral" {
 
 resource "aws_network_acl_rule" "ec2_task_ephemeral" {
   network_acl_id = aws_network_acl.ec2.id
-  rule_number    = 100
+  rule_number    = 130
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
@@ -332,29 +323,7 @@ resource "aws_network_acl_rule" "ec2_task_ephemeral" {
 
 resource "aws_network_acl_rule" "ec2_task_http" {
   network_acl_id = aws_network_acl.ec2.id
-  rule_number    = 200
-  egress         = false
-  protocol       = "tcp"
-  rule_action    = "allow"
-  cidr_block     = aws_vpc.vpc.cidr_block
-  from_port      = 80
-  to_port        = 80
-}
-
-resource "aws_network_acl_rule" "ecs_task_ephemeral" {
-  network_acl_id = aws_network_acl.ecs.id
-  rule_number    = 100
-  egress         = false
-  protocol       = "tcp"
-  rule_action    = "allow"
-  cidr_block     = "0.0.0.0/0"
-  from_port      = 1024
-  to_port        = 65535
-}
-
-resource "aws_network_acl_rule" "ecs_task_http" {
-  network_acl_id = aws_network_acl.ecs.id
-  rule_number    = 200
+  rule_number    = 140
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
@@ -365,7 +334,7 @@ resource "aws_network_acl_rule" "ecs_task_http" {
 
 resource "aws_network_acl_rule" "load_balancer_ephemeral" {
   network_acl_id = aws_network_acl.load_balancer.id
-  rule_number    = 100
+  rule_number    = 200
   egress         = true
   protocol       = "tcp"
   rule_action    = "allow"
@@ -376,18 +345,7 @@ resource "aws_network_acl_rule" "load_balancer_ephemeral" {
 
 resource "aws_network_acl_rule" "ec2_task_all" {
   network_acl_id = aws_network_acl.ec2.id
-  rule_number    = 100
-  egress         = true
-  protocol       = "tcp"
-  rule_action    = "allow"
-  from_port      = 0
-  to_port        = 65535
-  cidr_block     = "0.0.0.0/0"
-}
-
-resource "aws_network_acl_rule" "ecs_task_all" {
-  network_acl_id = aws_network_acl.ecs.id
-  rule_number    = 100
+  rule_number    = 210
   egress         = true
   protocol       = "tcp"
   rule_action    = "allow"
