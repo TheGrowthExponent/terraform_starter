@@ -195,9 +195,9 @@ module "route53" {
 }
 
 module "s3" {
-  source = "./modules/s3"
-  tags   = { purpose = "Application storage" }
-  bucket = "${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
+  source      = "./modules/s3"
+  tags        = { purpose = "Application storage" }
+  bucket_name = "${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
 }
 
 module "sns" {

@@ -33,8 +33,8 @@ variable "load_balancer" {
 }
 
 variable "s3_bucket" {
-  description = "ARN of the S3 bucket"
-  type        = string
+  description = "S3 bucket"
+  type        = map(string)
 }
 
 variable "log_group" {
@@ -48,6 +48,6 @@ variable "log_group" {
 # }
 
 variable "sqs_queue" {
-  description = "ARN of the SQS queue"
-  type        = string
+  description = "The SQS queue"
+  type        = map(string)
 }

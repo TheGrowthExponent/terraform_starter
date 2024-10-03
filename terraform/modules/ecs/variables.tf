@@ -38,7 +38,7 @@ variable "sg" {
 
 variable "ecs_role" {
   description = "The ECS Role"
-  type        = string
+  type        = map(string)
 }
 
 variable "aws_key" {
@@ -58,7 +58,7 @@ variable "aws_ami" {
 
 variable "aws_ecr_repository" {
   description = "The ECR Repository"
-  type        = string
+  type        = map(string)
 }
 
 variable "aws_ecr_repository_version" {
@@ -81,7 +81,7 @@ variable "memory" {
 
 variable "sns_notifications_topic" {
   description = "The SNS Notifications Topic"
-  type        = string
+  type        = map(string)
 }
 
 variable "region" {
@@ -121,6 +121,6 @@ variable "target_capacity" {
 }
 
 variable "s3_bucket" {
-  description = "The S3 Bucket name"
+  description = "The S3 Bucket"
   type        = map(string)
 }

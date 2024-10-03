@@ -39,7 +39,7 @@ variable "private_subnet_id" {
 
 variable "ec2_instance_profile" {
   description = "The instance profile to use for the instance."
-  type        = string
+  type        = map(string)
 }
 
 variable "sg" {

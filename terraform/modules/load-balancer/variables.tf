@@ -32,8 +32,8 @@ variable "private_subnets" {
 }
 
 variable "certificate" {
-  description = "The ARN of the certificate"
-  type        = string
+  description = "ACM certificate"
+  type        = map(string)
 }
 
 variable "authorization_endpoint" {

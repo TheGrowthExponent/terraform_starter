@@ -22,8 +22,8 @@ variable "src_path" {
 }
 
 variable "lambda_role" {
-  description = "The ARN of the IAM role that the Lambda function assumes when it executes your function to access any other AWS services."
-  type        = string
+  description = "The the IAM role that the Lambda function assumes when it executes your function to access any other AWS services."
+  type        = map(string)
 }
 
 variable "subnet_ids" {
@@ -32,8 +32,8 @@ variable "subnet_ids" {
 }
 
 variable "load_balancer_sg" {
-  description = "The Security Group ID for the Load Balancer"
-  type        = string
+  description = "The Security Group for the Load Balancer"
+  type        = map(string)
 }
 
 variable "lambda_log_level" {
@@ -48,11 +48,11 @@ variable "secret_name" {
 }
 
 variable "queue" {
-  description = "The name of the queue"
-  type        = string
+  description = "The queue"
+  type        = map(string)
 }
 
 variable "bucket" {
-  description = "The name of the bucket"
-  type        = string
+  description = "The S3 bucket"
+  type        = map(string)
 }

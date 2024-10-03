@@ -1,5 +1,5 @@
 ################ Variables ################
-variable "bucket" {
+variable "bucket_name" {
   description = "S3 bucket to create."
   type        = string
 }
