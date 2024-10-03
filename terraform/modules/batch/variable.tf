@@ -5,23 +5,28 @@ variable "subnet_ids" {
 
 variable "aws_ecr_repository" {
   description = "The name of the ECR repository"
-  type        = string
+  type        = map(string)
 }
 
 variable "aws_ecr_repository_version" {
-  default = "latest"
+  description = "The version of the ECR repository"
+  type        = map(string)
+  default     = "latest"
 }
 
 variable "ecs_instance_role" {
   description = "ECS Instance Role"
+  type        = map(string)
 }
 
 variable "batch_service_role" {
   description = "Batch Service Role"
+  type        = map(string)
 }
 
 variable "ecs_task_execution_role" {
   description = "ECS Task Execution Role"
+  type        = map(string)
 }
 
 variable "vcpu" {
