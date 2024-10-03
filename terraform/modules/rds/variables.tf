@@ -24,7 +24,7 @@ variable "db_name" {
 variable "instance_class" {
   description = "The instance type to use. `db.serverless` is only available for Aurora."
   type        = string
-  default     = "db.t4g.small"
+  default     = "db.t4g.medium"
 }
 
 variable "engine" {

@@ -189,6 +189,7 @@ module "postgres" {
   db_subnet_group_name   = "${var.application_name}-${var.environment}"
   subnet_ids             = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   vpc_security_group_ids = [module.vpc.sg_rds.id]
+  instance_class         = "db.t4g.medium"
   tags                   = { purpose = "Application storage" }
 }
 
