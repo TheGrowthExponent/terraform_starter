@@ -35,3 +35,8 @@ variable "load_balancer_dns_name" {
   description = "The Load Balancer"
   type        = string
 }
+
+variable "load_balancer_zone_id" {
+  description = "The Load Balancer"
+  type        = string
+}

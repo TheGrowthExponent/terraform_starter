@@ -185,6 +185,7 @@ module "postgres" {
 module "route53" {
   source                 = "./modules/route53"
   load_balancer_dns_name = module.load-balancer.alb.dns_name
+  load_balancer_zone_id  = module.load-balancer.alb.zone_id
   hosted_zone_id         = var.hosted_zone_id
   host_name              = var.host_name
 }
