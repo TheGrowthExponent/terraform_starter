@@ -53,7 +53,7 @@ resource "aws_rds_cluster" "db_cluster" {
 resource "aws_rds_cluster_instance" "db_instance" {
   cluster_identifier = aws_rds_cluster.db_cluster.id
   identifier_prefix  = var.db_name
-  instance_class     = "db.serverless"
+  instance_class     = var.instance_class
   engine             = aws_rds_cluster.db_cluster.engine
   engine_version     = aws_rds_cluster.db_cluster.engine_version
 }
