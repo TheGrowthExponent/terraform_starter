@@ -9,11 +9,11 @@ resource "aws_batch_job_definition" "batch_job_definition" {
     resourceRequirements = [
       {
         type  = "VCPU"
-        value = tostring(var.vcpu)
+        value = var.vcpu
       },
       {
         type  = "MEMORY"
-        value = tostring(var.memory)
+        value = var.memory
       }
     ]
     environment = [
@@ -32,7 +32,7 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
   compute_environment_name = var.batch_name
   type                     = "MANAGED"
   compute_resources {
-    max_vcpus          = 512
+    max_vcpus          = 0.5
     security_group_ids = var.security_group_ids
     subnets            = var.subnet_ids
     type               = var.compute_environment
@@ -48,7 +48,7 @@ resource "aws_batch_compute_environment" "compute_environment_fargate" {
   compute_environment_name = var.batch_name
   type                     = "MANAGED"
   compute_resources {
-    max_vcpus          = 512
+    max_vcpus          = 0.5
     security_group_ids = var.security_group_ids
     subnets            = var.subnet_ids
     type               = var.compute_environment
