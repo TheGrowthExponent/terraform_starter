@@ -182,7 +182,7 @@ TASK_DEFINITION
     "FARGATE"
   ]
   memory             = tostring(var.memory)
-  cpu                = tostring(var.vcpu)
+  cpu                = tostring(var.cpu)
   execution_role_arn = var.ecs_role.arn
   task_role_arn      = var.ecs_role.arn
 }

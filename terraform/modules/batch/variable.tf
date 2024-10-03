@@ -3,12 +3,11 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "environment" {
-  description = "Environment to be used e.g dev/prod/uat"
+variable "aws_ecr_repository" {
+  description = "The name of the ECR repository"
   type        = string
 }
 
-variable "aws_ecr_repository" {}
 variable "aws_ecr_repository_version" {
   default = "latest"
 }

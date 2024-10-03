@@ -18,7 +18,6 @@ module "apigw" {
   stage_name                         = var.environment
   method                             = var.api_gw_method
   #  lambda_arn                            = module.lambda.lambda_arn
-  region = var.region
   #  lambda_name                           = module.lambda.lambda_name
   dependency_list = var.api_gw_dependency_list
   account_id      = var.account_id
@@ -39,7 +38,6 @@ module "auto_scaling" {
 
 module "batch_fargate" {
   source                     = "./modules/batch"
-  environment                = var.environment
   batch_name                 = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
   compute_environment        = "FARGATE"
   batch_service_role         = module.iam.batch_role
@@ -57,7 +55,6 @@ module "batch_fargate" {
 
 module "batch_ec2" {
   source                     = "./modules/batch"
-  environment                = var.environment
   batch_name                 = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
   compute_environment        = "EC2"
   batch_service_role         = module.iam.batch_role
@@ -74,12 +71,9 @@ module "batch_ec2" {
 }
 
 module "dynamodb" {
-  source           = "./modules/dynamodb"
-  environment      = var.environment
-  application_name = var.application_name
-  account_id       = var.account_id
-  region           = var.region
-  tags             = { purpose = "Application storage" }
+  source     = "./modules/dynamodb"
+  table_name = "app-${var.application_name}-${var.environment}-ExampleTable"
+  tags       = { purpose = "Application storage" }
 }
 
 module "ec2" {
@@ -94,10 +88,9 @@ module "ec2" {
 }
 
 module "ecr" {
-  source           = "./modules/ecr"
-  environment      = var.environment
-  application_name = var.application_name
-  ecs_role         = module.iam.ecs_role
+  source          = "./modules/ecr"
+  ecs_role        = module.iam.ecs_role
+  repository_name = "app-${var.application_name}-${var.environment}"
 }
 
 module "ecs" {
@@ -114,7 +107,6 @@ module "ecs" {
   target_capacity            = 1
   ecs_role                   = module.iam.ecs_role
   sg                         = module.vpc.sg_ecs
-  aws_availability_zones     = module.vpc.aws_availability_zones
   aws_ami                    = data.aws_ami.ubuntu
   private_subnets            = [module.vpc.private_subnet_a.id]
   public_subnets             = [module.vpc.public_subnet_a.id]
@@ -169,7 +161,7 @@ module "lambda" {
   lambda_log_level = "DEBUG"
   queue            = module.sqs.aws_sqs_queue
   secret_name      = "xxx"
-  # subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
 }
 
 module "logs" {
@@ -210,9 +202,13 @@ module "s3" {
 
 module "sns" {
   source                  = "./modules/sns"
-  environment             = var.environment
-  application_name        = var.application_name
-  account_id              = var.account_id
+  topic_name              = "app-notification-topic-${var.application_name}-${var.environment}"
+  notification_recipients = var.notification_recipients
+}
+
+module "sns-error" {
+  source                  = "./modules/sns"
+  topic_name              = "app-error-notification-topic-${var.application_name}-${var.environment}"
   notification_recipients = var.notification_recipients
 }
 

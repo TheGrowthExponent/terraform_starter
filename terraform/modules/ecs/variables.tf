@@ -16,11 +16,6 @@ variable "environment" {
   }
 }
 
-variable "aws_availability_zones" {
-  description = "The availability zones"
-  type        = list(string)
-}
-
 variable "ecs_target_group" {
   description = "The ECS Target Group"
   type        = string
@@ -72,7 +67,7 @@ variable "aws_ecr_repository_version" {
   default     = "latest"
 }
 
-variable "vcpu" {
+variable "cpu" {
   description = "The CPU of ECS Task"
   type        = number
   default     = 256

@@ -49,11 +49,6 @@ variable "method" {
   default     = "POST"
 }
 
-variable "region" {
-  description = "The AWS region"
-  type        = string
-}
-
 variable "dependency_list" {
   description = "Deployment dependency list"
   type        = list(string)
