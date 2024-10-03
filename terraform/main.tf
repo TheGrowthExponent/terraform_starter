@@ -96,6 +96,7 @@ module "ecr" {
 }
 
 module "ecs" {
+  count                     = var.create_ecs_module ? 1 : 0
   source                    = "./modules/ecs"
   environment               = var.environment
   application_name          = var.application_name
