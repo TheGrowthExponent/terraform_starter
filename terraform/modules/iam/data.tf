@@ -307,7 +307,7 @@ data "aws_iam_policy_document" "allow_sqs" {
       "sqs:SetQueueAttributes"
     ]
     resources = [
-      var.sqs_queue.arn
+      var.sqs_queue_arn
     ]
   }
   statement {

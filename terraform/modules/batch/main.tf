@@ -4,7 +4,7 @@ resource "aws_batch_job_definition" "batch_job_definition" {
   platform_capabilities = [var.compute_environment]
   container_properties = jsonencode({
     image      = "${var.aws_ecr_repository.repository_url}:${var.aws_ecr_repository_version}"
-    jobRoleArn = var.ecs_task_execution_role.arn
+    jobRoleArn = var.ecs_task_execution_role_arn
 
     resourceRequirements = [
       {
@@ -22,7 +22,7 @@ resource "aws_batch_job_definition" "batch_job_definition" {
         value = var.s3_bucket_name
       }
     ]
-    executionRoleArn = var.ecs_task_execution_role.arn
+    executionRoleArn = var.ecs_task_execution_role_arn
   })
 }
 
@@ -44,7 +44,7 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
     job_execution_timeout_minutes = 30
     terminate_jobs_on_update      = false
   }
-  service_role = var.batch_service_role.arn
+  service_role = var.batch_service_role_arn
 }
 
 resource "aws_batch_compute_environment" "compute_environment_fargate" {
@@ -63,7 +63,7 @@ resource "aws_batch_compute_environment" "compute_environment_fargate" {
     job_execution_timeout_minutes = 30
     terminate_jobs_on_update      = false
   }
-  service_role = var.batch_service_role.arn
+  service_role = var.batch_service_role_arn
 }
 
 resource "aws_batch_job_queue" "job_queue_ec2" {

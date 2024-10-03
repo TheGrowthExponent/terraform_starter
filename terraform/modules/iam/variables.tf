@@ -47,7 +47,7 @@ variable "log_group_arn" {
 #   type        = string
 # }
 
-variable "sqs_queue" {
+variable "sqs_queue_arn" {
   description = "The SQS queue"
   type        = map(string)
 }

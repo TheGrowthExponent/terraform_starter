@@ -2,11 +2,11 @@ resource "aws_ecs_cluster" "cluster" {
   name = "app-cluster-${var.application_name}-${var.environment}"
   configuration {
     execute_command_configuration {
-      kms_key_id = var.aws_key.id
+      kms_key_id = var.aws_key
       logging    = "OVERRIDE"
       log_configuration {
         cloud_watch_encryption_enabled = false // true
-        cloud_watch_log_group_name     = var.log_group.id
+        cloud_watch_log_group_name     = var.log_group_name
       }
     }
   }
@@ -43,7 +43,7 @@ resource "aws_launch_configuration" "t3_micro" {
   name            = "app-t3_micro-${var.application_name}-${var.environment}"
   image_id        = var.aws_ami
   instance_type   = "t3.micro"
-  key_name        = var.aws_key.id
+  key_name        = var.aws_key
   security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
@@ -55,7 +55,7 @@ resource "aws_launch_configuration" "t3_small" {
   name            = "app-t3_small-${var.application_name}-${var.environment}"
   image_id        = var.aws_ami
   instance_type   = "t3.small"
-  key_name        = var.aws_key.id
+  key_name        = var.aws_key
   security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
@@ -65,9 +65,9 @@ resource "aws_launch_configuration" "t3_small" {
 
 resource "aws_launch_configuration" "t3_medium" {
   name            = "app-t3_medium-${var.application_name}-${var.environment}"
-  image_id        = var.aws_ami.id
+  image_id        = var.aws_ami
   instance_type   = "t3.medium"
-  key_name        = var.aws_key.id
+  key_name        = var.aws_key
   security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
@@ -140,7 +140,7 @@ resource "aws_autoscaling_notification" "example_notifications" {
     "autoscaling:EC2_INSTANCE_TERMINATE_ERROR",
   ]
 
-  topic_arn = var.sns_notifications_topic.arn
+  topic_arn = var.sns_notifications_topic_arn
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
@@ -168,7 +168,7 @@ resource "aws_ecs_task_definition" "task_definition" {
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "${var.log_group.id}",
+          "awslogs-group": "${var.log_group_name}",
           "awslogs-region": "${var.region}",
           "awslogs-stream-prefix": "${var.application_name}-${var.environment}"
         }

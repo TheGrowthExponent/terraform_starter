@@ -22,7 +22,7 @@ resource "aws_api_gateway_resource" "api_resource" {
 
 resource "aws_api_gateway_domain_name" "api" {
   domain_name              = "api.${var.host_name}.${data.aws_route53_zone.selected.name}"
-  regional_certificate_arn = var.certificate.arn
+  regional_certificate_arn = var.certificate_arn
   endpoint_configuration {
     types = ["REGIONAL"]
   }

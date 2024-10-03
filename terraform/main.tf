@@ -22,9 +22,9 @@ module "apigw" {
   # dependency_list = var.api_gw_dependency_list
   account_id = var.account_id
   # apigw_role     = module.iam.apigw_role
-  certificate    = module.acm.aws_acm_certificate
-  host_name      = var.host_name
-  hosted_zone_id = var.hosted_zone_id
+  certificate_arn = module.acm.aws_acm_certificate.arn
+  host_name       = var.host_name
+  hosted_zone_id  = var.hosted_zone_id
 }
 
 module "auto_scaling" {
@@ -37,35 +37,35 @@ module "auto_scaling" {
 }
 
 module "batch_fargate" {
-  source                     = "./modules/batch"
-  batch_name                 = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
-  compute_environment        = "FARGATE"
-  batch_service_role         = module.iam.batch_role
-  aws_ecr_repository         = module.ecr.aws_ecr_repository
-  aws_ecr_repository_version = "v0.0.1"
-  ecs_instance_role_arn      = module.iam.ec2_instance_profile.arn
-  ecs_task_execution_role    = module.iam.ecs_role
-  memory                     = 512
-  s3_bucket_name             = module.s3.aws_s3_bucket.bucket
-  security_group_ids         = [module.vpc.sg_batch.id]
-  subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                       = 0.25
+  source                      = "./modules/batch"
+  batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
+  compute_environment         = "FARGATE"
+  batch_service_role_arn      = module.iam.batch_role.arn
+  aws_ecr_repository          = module.ecr.aws_ecr_repository
+  aws_ecr_repository_version  = "v0.0.1"
+  ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
+  ecs_task_execution_role_arn = module.iam.ecs_role.arn
+  memory                      = 512
+  s3_bucket_name              = module.s3.aws_s3_bucket.bucket
+  security_group_ids          = [module.vpc.sg_batch.id]
+  subnet_ids                  = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  vcpu                        = 0.25
 }
 
 module "batch_ec2" {
-  source                     = "./modules/batch"
-  batch_name                 = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
-  compute_environment        = "EC2"
-  batch_service_role         = module.iam.batch_role
-  aws_ecr_repository         = module.ecr.aws_ecr_repository
-  aws_ecr_repository_version = "v0.0.1"
-  ecs_instance_role_arn      = module.iam.ec2_instance_profile.arn
-  ecs_task_execution_role    = module.iam.ecs_role
-  memory                     = 512
-  s3_bucket_name             = module.s3.aws_s3_bucket.bucket
-  security_group_ids         = [module.vpc.sg_batch.id]
-  subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                       = 0.25
+  source                      = "./modules/batch"
+  batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
+  compute_environment         = "EC2"
+  batch_service_role_arn      = module.iam.batch_role.arn
+  aws_ecr_repository          = module.ecr.aws_ecr_repository
+  aws_ecr_repository_version  = "v0.0.1"
+  ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
+  ecs_task_execution_role_arn = module.iam.ecs_role.arn
+  memory                      = 512
+  s3_bucket_name              = module.s3.aws_s3_bucket.bucket
+  security_group_ids          = [module.vpc.sg_batch.id]
+  subnet_ids                  = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  vcpu                        = 0.25
 }
 
 module "dynamodb" {
@@ -98,7 +98,7 @@ module "ecs" {
   application_name          = var.application_name
   region                    = var.region
   aws_key                   = module.ec2.aws_key
-  log_group                 = module.logs.log_group.id
+  log_group_name            = module.logs.log_group.id
   asg_max_size              = 2
   asg_min_size              = 1
   maximum_scaling_step_size = 1
@@ -113,7 +113,7 @@ module "ecs" {
   aws_ecr_repository_repository_url = module.ecr.aws_ecr_repository.repository_url
   aws_ecr_repository_version        = "v0.0.1"
   s3_bucket_name                    = module.s3.aws_s3_bucket.id
-  sns_notifications_topic           = module.sns.sns_notifications_topic
+  sns_notifications_topic_arn       = module.sns.sns_notifications_topic.arn
 }
 
 module "load-balancer" {
@@ -140,7 +140,7 @@ module "iam" {
   log_group_arn    = module.logs.log_group.arn
   s3_bucket_arn    = module.s3.aws_s3_bucket.arn
   account_id       = var.account_id
-  sqs_queue        = module.sqs.aws_sqs_queue
+  sqs_queue_arn    = module.sqs.aws_sqs_queue.arn
   #  notifications_topic       = module.sns.sns_notifications_topic
 }
 

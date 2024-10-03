@@ -19,12 +19,12 @@ variable "ecs_instance_role_arn" {
   type        = string
 }
 
-variable "batch_service_role" {
+variable "batch_service_role_arn" {
   description = "Batch Service Role"
   type        = map(string)
 }
 
-variable "ecs_task_execution_role" {
+variable "ecs_task_execution_role_arn" {
   description = "ECS Task Execution Role"
   type        = map(string)
 }

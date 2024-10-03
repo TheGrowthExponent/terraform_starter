@@ -64,9 +64,9 @@ variable "host_name" {
   type        = string
 }
 
-variable "certificate" {
-  description = "ACM certificate"
-  type        = map(string)
+variable "certificate_arn" {
+  description = "ACM certificate ARN"
+  type        = string
 }
 
 # variable "apigw_role" {

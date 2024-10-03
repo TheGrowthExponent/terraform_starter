@@ -46,7 +46,7 @@ variable "aws_key" {
   type        = map(string)
 }
 
-variable "log_group" {
+variable "log_group_name" {
   description = "The Log Group"
   type        = string
 }
@@ -79,7 +79,7 @@ variable "memory" {
   default     = 512
 }
 
-variable "sns_notifications_topic" {
+variable "sns_notifications_topic_arn" {
   description = "The SNS Notifications Topic"
   type        = map(string)
 }
