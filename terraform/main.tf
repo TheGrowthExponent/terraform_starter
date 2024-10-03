@@ -109,7 +109,7 @@ module "ecs" {
   aws_ami                   = data.aws_ami.ubuntu
   private_subnets           = [module.vpc.private_subnet_a.id]
   # public_subnets             = [module.vpc.public_subnet_a.id]
-  ecs_target_group           = module.load-balancer.ecs_target_group
+  ecs_target_group_arn       = module.load-balancer.ecs_target_group_arn
   aws_ecr_repository         = module.ecr.aws_ecr_repository
   aws_ecr_repository_version = "v0.0.1"
   s3_bucket                  = module.s3.aws_s3_bucket

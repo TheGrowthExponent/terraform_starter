@@ -16,9 +16,9 @@ variable "environment" {
   }
 }
 
-variable "ecs_target_group" {
-  description = "The ECS Target Group"
-  type        = map(string)
+variable "ecs_target_group_arn" {
+  description = "The ECS Target Group ARN"
+  type        = string
 }
 
 # variable "public_subnets" {
