@@ -28,17 +28,15 @@ resource "random_uuid" "lambda_src_hash" {
   }
 }
 
-resource "null_resource" "lambda_dependencies" {
-  provisioner "local-exec" {
+resource "terraform_data" "lambda_dependencies" {
+  provisioner "install-pip-packages" {
     command = "pip install -r ${local.lambda_src_path}/requirements.txt -t ${local.lambda_src_path} --upgrade"
   }
 
-  # Only re-run this if the dependencies or their versions
-  # have changed since the last deployment with Terraform
-  triggers = {
-    # dependencies_versions = filemd5("${local.lambda_src_path}/requirements.txt")
-    source_code_hash = random_uuid.lambda_src_hash.result
-  }
+  triggers_replace = [
+    # filemd5("${local.lambda_src_path}/requirements.txt")
+    random_uuid.lambda_src_hash.result
+  ]
 }
 
 resource "aws_lambda_function" "lambda_function" {

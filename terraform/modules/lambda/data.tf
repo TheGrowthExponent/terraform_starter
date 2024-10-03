@@ -11,9 +11,7 @@ data "archive_file" "lambda_source_package" {
     "tests"
   ]
 
-  # This is necessary, since archive_file is now a
-  # `data` source and not a `resource` anymore.
-  # Use `depends_on` to wait for the "install dependencies"
-  # task to be completed.
-  depends_on = [null_resource.lambda_dependencies]
+  lifecycle {
+    replace_triggered_by = [terraform_data.lambda_dependencies]
+  }
 }

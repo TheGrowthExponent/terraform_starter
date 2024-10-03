@@ -28,8 +28,8 @@ variable "account_id" {
 }
 
 variable "load_balancer" {
-  description = "ARN of the load balancer"
-  type        = string
+  description = "Load balancer"
+  type        = map(string)
 }
 
 variable "s3_bucket" {
