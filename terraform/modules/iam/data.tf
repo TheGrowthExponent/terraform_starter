@@ -120,6 +120,8 @@ data "aws_iam_policy_document" "ecs_service_standard" {
       "ecs:StartTelemetrySession",
       "ecs:UpdateContainerInstancesState",
       "ecs:Submit*",
+      "ecs:ListClusters",
+      "ecs:DeleteCluster",
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"
