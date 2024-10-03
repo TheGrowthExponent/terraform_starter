@@ -10,8 +10,4 @@ data "archive_file" "lambda_source_package" {
     "core/__pycache__",
     "tests"
   ]
-
-  lifecycle {
-    replace_triggered_by = [terraform_data.lambda_dependencies]
-  }
 }
