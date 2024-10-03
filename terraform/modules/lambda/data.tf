@@ -10,4 +10,10 @@ data "archive_file" "lambda_source_package" {
     "core/__pycache__",
     "tests"
   ]
+
+  # This is necessary, since archive_file is now a
+  # `data` source and not a `resource` anymore.
+  # Use `depends_on` to wait for the "install dependencies"
+  # task to be completed.
+  depends_on = [terraform_data.lambda_dependencies]
 }
