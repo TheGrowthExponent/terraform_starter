@@ -33,7 +33,7 @@ variable "private_subnets" {
 
 variable "sg" {
   description = "The Security Group"
-  type        = string
+  type        = map(string)
 }
 
 variable "ecs_role" {
@@ -43,17 +43,17 @@ variable "ecs_role" {
 
 variable "aws_key" {
   description = "The AWS Key"
-  type        = string
+  type        = map(string)
 }
 
 variable "log_group" {
   description = "The Log Group"
-  type        = string
+  type        = map(string)
 }
 
 variable "aws_ami" {
   description = "The AMI"
-  type        = string
+  type        = map(string)
 }
 
 variable "aws_ecr_repository" {
@@ -122,5 +122,5 @@ variable "target_capacity" {
 
 variable "s3_bucket" {
   description = "The S3 Bucket name"
-  type        = string
+  type        = map(string)
 }
