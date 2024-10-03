@@ -181,8 +181,8 @@ variable "create_batch_module" {
   default     = "0"
 }
 
-variable "create_ec2_module" {
-  description = "Specify whether to create the ec2 module or not"
+variable "create_ec2_instance" {
+  description = "Specify whether to create the ec2 instance or not"
   type        = string
   default     = "0"
 }

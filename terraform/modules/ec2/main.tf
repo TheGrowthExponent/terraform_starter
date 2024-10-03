@@ -8,7 +8,8 @@ resource "aws_key_pair" "aws_key" {
 }
 
 resource "aws_instance" "example_server" {
-  ami = var.ami
+  count = var.create_ec2_instance ? 1 : 0
+  ami   = var.ami
   instance_market_options {
     market_type = "spot"
     spot_options {

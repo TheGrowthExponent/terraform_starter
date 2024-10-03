@@ -77,7 +77,6 @@ module "dynamodb" {
 }
 
 module "ec2" {
-  count                = var.create_ec2_module ? 1 : 0
   source               = "./modules/ec2"
   environment          = var.environment
   application_name     = var.application_name
@@ -87,6 +86,7 @@ module "ec2" {
   ec2_instance_profile = module.iam.ec2_instance_profile.id
   sg_id                = module.vpc.sg_ec2.id
   user_data            = local.user_data
+  create_ec2_instance  = var.create_ec2_instance
 }
 
 module "ecr" {

@@ -59,3 +59,9 @@ variable "user_data" {
   type        = string
   default     = ""
 }
+
+variable "create_ec2_instance" {
+  description = "Whether to create the EC2 instance."
+  type        = bool
+  default     = false
+}
