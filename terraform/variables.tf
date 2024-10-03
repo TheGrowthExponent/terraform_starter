@@ -181,6 +181,12 @@ variable "create_batch_module" {
   default     = "0"
 }
 
+variable "create_ecs_module" {
+  description = "Specify whether to create the ecs module or not"
+  type        = string
+  default     = "0"
+}
+
 variable "create_ec2_instance" {
   description = "Specify whether to create the ec2 instance or not"
   type        = string
