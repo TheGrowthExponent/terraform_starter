@@ -18,10 +18,10 @@ variable "environment" {
 
 variable "ecs_cluster" {
   description = "The ECS cluster"
-  type        = map(string)
+  type        = string
 }
 
 variable "ecs_service" {
   description = "The ECS service name"
-  type        = map(string)
+  type        = string
 }

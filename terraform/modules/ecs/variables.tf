@@ -81,7 +81,7 @@ variable "memory" {
 
 variable "sns_notifications_topic_arn" {
   description = "The SNS Notifications Topic"
-  type        = map(string)
+  type        = string
 }
 
 variable "region" {

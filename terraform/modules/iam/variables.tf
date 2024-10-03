@@ -29,7 +29,7 @@ variable "account_id" {
 
 variable "load_balancer" {
   description = "Load balancer"
-  type        = map(string)
+  type        = string
 }
 
 variable "s3_bucket_arn" {
@@ -49,5 +49,5 @@ variable "log_group_arn" {
 
 variable "sqs_queue_arn" {
   description = "The SQS queue"
-  type        = map(string)
+  type        = string
 }

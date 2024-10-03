@@ -23,7 +23,7 @@ variable "src_path" {
 
 variable "lambda_role" {
   description = "The the IAM role that the Lambda function assumes when it executes your function to access any other AWS services."
-  type        = map(string)
+  type        = string
 }
 
 variable "subnet_ids" {

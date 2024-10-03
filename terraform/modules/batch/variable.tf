@@ -5,7 +5,7 @@ variable "subnet_ids" {
 
 variable "aws_ecr_repository" {
   description = "The name of the ECR repository"
-  type        = map(string)
+  type        = string
 }
 
 variable "aws_ecr_repository_version" {
@@ -21,12 +21,12 @@ variable "ecs_instance_role_arn" {
 
 variable "batch_service_role_arn" {
   description = "Batch Service Role"
-  type        = map(string)
+  type        = string
 }
 
 variable "ecs_task_execution_role_arn" {
   description = "ECS Task Execution Role"
-  type        = map(string)
+  type        = string
 }
 
 variable "vcpu" {
