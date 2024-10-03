@@ -100,7 +100,7 @@ module "ecs" {
   environment               = var.environment
   application_name          = var.application_name
   region                    = var.region
-  aws_key                   = module.ec2.aws_key.key_name
+  aws_key                   = module.ec2[0].aws_key.key_name
   log_group_name            = module.logs.log_group.id
   asg_max_size              = 2
   asg_min_size              = 1
