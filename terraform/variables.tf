@@ -85,15 +85,15 @@ variable "notification_recipients" {
   type        = list(string)
 }
 
-variable "aad_group_name" {
-  description = "Azure AAD group name"
-  type        = string
-}
+# variable "aad_group_name" {
+#   description = "Azure AAD group name"
+#   type        = string
+# }
 
-variable "tenant_id" {
-  description = "Azure AAD tenant ID"
-  type        = string
-}
+# variable "tenant_id" {
+#   description = "Azure AAD tenant ID"
+#   type        = string
+# }
 
 variable "authorization_endpoint" {
   description = "Azure AAD authorization endpoint"

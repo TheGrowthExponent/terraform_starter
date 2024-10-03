@@ -11,20 +11,20 @@ module "acm" {
 }
 
 module "apigw" {
-  count                              = var.create_api-gateway_module ? 1 : 0
-  source                             = "./modules/api-gateway"
-  api_gw_disable_resource_creation   = var.api_gw_disable_resource_creation
+  count  = var.create_api-gateway_module ? 1 : 0
+  source = "./modules/api-gateway"
+  # api_gw_disable_resource_creation   = var.api_gw_disable_resource_creation
   api_gw_endpoint_configuration_type = var.api_gw_endpoint_configuration_type
-  stage_name                         = var.environment
-  method                             = var.api_gw_method
+  # stage_name                         = var.environment
+  # method                             = var.api_gw_method
   #  lambda_arn                            = module.lambda.lambda_arn
   #  lambda_name                           = module.lambda.lambda_name
-  dependency_list = var.api_gw_dependency_list
-  account_id      = var.account_id
-  apigw_role      = module.iam.apigw_role
-  certificate     = module.acm.aws_acm_certificate
-  host_name       = var.host_name
-  hosted_zone_id  = var.hosted_zone_id
+  # dependency_list = var.api_gw_dependency_list
+  account_id = var.account_id
+  # apigw_role     = module.iam.apigw_role
+  certificate    = module.acm.aws_acm_certificate
+  host_name      = var.host_name
+  hosted_zone_id = var.hosted_zone_id
 }
 
 module "auto_scaling" {
@@ -95,22 +95,22 @@ module "ecr" {
 }
 
 module "ecs" {
-  source                     = "./modules/ecs"
-  environment                = var.environment
-  application_name           = var.application_name
-  region                     = var.region
-  aws_key                    = module.ec2.aws_key
-  log_group                  = module.logs.log_group
-  asg_max_size               = 2
-  asg_min_size               = 1
-  maximum_scaling_step_size  = 1
-  minimum_scaling_step_size  = 1
-  target_capacity            = 1
-  ecs_role                   = module.iam.ecs_role
-  sg                         = module.vpc.sg_ecs
-  aws_ami                    = data.aws_ami.ubuntu
-  private_subnets            = [module.vpc.private_subnet_a.id]
-  public_subnets             = [module.vpc.public_subnet_a.id]
+  source                    = "./modules/ecs"
+  environment               = var.environment
+  application_name          = var.application_name
+  region                    = var.region
+  aws_key                   = module.ec2.aws_key
+  log_group                 = module.logs.log_group
+  asg_max_size              = 2
+  asg_min_size              = 1
+  maximum_scaling_step_size = 1
+  minimum_scaling_step_size = 1
+  target_capacity           = 1
+  ecs_role                  = module.iam.ecs_role
+  sg                        = module.vpc.sg_ecs
+  aws_ami                   = data.aws_ami.ubuntu
+  private_subnets           = [module.vpc.private_subnet_a.id]
+  # public_subnets             = [module.vpc.public_subnet_a.id]
   ecs_target_group           = module.load-balancer.ecs_target_group
   aws_ecr_repository         = module.ecr.aws_ecr_repository
   aws_ecr_repository_version = "v0.0.1"

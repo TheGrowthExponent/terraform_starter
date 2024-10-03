@@ -21,10 +21,10 @@ variable "ecs_target_group" {
   type        = map(string)
 }
 
-variable "public_subnets" {
-  description = "The Public Subnet IDs"
-  type        = list(string)
-}
+# variable "public_subnets" {
+#   description = "The Public Subnet IDs"
+#   type        = list(string)
+# }
 
 variable "private_subnets" {
   description = "The Private Subnet IDs"

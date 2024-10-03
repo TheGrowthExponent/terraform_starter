@@ -37,11 +37,11 @@ variable "api_gw_endpoint_configuration_type" {
   type        = string
 }
 
-variable "stage_name" {
-  description = "The stage name for the API deployment"
-  type        = string
-  default     = "dev"
-}
+# variable "stage_name" {
+#   description = "The stage name for the API deployment"
+#   type        = string
+#   default     = "dev"
+# }
 
 # variable "method" {
 #   description = "The HTTP method"
@@ -69,10 +69,10 @@ variable "certificate" {
   type        = map(string)
 }
 
-variable "apigw_role" {
-  description = "The ARN of the role"
-  type        = string
-}
+# variable "apigw_role" {
+#   description = "The ARN of the role"
+#   type        = string
+# }
 
 #variable "lambda_authorizer" {
 #    description = "The ARN of the lambda authorizer"
