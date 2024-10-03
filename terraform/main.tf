@@ -43,7 +43,7 @@ module "batch_fargate" {
   batch_service_role         = module.iam.batch_role
   aws_ecr_repository         = module.ecr.aws_ecr_repository
   aws_ecr_repository_version = "v0.0.1"
-  ecs_instance_role          = module.iam.ec2_instance_profile
+  ecs_instance_role_arn      = module.iam.ec2_instance_profile.arn
   ecs_task_execution_role    = module.iam.ecs_role
   memory                     = 512
   s3_bucket_name             = module.s3.aws_s3_bucket.bucket
@@ -59,7 +59,7 @@ module "batch_ec2" {
   batch_service_role         = module.iam.batch_role
   aws_ecr_repository         = module.ecr.aws_ecr_repository
   aws_ecr_repository_version = "v0.0.1"
-  ecs_instance_role          = module.iam.ec2_instance_profile
+  ecs_instance_role_arn      = module.iam.ec2_instance_profile.arn
   ecs_task_execution_role    = module.iam.ecs_role
   memory                     = 512
   s3_bucket_name             = module.s3.aws_s3_bucket.bucket
@@ -81,8 +81,8 @@ module "ec2" {
   instance_name        = "app-${var.application_name}-${var.environment}"
   ami                  = data.aws_ami.ubuntu.id
   private_subnet_id    = module.vpc.private_subnet_a.id
-  ec2_instance_profile = module.iam.ec2_instance_profile
-  sg                   = module.vpc.sg_ec2
+  ec2_instance_profile = module.iam.ec2_instance_profile.id
+  sg_id                = module.vpc.sg_ec2.id
   user_data            = local.user_data
 }
 
@@ -98,22 +98,22 @@ module "ecs" {
   application_name          = var.application_name
   region                    = var.region
   aws_key                   = module.ec2.aws_key
-  log_group                 = module.logs.log_group
+  log_group                 = module.logs.log_group.id
   asg_max_size              = 2
   asg_min_size              = 1
   maximum_scaling_step_size = 1
   minimum_scaling_step_size = 1
   target_capacity           = 1
   ecs_role_arn              = module.iam.ecs_role.arn
-  sg                        = module.vpc.sg_ecs
-  aws_ami                   = data.aws_ami.ubuntu
+  sg_id                     = module.vpc.sg_ecs.id
+  aws_ami                   = data.aws_ami.ubuntu.id
   private_subnets           = [module.vpc.private_subnet_a.id]
   # public_subnets             = [module.vpc.public_subnet_a.id]
-  ecs_target_group_arn       = module.load-balancer.ecs_target_group_arn
-  aws_ecr_repository         = module.ecr.aws_ecr_repository
-  aws_ecr_repository_version = "v0.0.1"
-  s3_bucket                  = module.s3.aws_s3_bucket
-  sns_notifications_topic    = module.sns.sns_notifications_topic
+  ecs_target_group_arn              = module.load-balancer.ecs_target_group_arn
+  aws_ecr_repository_repository_url = module.ecr.aws_ecr_repository.repository_url
+  aws_ecr_repository_version        = "v0.0.1"
+  s3_bucket_name                    = module.s3.aws_s3_bucket.id
+  sns_notifications_topic           = module.sns.sns_notifications_topic
 }
 
 module "load-balancer" {
@@ -137,7 +137,7 @@ module "iam" {
   environment      = var.environment
   application_name = var.application_name
   load_balancer    = module.load-balancer.alb
-  log_group        = module.logs.log_group
+  log_group_arn    = module.logs.log_group.arn
   s3_bucket        = module.s3.aws_s3_bucket
   account_id       = var.account_id
   sqs_queue        = module.sqs.aws_sqs_queue

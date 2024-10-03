@@ -41,10 +41,10 @@ resource "aws_ecs_capacity_provider" "capacity_provider" {
 
 resource "aws_launch_configuration" "t3_micro" {
   name            = "app-t3_micro-${var.application_name}-${var.environment}"
-  image_id        = var.aws_ami.id
+  image_id        = var.aws_ami
   instance_type   = "t3.micro"
   key_name        = var.aws_key.id
-  security_groups = [var.sg.id]
+  security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
     create_before_destroy = true
@@ -53,10 +53,10 @@ resource "aws_launch_configuration" "t3_micro" {
 
 resource "aws_launch_configuration" "t3_small" {
   name            = "app-t3_small-${var.application_name}-${var.environment}"
-  image_id        = var.aws_ami.id
+  image_id        = var.aws_ami
   instance_type   = "t3.small"
   key_name        = var.aws_key.id
-  security_groups = [var.sg.id]
+  security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
     create_before_destroy = true
@@ -68,7 +68,7 @@ resource "aws_launch_configuration" "t3_medium" {
   image_id        = var.aws_ami.id
   instance_type   = "t3.medium"
   key_name        = var.aws_key.id
-  security_groups = [var.sg.id]
+  security_groups = [var.sg_id]
   lifecycle {
     ignore_changes        = [image_id]
     create_before_destroy = true
@@ -160,10 +160,10 @@ resource "aws_ecs_task_definition" "task_definition" {
     "environment": [
       {
         "name": "S3BUCKET",
-        "value": "${var.s3_bucket.id}"
+        "value": "${var.s3_bucket_name}"
       }
     ],
-    "image": "${var.aws_ecr_repository.repository_url}:${var.aws_ecr_repository_version}",
+    "image": "${var.aws_ecr_repository_repository_url}:${var.aws_ecr_repository_version}",
     "essential": true,
     "logConfiguration": {
         "logDriver": "awslogs",
@@ -197,7 +197,7 @@ resource "aws_ecs_service" "service" {
   network_configuration {
     subnets = var.private_subnets
     security_groups = [
-      var.sg.id
+      var.sg_id
     ]
     assign_public_ip = true
   }

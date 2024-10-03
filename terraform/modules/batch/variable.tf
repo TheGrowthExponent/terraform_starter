@@ -14,9 +14,9 @@ variable "aws_ecr_repository_version" {
   default     = "latest"
 }
 
-variable "ecs_instance_role" {
-  description = "ECS Instance Role"
-  type        = map(string)
+variable "ecs_instance_role_arn" {
+  description = "ECS Instance Role ARN"
+  type        = string
 }
 
 variable "batch_service_role" {

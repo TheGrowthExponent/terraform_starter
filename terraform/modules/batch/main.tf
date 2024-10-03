@@ -37,7 +37,7 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
     security_group_ids  = var.security_group_ids
     subnets             = var.subnet_ids
     type                = var.compute_environment
-    instance_role       = var.ecs_instance_role.arn
+    instance_role       = var.ecs_instance_role_arn
     instance_type       = ["optimal"]
   }
   update_policy {

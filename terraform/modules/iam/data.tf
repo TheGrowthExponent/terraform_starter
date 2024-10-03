@@ -255,8 +255,8 @@ data "aws_iam_policy_document" "allow_logging" {
       "logs:GetLogEvents",
     ]
     resources = [
-      "${var.log_group.arn}:*:*",
-      "${var.log_group.arn}:log-stream:*",
+      "${var.log_group_arn}:*:*",
+      "${var.log_group_arn}:log-stream:*",
     ]
   }
 }

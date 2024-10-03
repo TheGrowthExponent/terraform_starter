@@ -16,12 +16,12 @@ resource "aws_instance" "example_server" {
     }
   }
   instance_type               = "t3.nano"
-  iam_instance_profile        = var.ec2_instance_profile.id
+  iam_instance_profile        = var.ec2_instance_profile
   subnet_id                   = var.private_subnet_id
   associate_public_ip_address = false
   key_name                    = aws_key_pair.aws_key.key_name
   monitoring                  = true
-  vpc_security_group_ids      = [var.sg.id]
+  vpc_security_group_ids      = [var.sg_id]
   ebs_block_device {
     device_name           = "/dev/sda1"
     volume_size           = var.volume_size

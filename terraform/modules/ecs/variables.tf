@@ -31,9 +31,9 @@ variable "private_subnets" {
   type        = list(string)
 }
 
-variable "sg" {
+variable "sg_id" {
   description = "The Security Group"
-  type        = map(string)
+  type        = string
 }
 
 variable "ecs_role_arn" {
@@ -48,17 +48,17 @@ variable "aws_key" {
 
 variable "log_group" {
   description = "The Log Group"
-  type        = map(string)
+  type        = string
 }
 
 variable "aws_ami" {
   description = "The AMI"
-  type        = map(string)
+  type        = string
 }
 
-variable "aws_ecr_repository" {
-  description = "The ECR Repository"
-  type        = map(string)
+variable "aws_ecr_repository_repository_url" {
+  description = "The ECR Repository URL"
+  type        = string
 }
 
 variable "aws_ecr_repository_version" {
@@ -120,7 +120,7 @@ variable "target_capacity" {
   default     = 1
 }
 
-variable "s3_bucket" {
+variable "s3_bucket_name" {
   description = "The S3 Bucket"
-  type        = map(string)
+  type        = string
 }

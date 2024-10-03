@@ -40,12 +40,12 @@ variable "private_subnet_id" {
 
 variable "ec2_instance_profile" {
   description = "The instance profile to use for the instance."
-  type        = map(string)
+  type        = string
 }
 
-variable "sg" {
+variable "sg_id" {
   description = "The security group to use for the instance."
-  type        = map(string)
+  type        = string
 }
 
 variable "volume_size" {
