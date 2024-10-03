@@ -27,7 +27,7 @@ variable "account_id" {
   }
 }
 
-variable "load_balancer" {
+variable "load_balancer_arn" {
   description = "Load balancer"
   type        = string
 }

@@ -42,7 +42,7 @@ resource "terraform_data" "lambda_dependencies" {
 resource "aws_lambda_function" "lambda_function" {
   filename      = data.archive_file.lambda_source_package.output_path
   function_name = "${var.application_name}_${var.environment}_lambda"
-  role          = var.lambda_role.arn
+  role          = var.lambda_role_arn
   handler       = "add_to_queue.lambda_handler"
   memory_size   = "512"
   timeout       = "30"

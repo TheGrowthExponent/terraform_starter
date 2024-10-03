@@ -21,7 +21,7 @@ variable "src_path" {
   type        = string
 }
 
-variable "lambda_role" {
+variable "lambda_role_arn" {
   description = "The the IAM role that the Lambda function assumes when it executes your function to access any other AWS services."
   type        = string
 }

@@ -103,7 +103,7 @@ data "aws_iam_policy_document" "ecs_service_alb" {
       "elasticloadbalancing:RegisterTargets"
     ]
     resources = [
-      var.load_balancer.arn
+      var.load_balancer_arn
     ]
   }
 }

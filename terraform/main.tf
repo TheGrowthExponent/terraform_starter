@@ -32,8 +32,8 @@ module "auto_scaling" {
   source           = "./modules/auto-scaling"
   environment      = var.environment
   application_name = var.application_name
-  ecs_cluster      = module.ecs.ecs_cluster
-  ecs_service      = module.ecs.ecs_service
+  ecs_cluster_name = module.ecs.ecs_cluster.name
+  ecs_service_name = module.ecs.ecs_service.name
 }
 
 module "batch_fargate" {
@@ -41,7 +41,7 @@ module "batch_fargate" {
   batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
   compute_environment         = "FARGATE"
   batch_service_role_arn      = module.iam.batch_role.arn
-  aws_ecr_repository_url          = module.ecr.aws_ecr_repository
+  aws_ecr_repository_url      = module.ecr.aws_ecr_repository
   aws_ecr_repository_version  = "v0.0.1"
   ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
   ecs_task_execution_role_arn = module.iam.ecs_role.arn
@@ -57,7 +57,7 @@ module "batch_ec2" {
   batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
   compute_environment         = "EC2"
   batch_service_role_arn      = module.iam.batch_role.arn
-  aws_ecr_repository_url          = module.ecr.aws_ecr_repository
+  aws_ecr_repository_url      = module.ecr.aws_ecr_repository
   aws_ecr_repository_version  = "v0.0.1"
   ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
   ecs_task_execution_role_arn = module.iam.ecs_role.arn
@@ -133,14 +133,14 @@ module "load-balancer" {
 }
 
 module "iam" {
-  source           = "./modules/iam"
-  environment      = var.environment
-  application_name = var.application_name
-  load_balancer    = module.load-balancer.alb
-  log_group_arn    = module.logs.log_group.arn
-  s3_bucket_arn    = module.s3.aws_s3_bucket.arn
-  account_id       = var.account_id
-  sqs_queue_arn    = module.sqs.aws_sqs_queue.arn
+  source            = "./modules/iam"
+  environment       = var.environment
+  application_name  = var.application_name
+  load_balancer_arn = module.load-balancer.alb.arn
+  log_group_arn     = module.logs.log_group.arn
+  s3_bucket_arn     = module.s3.aws_s3_bucket.arn
+  account_id        = var.account_id
+  sqs_queue_arn     = module.sqs.aws_sqs_queue.arn
   #  notifications_topic       = module.sns.sns_notifications_topic
 }
 
@@ -153,7 +153,7 @@ module "lambda" {
   #  region           = var.region
   #  aws_key          = module.ec2.aws_key
   #  log_group        = module.logs.log_group
-  lambda_role         = module.iam.lambda_role
+  lambda_role_arn     = module.iam.lambda_role.arn
   load_balancer_sg_id = module.vpc.sg_lb.id
   bucket_name         = module.s3.aws_s3_bucket.id
   bucket_arn          = module.s3.aws_s3_bucket.arn
