@@ -29,14 +29,14 @@ resource "random_uuid" "lambda_src_hash" {
 }
 
 resource "terraform_data" "lambda_dependencies" {
-  provisioner "install-pip-packages" {
-    command = "pip install -r ${local.lambda_src_path}/requirements.txt -t ${local.lambda_src_path} --upgrade"
-  }
-
   triggers_replace = [
     # filemd5("${local.lambda_src_path}/requirements.txt")
     random_uuid.lambda_src_hash.result
   ]
+
+  provisioner "local-exec" {
+    command = "pip install -r ${local.lambda_src_path}/requirements.txt -t ${local.lambda_src_path} --upgrade"
+  }
 }
 
 resource "aws_lambda_function" "lambda_function" {
