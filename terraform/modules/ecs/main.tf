@@ -183,8 +183,8 @@ TASK_DEFINITION
   ]
   memory             = tostring(var.memory)
   cpu                = tostring(var.cpu)
-  execution_role_arn = var.ecs_role.arn
-  task_role_arn      = var.ecs_role.arn
+  execution_role_arn = var.ecs_role_arn
+  task_role_arn      = var.ecs_role_arn
 }
 
 resource "aws_ecs_service" "service" {

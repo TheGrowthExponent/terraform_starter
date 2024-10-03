@@ -36,9 +36,9 @@ variable "sg" {
   type        = map(string)
 }
 
-variable "ecs_role" {
-  description = "The ECS Role"
-  type        = map(string)
+variable "ecs_role_arn" {
+  description = "The ECS Role ARN"
+  type        = string
 }
 
 variable "aws_key" {

@@ -4,7 +4,7 @@ variable "repository_name" {
   type        = string
 }
 
-variable "ecs_role" {
-  description = "The ECS role"
-  type        = map(string)
+variable "ecs_role_arn" {
+  description = "The ECS role ARN"
+  type        = string
 }

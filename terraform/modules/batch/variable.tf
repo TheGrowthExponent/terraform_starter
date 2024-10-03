@@ -61,8 +61,3 @@ variable "security_group_ids" {
   description = "The security group ids of the batch job definition"
   type        = list(string)
 }
-
-variable "tags" {
-  description = "Batch tags."
-  type        = map(string)
-}

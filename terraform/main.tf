@@ -90,7 +90,7 @@ module "ec2" {
 
 module "ecr" {
   source          = "./modules/ecr"
-  ecs_role        = module.iam.ecs_role
+  ecs_role_arn    = module.iam.ecs_role.arn
   repository_name = "app-${var.application_name}-${var.environment}"
 }
 
@@ -106,7 +106,7 @@ module "ecs" {
   maximum_scaling_step_size = 1
   minimum_scaling_step_size = 1
   target_capacity           = 1
-  ecs_role                  = module.iam.ecs_role
+  ecs_role_arn              = module.iam.ecs_role.arn
   sg                        = module.vpc.sg_ecs
   aws_ami                   = data.aws_ami.ubuntu
   private_subnets           = [module.vpc.private_subnet_a.id]

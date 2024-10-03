@@ -23,7 +23,6 @@ resource "aws_batch_job_definition" "batch_job_definition" {
       }
     ]
     executionRoleArn = var.ecs_task_execution_role.arn
-    tags             = var.tags
   })
 }
 
@@ -46,7 +45,6 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
     terminate_jobs_on_update      = false
   }
   service_role = var.batch_service_role.arn
-  tags         = var.tags
 }
 
 resource "aws_batch_compute_environment" "compute_environment_fargate" {
@@ -66,7 +64,6 @@ resource "aws_batch_compute_environment" "compute_environment_fargate" {
     terminate_jobs_on_update      = false
   }
   service_role = var.batch_service_role.arn
-  tags         = var.tags
 }
 
 resource "aws_batch_job_queue" "job_queue_ec2" {
@@ -78,7 +75,6 @@ resource "aws_batch_job_queue" "job_queue_ec2" {
     compute_environment = aws_batch_compute_environment.compute_environment_ec2[0].arn
     order               = 1
   }
-  tags = var.tags
 }
 
 resource "aws_batch_job_queue" "job_queue_fargate" {
@@ -90,5 +86,4 @@ resource "aws_batch_job_queue" "job_queue_fargate" {
     compute_environment = aws_batch_compute_environment.compute_environment_fargate[0].arn
     order               = 1
   }
-  tags = var.tags
 }
