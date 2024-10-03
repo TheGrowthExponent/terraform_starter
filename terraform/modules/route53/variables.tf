@@ -31,7 +31,7 @@ variable "host_name" {
 #   type        = string
 # }
 
-variable "load_balancer" {
+variable "load_balancer_dns_name" {
   description = "The Load Balancer"
-  type        = map(string)
+  type        = string
 }

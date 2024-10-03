@@ -62,14 +62,14 @@ resource "aws_lambda_function" "lambda_function" {
   }
   vpc_config {
     subnet_ids         = var.subnet_ids
-    security_group_ids = [var.load_balancer_sg.id]
+    security_group_ids = [var.load_balancer_sg_id]
   }
   environment {
     variables = {
       ENV         = var.environment
       LOG_LEVEL   = var.lambda_log_level
       SECRET_NAME = var.secret_name
-      QUEUE_NAME  = var.queue.name
+      QUEUE_NAME  = var.queue_name
       BUCKET_NAME = var.bucket_name
     }
   }
@@ -82,7 +82,7 @@ resource "aws_lambda_function" "lambda_function" {
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_queue_event" {
-  event_source_arn = var.queue.arn
+  event_source_arn = var.queue_arn
   function_name    = aws_lambda_function.lambda_function.arn
 }
 

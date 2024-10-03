@@ -16,9 +16,9 @@ variable "environment" {
   }
 }
 
-variable "load_balancer_sg" {
+variable "load_balancer_sg_id" {
   description = "The Security Group for the Load Balancer"
-  type        = map(string)
+  type        = string
 }
 
 variable "vpc_id" {
@@ -31,9 +31,9 @@ variable "private_subnets" {
   type        = list(string)
 }
 
-variable "certificate" {
+variable "certificate_arn" {
   description = "ACM certificate"
-  type        = map(string)
+  type        = string
 }
 
 variable "authorization_endpoint" {

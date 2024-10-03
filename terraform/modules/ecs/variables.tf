@@ -43,7 +43,7 @@ variable "ecs_role_arn" {
 
 variable "aws_key" {
   description = "The AWS Key"
-  type        = map(string)
+  type        = string
 }
 
 variable "log_group_name" {

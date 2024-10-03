@@ -31,9 +31,9 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "load_balancer_sg" {
+variable "load_balancer_sg_id" {
   description = "The Security Group for the Load Balancer"
-  type        = map(string)
+  type        = string
 }
 
 variable "lambda_log_level" {
@@ -47,9 +47,14 @@ variable "secret_name" {
   type        = string
 }
 
-variable "queue" {
-  description = "The queue"
-  type        = map(string)
+variable "queue_arn" {
+  description = "The queue ARN"
+  type        = string
+}
+
+variable "queue_name" {
+  description = "The queue name"
+  type        = string
 }
 
 variable "bucket_name" {

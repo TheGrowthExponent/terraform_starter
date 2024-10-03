@@ -97,7 +97,7 @@ module "ecs" {
   environment               = var.environment
   application_name          = var.application_name
   region                    = var.region
-  aws_key                   = module.ec2.aws_key
+  aws_key                   = module.ec2.aws_key.id
   log_group_name            = module.logs.log_group.id
   asg_max_size              = 2
   asg_min_size              = 1
@@ -120,8 +120,8 @@ module "load-balancer" {
   source                 = "./modules/load-balancer"
   environment            = var.environment
   application_name       = var.application_name
-  certificate            = module.acm.aws_acm_certificate
-  load_balancer_sg       = module.vpc.sg_lb
+  certificate_arn        = module.acm.aws_acm_certificate.arn
+  load_balancer_sg_id    = module.vpc.sg_lb.id
   private_subnets        = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   vpc_id                 = module.vpc.vpc.id
   authorization_endpoint = var.authorization_endpoint
@@ -153,14 +153,15 @@ module "lambda" {
   #  region           = var.region
   #  aws_key          = module.ec2.aws_key
   #  log_group        = module.logs.log_group
-  lambda_role      = module.iam.lambda_role
-  load_balancer_sg = module.vpc.sg_lb
-  bucket_name      = module.s3.aws_s3_bucket.id
-  bucket_arn       = module.s3.aws_s3_bucket.arn
-  lambda_log_level = "DEBUG"
-  queue            = module.sqs.aws_sqs_queue
-  secret_name      = "xxx"
-  subnet_ids       = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
+  lambda_role         = module.iam.lambda_role
+  load_balancer_sg_id = module.vpc.sg_lb.id
+  bucket_name         = module.s3.aws_s3_bucket.id
+  bucket_arn          = module.s3.aws_s3_bucket.arn
+  lambda_log_level    = "DEBUG"
+  queue_name          = module.sqs.aws_sqs_queue.id
+  queue_arn           = module.sqs.aws_sqs_queue.arn
+  secret_name         = "xxx"
+  subnet_ids          = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
 }
 
 module "logs" {
@@ -183,10 +184,10 @@ module "postgres" {
 }
 
 module "route53" {
-  source         = "./modules/route53"
-  load_balancer  = module.load-balancer.alb
-  hosted_zone_id = var.hosted_zone_id
-  host_name      = var.host_name
+  source                 = "./modules/route53"
+  load_balancer_dns_name = module.load-balancer.alb.dns_name
+  hosted_zone_id         = var.hosted_zone_id
+  host_name              = var.host_name
 }
 
 module "s3" {
