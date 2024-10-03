@@ -41,7 +41,7 @@ module "batch_fargate" {
   batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-fargate"
   compute_environment         = "FARGATE"
   batch_service_role_arn      = module.iam.batch_role.arn
-  aws_ecr_repository          = module.ecr.aws_ecr_repository
+  aws_ecr_repository_url          = module.ecr.aws_ecr_repository
   aws_ecr_repository_version  = "v0.0.1"
   ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
   ecs_task_execution_role_arn = module.iam.ecs_role.arn
@@ -57,7 +57,7 @@ module "batch_ec2" {
   batch_name                  = "app-${var.application_name}-${var.environment}-ExampleBatch-ec2"
   compute_environment         = "EC2"
   batch_service_role_arn      = module.iam.batch_role.arn
-  aws_ecr_repository          = module.ecr.aws_ecr_repository
+  aws_ecr_repository_url          = module.ecr.aws_ecr_repository
   aws_ecr_repository_version  = "v0.0.1"
   ecs_instance_role_arn       = module.iam.ec2_instance_profile.arn
   ecs_task_execution_role_arn = module.iam.ecs_role.arn
@@ -180,7 +180,6 @@ module "postgres" {
   subnet_ids             = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   vpc_security_group_ids = [module.vpc.sg_rds.id]
   instance_class         = "db.serverless"
-  tags                   = { purpose = "Application storage" }
 }
 
 module "route53" {

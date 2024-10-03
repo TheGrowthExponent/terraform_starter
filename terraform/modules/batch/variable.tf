@@ -3,7 +3,7 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "aws_ecr_repository" {
+variable "aws_ecr_repository_url" {
   description = "The name of the ECR repository"
   type        = string
 }
