@@ -10,7 +10,7 @@ variable "aws_ecr_repository" {
 
 variable "aws_ecr_repository_version" {
   description = "The version of the ECR repository"
-  type        = map(string)
+  type        = string
   default     = "latest"
 }
 
