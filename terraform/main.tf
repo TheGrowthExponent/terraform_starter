@@ -32,8 +32,8 @@ module "auto_scaling" {
   source           = "./modules/auto-scaling"
   environment      = var.environment
   application_name = var.application_name
-  ecs_cluster_name = module.ecs.ecs_cluster.name
-  ecs_service_name = module.ecs.ecs_service.name
+  ecs_cluster_name = module.ecs[0].ecs_cluster.name
+  ecs_service_name = module.ecs[0].ecs_service.name
 }
 
 module "batch_fargate" {

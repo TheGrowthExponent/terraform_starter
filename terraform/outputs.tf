@@ -55,12 +55,12 @@ output "aws_ecr_repository_url" {
 ################ ECS ################
 output "aws_ecs_cluster_name" {
   description = "aws_ecs_cluster_name"
-  value       = module.ecs.ecs_cluster.id
+  value       = module.ecs[0].ecs_cluster.id
 }
 
 output "aws_ecs_cluster_arn" {
   description = "aws_ecs_cluster_arn"
-  value       = module.ecs.ecs_cluster.arn
+  value       = module.ecs[0].ecs_cluster.arn
 }
 
 ################ ACM ################
