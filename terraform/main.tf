@@ -49,7 +49,7 @@ module "batch_fargate" {
   s3_bucket_name              = module.s3.aws_s3_bucket.bucket
   security_group_ids          = [module.vpc.sg_batch.id]
   subnet_ids                  = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                        = var.batch_vcpu
+  vcpu                        = var.batch_fargate_vcpu
 }
 
 module "batch_ec2" {
@@ -65,7 +65,7 @@ module "batch_ec2" {
   s3_bucket_name              = module.s3.aws_s3_bucket.bucket
   security_group_ids          = [module.vpc.sg_batch.id]
   subnet_ids                  = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
-  vcpu                        = var.batch_vcpu
+  vcpu                        = var.batch_ec2_vcpu
 }
 
 module "dynamodb" {
