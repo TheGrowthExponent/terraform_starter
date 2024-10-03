@@ -45,12 +45,6 @@ variable "engine_version" {
   default     = "16"
 }
 
-variable "tags" {
-  description = "A map of tags to add to all resources."
-  type        = map(string)
-  default     = {}
-}
-
 variable "db_admin_user" {
   description = "Backend database admin username. This variable should be retrieved from an [environment variable](https://www.terraform.io/cli/config/environment-variables#tf_var_name) or a secure secret store like [AWS Secrets Manager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret). DO NOT HARDCODE."
   type        = string
