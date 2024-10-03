@@ -82,20 +82,53 @@ variable "host_name" {
 
 variable "notification_recipients" {
   description = "Email address list of notification recipients."
+  type        = list(string)
 }
 
-variable "aad_group_name" {}
-variable "tenant_id" {}
-variable "authorization_endpoint" {}
-variable "client_id" {}
-variable "client_secret" {}
-variable "issuer" {}
-variable "token_endpoint" {}
-variable "user_info_endpoint" {}
+variable "aad_group_name" {
+  description = "Azure AD group name"
+  type        = string
+}
+
+variable "tenant_id" {
+  description = "Azure AD tenant ID"
+  type        = string
+}
+
+variable "authorization_endpoint" {
+  description = "Azure AD authorization endpoint"
+  type        = string
+}
+
+variable "client_id" {
+  description = "Azure AD client ID"
+  type        = string
+}
+
+variable "client_secret" {
+  description = "Azure AD client secret"
+  type        = string
+}
+
+variable "issuer" {
+  description = "Azure AD issuer"
+  type        = string
+}
+
+variable "token_endpoint" {
+  description = "Azure AD token endpoint"
+  type        = string
+}
+
+variable "user_info_endpoint" {
+  description = "Azure AD user info endpoint"
+  type        = string
+}
 
 #API Gateway Setup
 variable "api_gw_method" {
   description = "API Gateway method (GET,POST...)"
+  type        = string
   default     = "POST"
 }
 
@@ -107,31 +140,37 @@ variable "api_gw_dependency_list" {
 
 variable "api_gw_disable_resource_creation" {
   description = "Specify whether to create or not the default /api/messages path or stop at /api"
+  type        = string
   default     = "false"
 }
 
 variable "api_gw_endpoint_configuration_type" {
   description = "Specify the type of endpoint for API GW to be setup as. [EDGE, REGIONAL, PRIVATE]. Defaults to EDGE"
+  type        = string
   default     = "EDGE"
 }
 
 variable "create_api-gateway_module" {
   description = "Specify whether to create the api-gateway module or not"
+  type        = string
   default     = "0"
 }
 
 ## Enable/Disable Modules ##
 variable "create_auto_scaling_module" {
   description = "Specify whether to create the auto_scaling module or not"
+  type        = string
   default     = "0"
 }
 
 variable "create_lambda_module" {
   description = "Specify whether to create the lambda module or not"
+  type        = string
   default     = "0"
 }
 
 variable "create_postgres_module" {
   description = "Specify whether to create the postgres module or not"
+  type        = string
   default     = "0"
 }
