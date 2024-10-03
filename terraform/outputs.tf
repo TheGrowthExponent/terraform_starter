@@ -52,16 +52,16 @@ output "aws_ecr_repository_url" {
   value       = module.ecr.aws_ecr_repository.repository_url
 }
 
-################ ECS ################
-output "aws_ecs_cluster_name" {
-  description = "aws_ecs_cluster_name"
-  value       = module.ecs[0].ecs_cluster.id
-}
-
-output "aws_ecs_cluster_arn" {
-  description = "aws_ecs_cluster_arn"
-  value       = module.ecs[0].ecs_cluster.arn
-}
+# ################ ECS ################
+# output "aws_ecs_cluster_name" {
+#   description = "aws_ecs_cluster_name"
+#   value       = module.ecs[0].ecs_cluster.id
+# }
+#
+# output "aws_ecs_cluster_arn" {
+#   description = "aws_ecs_cluster_arn"
+#   value       = module.ecs[0].ecs_cluster.arn
+# }
 
 ################ ACM ################
 output "aws_acm_certificate_arn" {
