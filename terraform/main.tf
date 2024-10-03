@@ -50,7 +50,6 @@ module "batch_fargate" {
   security_group_ids         = [module.vpc.sg_batch.id]
   subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   vcpu                       = 0.25
-  tags                       = { purpose = "Batch processing" }
 }
 
 module "batch_ec2" {
@@ -67,7 +66,6 @@ module "batch_ec2" {
   security_group_ids         = [module.vpc.sg_batch.id]
   subnet_ids                 = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   vcpu                       = 0.25
-  tags                       = { purpose = "Batch processing" }
 }
 
 module "dynamodb" {
