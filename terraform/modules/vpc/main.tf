@@ -179,6 +179,12 @@ resource "aws_security_group" "ecs" {
   vpc_id = aws_vpc.vpc.id
 }
 
+resource "aws_security_group" "shared_efs" {
+  name        = "efs-sg-${var.application_name}-${var.environment}"
+  description = "Allow EFS inbound traffic from VPC"
+  vpc_id      = aws_vpc.vpc.id
+}
+
 resource "aws_security_group" "rds" {
   name   = "rds-sg-${var.application_name}-${var.environment}"
   vpc_id = aws_vpc.vpc.id
@@ -213,6 +219,17 @@ resource "aws_security_group_rule" "ingress_ecs_alb" {
   to_port                  = 80
   source_security_group_id = aws_security_group.load_balancer.id
   type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "ingress_efs" {
+  from_port         = 2049
+  protocol          = "tcp"
+  security_group_id = aws_security_group.shared_efs.id
+  to_port           = 2049
+  cidr_blocks = [
+    "0.0.0.0/0"
+  ] # local.vpc_cidr
+  type = "ingress"
 }
 
 resource "aws_security_group_rule" "egress_batch" {
