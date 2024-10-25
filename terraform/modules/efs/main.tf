@@ -71,17 +71,8 @@ resource "aws_efs_mount_target" "shared_fs" {
 # EFS access points
 resource "aws_efs_access_point" "ec2" {
   file_system_id = aws_efs_file_system.shared_efs.id
-  posix_user {
-    gid = 1000
-    uid = 1000
-  }
   root_directory {
-    path = "/mnt/shared_efs"
-    creation_info {
-      owner_gid   = 1000
-      owner_uid   = 1000
-      permissions = 755
-    }
+    path = "/"
   }
   tags =
     {

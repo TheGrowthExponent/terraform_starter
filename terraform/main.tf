@@ -20,7 +20,7 @@ module "apigw" {
   #  lambda_arn                            = module.lambda.lambda_arn
   #  lambda_name                           = module.lambda.lambda_name
   # dependency_list = var.api_gw_dependency_list
-  account_id = var.account_id
+  account_id = local.account_id
   # apigw_role     = module.iam.apigw_role
   certificate_arn = module.acm.aws_acm_certificate.arn
   host_name       = var.host_name
@@ -100,7 +100,7 @@ module "ecs" {
   source                    = "./modules/ecs"
   environment               = var.environment
   application_name          = var.application_name
-  region                    = var.region
+  region                    = local.region
   aws_key                   = module.ec2.aws_key.key_name
   log_group_name            = module.logs.log_group.id
   asg_max_size              = 2
@@ -143,7 +143,7 @@ module "iam" {
   load_balancer_arn = module.load-balancer.alb.arn
   log_group_arn     = module.logs.log_group.arn
   s3_bucket_arn     = module.s3.aws_s3_bucket.arn
-  account_id        = var.account_id
+  account_id        = local.account_id
   sqs_queue_arn     = module.sqs.aws_sqs_queue.arn
   #  notifications_topic       = module.sns.sns_notifications_topic
 }
@@ -197,7 +197,7 @@ module "route53" {
 module "s3" {
   source      = "./modules/s3"
   tags        = { purpose = "Application storage" }
-  bucket_name = "${var.application_name}-${var.account_id}-${var.region}-${var.environment}"
+  bucket_name = "${var.application_name}-${local.account_id}-${local.region}-${var.environment}"
 }
 
 module "sns" {
