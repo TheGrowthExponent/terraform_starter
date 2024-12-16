@@ -30,8 +30,9 @@ resource "random_uuid" "lambda_src_hash" {
 
 resource "terraform_data" "lambda_dependencies" {
   triggers_replace = [
-    # filemd5("${local.lambda_src_path}/requirements.txt")
-    random_uuid.lambda_src_hash.result
+    filemd5("${local.lambda_src_path}/requirements.txt"),
+    var.env_vars,
+    var.lambda_version
   ]
 
   provisioner "local-exec" {
@@ -41,11 +42,11 @@ resource "terraform_data" "lambda_dependencies" {
 
 resource "aws_lambda_function" "lambda_function" {
   filename      = data.archive_file.lambda_source_package.output_path
-  function_name = "${var.application_name}_${var.environment}_lambda"
+  function_name = var.function_name
   role          = var.lambda_role_arn
-  handler       = "add_to_queue.lambda_handler"
-  memory_size   = "512"
-  timeout       = "30"
+  handler       = "handler.lambda_handler"
+  memory_size   = var.lambda_memory_size
+  timeout       = var.lambda_timeout
   #  reserved_concurrent_executions = "5"
   tracing_config {
     mode = "Active"
@@ -65,19 +66,17 @@ resource "aws_lambda_function" "lambda_function" {
     security_group_ids = [var.load_balancer_sg_id]
   }
   environment {
-    variables = {
-      ENV         = var.environment
-      LOG_LEVEL   = var.lambda_log_level
-      SECRET_NAME = var.secret_name
-      QUEUE_NAME  = var.queue_name
-      BUCKET_NAME = var.bucket_name
-    }
+    variables = var.env_vars
   }
 
   lifecycle {
     # Terraform will any ignore changes to the
     # environment variables after the first deploy.
     ignore_changes = [environment]
+    replace_triggered_by = [
+      terraform_data.lambda_dependencies,
+      data.archive_file.lambda_source_package.output_base64sha256
+    ]
   }
 }
 
@@ -103,7 +102,7 @@ resource "aws_lambda_permission" "allow_s3" {
 # }
 
 resource "aws_lambda_alias" "lambda_function_alias" {
-  name             = "${var.application_name}_${var.environment}_lambda1_alias"
+  name             = "${var.function_name}_alias"
   description      = "Latest version of Lambda"
   function_name    = aws_lambda_function.lambda_function.function_name
   function_version = "$LATEST"

@@ -35,6 +35,19 @@ data "aws_iam_policy_document" "ecs" {
   }
 }
 
+data "aws_iam_policy_document" "grafana" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type = "Service"
+      identifiers = [
+        "grafana.amazonaws.com"
+      ]
+    }
+  }
+}
+
 data "aws_iam_policy_document" "disallow_unauthenticated_urls" {
   statement {
     effect = "Deny"

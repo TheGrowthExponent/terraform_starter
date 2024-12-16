@@ -65,3 +65,9 @@ variable "user_info_endpoint" {
   description = "Azure AAD user info endpoint"
   type        = string
 }
+
+variable "internal" {
+  description = "Internal or External Load Balancer"
+  type        = bool
+  default     = true
+}

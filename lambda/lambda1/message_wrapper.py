@@ -4,7 +4,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 logger = logging.getLogger(__name__)
-sqs = boto3.resource('sqs')
+sqs = boto3.resource("sqs")
 
 
 def get_queue(name):
@@ -37,8 +37,7 @@ def send_message(queue, message_body, message_attributes=None):
 
     try:
         response = queue.send_message(
-            MessageBody=message_body,
-            MessageAttributes=message_attributes
+            MessageBody=message_body, MessageAttributes=message_attributes
         )
     except ClientError as error:
         logger.exception("Send message failed: %s", message_body)

@@ -1,5 +1,3 @@
-/terraform/terraform-dev.tfvars
-/terraform/.terraform/
 .idea/aws.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/inspectionProfiles/Project_Default.xml
@@ -8,9 +6,11 @@
 .idea/terraform.xml
 .idea/terraform_starter.iml
 .idea/vcs.xml
-terraform/.terraform.lock.hcl
+terraform/terraform-dev.tfvars
+terraform/.terraform/
 terraform/.terraform_plan_dev
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/.terraform.tfstate.lock.info
+terraform/**/.terraform/
 /.venv/

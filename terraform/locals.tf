@@ -13,5 +13,6 @@ locals {
   user_data = <<EOF
 #!/bin/bash
 echo "Hello From Terraform!"
+export HOME=var.home_dir
 EOF
 }

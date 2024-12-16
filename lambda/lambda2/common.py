@@ -1,11 +1,9 @@
 import os
-import sys
 import json
 import boto3
 import logging
 
 from botocore.exceptions import ClientError
-from boto3 import client as boto3_client
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
