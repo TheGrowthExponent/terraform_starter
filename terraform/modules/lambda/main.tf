@@ -40,7 +40,7 @@ resource "aws_lambda_function" "lambda_function" {
     mode = "Active"
   }
   layers = [
-    "arn:aws:lambda:ap-southeast-2:580247275435:layer:LambdaInsightsExtension:14",
+    "arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14",
     #    aws_lambda_layer_version.snowflake_layer_v4.arn,
     #    aws_lambda_layer_version.postgres_layer_v4.arn
   ]

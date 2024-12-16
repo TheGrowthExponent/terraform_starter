@@ -7,7 +7,7 @@ import sys
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-lambda_client = boto3_client("lambda", region_name="ap-southeast-2")
+lambda_client = boto3_client("lambda", region_name="us-east-1")
 
 
 def lambda_handler(event, context):

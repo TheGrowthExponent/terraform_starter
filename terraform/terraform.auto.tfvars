@@ -1,9 +1,9 @@
-application_name        = "my-application"                    # name that will be used when creating cloud resources
-region                  = "us-east-1"                    # region to deploy resources to
-notification_recipients = ["your.name@email.com.au"]          # email address for notifications
+application_name        = "my-application"           # name that will be used when creating cloud resources
+region                  = "us-east-1"                # region to deploy resources to
+notification_recipients = ["your.name@email.com.au"] # email address for notifications
 
 resource_tags = {
-  local-tag = "local",                                        # environment specific tags added to all resources created
+  local-tag = "local", # environment specific tags added to all resources created
 }
 
 ####### OAuth #######                                         # You will need to modify OAuth module if you would like to validate or authorize AAD users

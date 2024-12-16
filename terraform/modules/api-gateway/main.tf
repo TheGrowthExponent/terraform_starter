@@ -41,7 +41,7 @@ resource "aws_api_gateway_stage" "stage" {
   stage_name           = "${var.application_name}-${var.environment}"
   xray_tracing_enabled = true
   access_log_settings {
-    destination_arn = "arn:aws:logs:ap-southeast-2:${var.account_id}:log-group:/aws/api_gw/app-apigw-${var.application_name}-${var.environment}"
+    destination_arn = "arn:aws:logs:us-east-1:${var.account_id}:log-group:/aws/api_gw/app-apigw-${var.application_name}-${var.environment}"
     format          = "$context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] \"$context.httpMethod $context.resourcePath $context.protocol\" $context.status $context.responseLength $context.requestId"
   }
 }
