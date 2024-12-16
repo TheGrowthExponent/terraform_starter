@@ -186,13 +186,13 @@ module "lambda1-lambda" {
   }
 }
 
-module "lambda1-schedule" {
-  source               = "./modules/event-bridge"
-  scheduler_name       = module.lambda1-lambda.lambda.function_name
-  rate                 = "cron(0 12 * * ? *)"
-  lambda_function_arn  = module.lambda1-lambda.lambda.arn
-  lambda_function_name = module.lambda1-lambda.lambda.function_name
-}
+# module "lambda1-schedule" {
+#   source               = "./modules/event-bridge"
+#   scheduler_name       = module.lambda1-lambda.lambda.function_name
+#   rate                 = "cron(0 12 * * ? *)"
+#   lambda_function_arn  = module.lambda1-lambda.lambda.arn
+#   lambda_function_name = module.lambda1-lambda.lambda.function_name
+# }
 
 module "logs" {
   source                          = "./modules/logs"
