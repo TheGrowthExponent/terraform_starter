@@ -87,7 +87,7 @@ variable "sns_notifications_topic_arn" {
 variable "region" {
   description = "The region"
   type        = string
-  default     = "ap-southeast-2"
+  default     = "us-east-1"
 }
 
 variable "asg_max_size" {

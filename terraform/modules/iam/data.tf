@@ -35,6 +35,19 @@ data "aws_iam_policy_document" "ecs" {
   }
 }
 
+data "aws_iam_policy_document" "grafana" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type = "Service"
+      identifiers = [
+        "grafana.amazonaws.com"
+      ]
+    }
+  }
+}
+
 data "aws_iam_policy_document" "disallow_unauthenticated_urls" {
   statement {
     effect = "Deny"
@@ -238,7 +251,7 @@ data "aws_iam_policy_document" "allow_logging" {
       "logs:DescribeLogGroups",
     ]
     resources = [
-      "arn:aws:logs:ap-southeast-2:*:log-group::log-stream:*",
+      "arn:aws:logs:us-east-1:*:log-group::log-stream:*",
     ]
   }
   statement {

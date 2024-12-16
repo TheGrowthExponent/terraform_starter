@@ -1,44 +1,40 @@
-import json
 import logging
 import os
-import boto3
 from boto3 import client as boto3_client
-from common import *
-from message_wrapper import *
+from common import fetch_secret, upload_file
+import sys
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-lambda_client = boto3_client("lambda", region_name="ap-southeast-2")
+lambda_client = boto3_client("lambda", region_name="us-east-1")
 
 
 def lambda_handler(event, context):
     # logger.debug("event %s", json.dumps(event))
 
-    environment = os.environ["ENV"]
+    # environment = os.environ["ENV"]
     my_secret_name = os.environ["PG_SECRET_NAME"]
-    my_credentials = fetch_secret(my_secret_name)
+    fetch_secret(my_secret_name)
 
     logger.info(f"my_secret_name: {my_secret_name}")
 
     try:
         # ------------------------------------------------------------------------------
-        #   Code to write message to SQS
+        #   Code to write message to S3
         # ------------------------------------------------------------------------------
 
-        queue_name = str(os.environ['QUEUE_NAME'])
-        queue = get_queue(queue_name)
-
+        bucket_name = str(os.environ["BUCKET_NAME"])
         try:
-            sqs_response = send_message(queue, str({'key': 'value'}))
-            logger.info(f'sqs_response: {sqs_response}')
+            s3_response = upload_file(bucket_name, str({"key": "value"}))
+            logger.info(f"s3_response: {s3_response}")
         except Exception as e:
-            raise Exception("Could not add file! %s" % e)
+            raise Exception("Could not upload file! %s" % e)
 
     except Exception as e:
-        logger.error("Call to add_to_queue lambda has failed")
+        logger.error("Call to upload_to_s3 lambda has failed")
         logger.error(e)
         sys.exit(1)
 
     finally:
         # do something
-        logger.info('the end')
+        logger.info("the end")

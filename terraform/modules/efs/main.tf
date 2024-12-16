@@ -2,19 +2,18 @@
 resource "aws_efs_file_system" "shared_efs" {
   creation_token = var.efs_name
   lifecycle_policy {
-    transition_to_ia =  var.transition_to_ia
+    transition_to_ia = var.transition_to_ia
   }
-  tags =
-    {
-      Name = var.efs_name
-    }
+  tags = merge(var.resource_tags, {
+    Name = var.efs_name
+  })
 }
 
 # EFS file system policy
 resource "aws_efs_file_system_policy" "shared_efs" {
-  file_system_id = aws_efs_file_system.shared_efs.id
+  file_system_id                     = aws_efs_file_system.shared_efs.id
   bypass_policy_lockout_safety_check = true
-  policy = <<POLICY
+  policy                             = <<POLICY
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -62,10 +61,10 @@ POLICY
 }
 
 resource "aws_efs_mount_target" "shared_fs" {
-  count = length(var.private_subnets)
-  file_system_id = aws_efs_file_system.shared_efs.id
-  subnet_id      = var.private_subnets[count.index]
-  security_groups = [ var.shared_efs_sg_id ]
+  count           = length(var.private_subnets)
+  file_system_id  = aws_efs_file_system.shared_efs.id
+  subnet_id       = var.private_subnets[count.index]
+  security_groups = [var.shared_efs_sg_id]
 }
 
 # EFS access points
@@ -74,8 +73,7 @@ resource "aws_efs_access_point" "ec2" {
   root_directory {
     path = "/"
   }
-  tags =
-    {
-      Name = var.efs_name
-    }
+  tags = merge(var.resource_tags, {
+    Name = var.efs_name
+  })
 }

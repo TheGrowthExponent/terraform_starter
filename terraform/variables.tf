@@ -22,6 +22,12 @@ variable "resource_tags" {
   default     = {}
 }
 
+variable "region" {
+  description = "AWS Region"
+  type        = string
+  default     = "us-east-1"
+}
+
 # variable "profile" {
 #   description = "IAM Profile"
 #   type        = string

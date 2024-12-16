@@ -4,7 +4,7 @@
 #      type        = "AWS"
 #       identifiers = [
 #        "arn:aws:iam::111:role/xxx",
-#        "arn:aws:iam::111:role/aws-reserved/sso.amazonaws.com/ap-southeast-2/xxx"
+#        "arn:aws:iam::111:role/aws-reserved/sso.amazonaws.com/us-east-1/xxx"
 #      ]
 #    }
 #    actions = [

@@ -19,6 +19,13 @@ resource "aws_iam_role" "ecs_service" {
   tags               = { purpose = "Project ecs role" }
 }
 
+resource "aws_iam_role" "grafana_service" {
+  name               = "app-role-grafana-service-${var.application_name}-${var.environment}"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.grafana.json
+  tags               = { purpose = "Project grafana role" }
+}
+
 resource "aws_iam_role" "lambda_service" {
   name               = "app-role-lambda-${var.application_name}-${var.environment}"
   path               = "/"

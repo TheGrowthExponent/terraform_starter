@@ -1,5 +1,5 @@
 application_name        = "my-application"                    # name that will be used when creating cloud resources
-region                  = "ap-southeast-2"                    # region to deploy resources to
+region                  = "us-east-1"                    # region to deploy resources to
 notification_recipients = ["your.name@email.com.au"]          # email address for notifications
 
 resource_tags = {
