@@ -166,13 +166,13 @@ module "prometheus" {
 }
 
 module "lambda1-lambda" {
-  count            = var.create_lambda_module ? 1 : 0
-  source             = "./modules/lambda"
-  function_name      = "${var.application_name}-lambda1"
-  src_path           = "${path.root}/lambda1"
-  lambda_role_arn    = module.iam.lambda_role.arn
-  lambda_memory_size = 128
-  lambda_timeout     = 300
+  count               = var.create_lambda_module ? 1 : 0
+  source              = "./modules/lambda"
+  function_name       = "${var.application_name}-lambda1"
+  src_path            = "${path.root}/lambda1"
+  lambda_role_arn     = module.iam.lambda_role.arn
+  lambda_memory_size  = 128
+  lambda_timeout      = 300
   load_balancer_sg_id = module.vpc.sg_lb.id
   bucket_arn          = module.s3.aws_s3_bucket.arn
   queue_arn           = module.sqs.aws_sqs_queue.arn
