@@ -1,8 +1,8 @@
 import logging
 import os
 from boto3 import client as boto3_client
-from common import *
-from message_wrapper import *
+from common import fetch_secret, upload_file
+import sys
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -12,9 +12,9 @@ lambda_client = boto3_client("lambda", region_name="ap-southeast-2")
 def lambda_handler(event, context):
     # logger.debug("event %s", json.dumps(event))
 
-    environment = os.environ["ENV"]
+    # environment = os.environ["ENV"]
     my_secret_name = os.environ["PG_SECRET_NAME"]
-    my_credentials = fetch_secret(my_secret_name)
+    fetch_secret(my_secret_name)
 
     logger.info(f"my_secret_name: {my_secret_name}")
 

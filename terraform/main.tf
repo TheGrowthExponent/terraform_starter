@@ -134,7 +134,7 @@ module "load-balancer" {
   issuer                 = var.issuer
   token_endpoint         = var.token_endpoint
   user_info_endpoint     = var.user_info_endpoint
-  internal = false
+  internal               = false
 }
 
 module "iam" {
@@ -165,28 +165,33 @@ module "prometheus" {
   obs_platform_log_group_arn = module.logs.log_group.arn
 }
 
-module "lambda" {
+module "lambda1-lambda" {
   count            = var.create_lambda_module ? 1 : 0
-  source           = "./modules/lambda"
-  src_path         = "src/lambda1"
-  environment      = var.environment
-  application_name = var.application_name
-  #  region           = var.region
-  #  aws_key          = module.ec2.aws_key.id
-  #  log_group        = module.logs.log_group
-  lambda_role_arn     = module.iam.lambda_role.arn
+  source             = "./modules/lambda"
+  function_name      = "${var.application_name}-lambda1"
+  src_path           = "${path.root}/lambda1"
+  lambda_role_arn    = module.iam.lambda_role.arn
+  lambda_memory_size = 128
+  lambda_timeout     = 300
   load_balancer_sg_id = module.vpc.sg_lb.id
   bucket_arn          = module.s3.aws_s3_bucket.arn
   queue_arn           = module.sqs.aws_sqs_queue.arn
   subnet_ids          = [module.vpc.private_subnet_a.id, module.vpc.private_subnet_b.id]
   env_vars = {
-    ENV       = var.environment
-    LOG_LEVEL = "DEBUG"
+    ENV         = var.environment
+    LOG_LEVEL   = "DEBUG"
     SECRET_NAME = "xxx"
     QUEUE_NAME  = module.sqs.aws_sqs_queue.id
     BUCKET_NAME = module.s3.aws_s3_bucket.id
   }
-  lambda_version = 1
+}
+
+module "lambda1-schedule" {
+  source               = "./modules/event-bridge"
+  scheduler_name       = module.lambda1-lambda.lambda.function_name
+  rate                 = "cron(0 12 * * ? *)"
+  lambda_function_arn  = module.lambda1-lambda.lambda.arn
+  lambda_function_name = module.lambda1-lambda.lambda.function_name
 }
 
 module "logs" {
@@ -225,12 +230,14 @@ module "sns" {
   source                  = "./modules/sns"
   topic_name              = "app-notification-topic-${var.application_name}-${var.environment}"
   notification_recipients = var.notification_recipients
+  account_id              = local.account_id
 }
 
 module "sns-error" {
   source                  = "./modules/sns"
   topic_name              = "app-error-notification-topic-${var.application_name}-${var.environment}"
   notification_recipients = var.notification_recipients
+  account_id              = local.account_id
 }
 
 module "sqs" {

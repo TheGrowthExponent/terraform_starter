@@ -51,9 +51,3 @@ variable "env_vars" {
   type        = map(string)
   default     = {}
 }
-
-variable "lambda_version" {
-  description = "Lambda version to trigger forced replacement"
-  type        = number
-  default     = 1
-}

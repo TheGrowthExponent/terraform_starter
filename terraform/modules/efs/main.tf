@@ -4,10 +4,9 @@ resource "aws_efs_file_system" "shared_efs" {
   lifecycle_policy {
     transition_to_ia =  var.transition_to_ia
   }
-  tags =
-    {
-      Name = var.efs_name
-    }
+  tags = merge(var.resource_tags, {
+    Name = var.efs_name
+  })
 }
 
 # EFS file system policy
@@ -74,8 +73,7 @@ resource "aws_efs_access_point" "ec2" {
   root_directory {
     path = "/"
   }
-  tags =
-    {
-      Name = var.efs_name
-    }
+  tags = merge(var.resource_tags, {
+    Name = var.efs_name
+  })
 }

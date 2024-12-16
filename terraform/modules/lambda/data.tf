@@ -15,5 +15,5 @@ data "archive_file" "lambda_source_package" {
   # `data` source and not a `resource` anymore.
   # Use `depends_on` to wait for the "install dependencies"
   # task to be completed.
-  depends_on = [terraform_data.lambda_dependencies, random_uuid.lambda_src_hash]
+  depends_on = [random_uuid.lambda_src_hash]
 }
