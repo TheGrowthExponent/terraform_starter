@@ -10,7 +10,7 @@ locals {
   }
   tags = merge(var.resource_tags, local.required_tags)
   // User data for EC2 instances as required
-    user_data = <<EOF
+  user_data = <<EOF
   #!/bin/bash
   echo "Hello From Terraform!"
   export HOME=var.home_dir
