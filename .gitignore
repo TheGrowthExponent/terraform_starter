@@ -14,3 +14,4 @@ terraform/terraform.tfstate.backup
 terraform/.terraform.tfstate.lock.info
 terraform/**/.terraform/
 /.venv/
+.idea/copilot.data.migration.*.xml

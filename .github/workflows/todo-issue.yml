@@ -1,0 +1,28 @@
+name: "TODO→ISSUE: Automated TODO to GitHub Issue Pipeline"
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  todo_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run TODO→ISSUE Action
+        uses: TheGrowthExponent/todo-issue@v1.0.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # config_path: ".todo-issue.yml" # Optional: custom config file
+
+      - name: Upload Action summary
+        if: always()
+        run: |
+          echo "## TODO→ISSUE Summary" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.todo-issue.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
