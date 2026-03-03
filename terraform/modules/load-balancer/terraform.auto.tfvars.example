@@ -1,0 +1,41 @@
+terraform_starter\terraform\modules\load-balancer\terraform.auto.tfvars.example
+# Example terraform.auto.tfvars for Load Balancer module
+
+# Name of the application (used for tagging and resource naming)
+application_name = "example-app"
+
+# Name of the environment (must be <= 8 chars, alphanumeric and hyphens only)
+environment = "dev"
+
+# Security Group ID for the Load Balancer
+load_balancer_sg_id = "sg-0123456789abcdef0"
+
+# VPC ID where the Load Balancer will be deployed
+vpc_id = "vpc-0123456789abcdef0"
+
+# Private Subnet IDs for Load Balancer
+private_subnets = ["subnet-0123456789abcdef1", "subnet-0123456789abcdef2"]
+
+# ACM certificate ARN for SSL termination
+certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/abcdefg"
+
+# Azure AAD authorization endpoint (if using Azure AD integration)
+authorization_endpoint = "https://login.microsoftonline.com/oauth2/authorize"
+
+# Azure AAD client ID
+client_id = "your-client-id"
+
+# Azure AAD client secret
+client_secret = "your-client-secret"
+
+# Azure AAD issuer
+issuer = "https://sts.windows.net/your-tenant-id/"
+
+# Azure AAD token endpoint
+token_endpoint = "https://login.microsoftonline.com/oauth2/token"
+
+# Azure AAD user info endpoint
+user_info_endpoint = "https://graph.microsoft.com/v1.0/me"
+
+# Internal or External Load Balancer (true for internal, false for external)
+internal = true

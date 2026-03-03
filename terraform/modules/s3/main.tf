@@ -18,6 +18,7 @@ resource "aws_s3_bucket_versioning" "s3_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "s3_bucket" {
+  count                   = var.public ? 0 : 1
   bucket                  = aws_s3_bucket.s3_bucket.id
   block_public_acls       = true
   block_public_policy     = true
@@ -30,7 +31,22 @@ resource "aws_s3_bucket_metric" "bucket_metric" {
   name   = "${aws_s3_bucket.s3_bucket.id}-metric"
 }
 
-#resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
-#  bucket = aws_s3_bucket.s3_bucket.id
-#  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
-#}
+resource "aws_s3_bucket_policy" "public_read" {
+  count  = var.public ? 1 : 0
+  bucket = aws_s3_bucket.s3_bucket.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = "*"
+        Action = [
+          "s3:GetObject"
+        ]
+        Resource = [
+          "${aws_s3_bucket.s3_bucket.arn}/*"
+        ]
+      }
+    ]
+  })
+}

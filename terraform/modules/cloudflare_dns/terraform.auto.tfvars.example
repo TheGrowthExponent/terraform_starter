@@ -1,0 +1,20 @@
+terraform_starter\terraform\modules\cloudflare_dns\terraform.auto.tfvars.example
+# Example terraform.auto.tfvars for Cloudflare DNS module
+
+# Cloudflare Zone ID for your domain
+cloudflare_zone_id = "your-cloudflare-zone-id"
+
+# DNS record type (A, AAAA, CNAME, TXT, etc.)
+record_type = "CNAME"
+
+# DNS record name (e.g. www, @, api)
+record_name = "www"
+
+# DNS record content (IP address or hostname)
+record_content = "example.com"
+
+# Whether the record is proxied by Cloudflare
+proxied = true
+
+# Time to live for DNS record (in seconds)
+ttl = 1

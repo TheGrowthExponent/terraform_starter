@@ -1,0 +1,18 @@
+terraform_starter\.github\workflows\todo-issue.yml
+```
+name: Create TODO Issues
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  todo-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create issues from TODOs
+        uses: TheGrowthExponent/todo-issue@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

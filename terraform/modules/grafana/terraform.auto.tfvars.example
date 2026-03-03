@@ -1,0 +1,7 @@
+application_name = "example-app"
+environment      = "dev"
+grafana_role_arn = "arn:aws:iam::123456789012:role/grafana-role"
+
+# Uncomment and set these if your Grafana instance requires specific networking
+# sg_ids    = ["sg-0123456789abcdef0", "sg-0123456789abcdef1"]
+# subnet_ids = ["subnet-abc123", "subnet-def456"]

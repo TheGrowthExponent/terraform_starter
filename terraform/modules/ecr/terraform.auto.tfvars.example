@@ -1,0 +1,2 @@
+repository_name = "example-app-repo"
+ecs_role_arn    = "arn:aws:iam::123456789012:role/example-ecs-role"

@@ -1,0 +1,21 @@
+terraform_starter\.github\workflows\gh-issue-jira-sync.yml
+```
+name: GitHub Issue to Jira Sync
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync GitHub Issue with Jira
+        uses: TheGrowthExponent/gh-issue-jira-sync@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          jira-url: ${{ secrets.JIRA_URL }}
+          jira-user: ${{ secrets.JIRA_USER }}
+          jira-api-token: ${{ secrets.JIRA_API_TOKEN }}
+          jira-project-key: YOUR_JIRA_PROJECT_KEY
