@@ -1,0 +1,19 @@
+scan:
+  tags: ["TODO", "FIXME", "HACK", "SECURITY", "BUG", "XXX"]
+  ignore: ["node_modules/", "dist/", "**/*.min.js", "**/*.lock"]
+  context_lines: 3
+  diff_only: false
+
+issues:
+  assignee_strategy: "author" # "owner", "author", or "none"
+  milestone: 1 # Use milestone ID, not name
+  labels:
+    p1: ["priority:critical", "security"]
+    p2: ["priority:high", "bug"]
+    p3: ["priority:medium", "tech-debt"]
+    p4: ["priority:low", "enhancement"]
+  require_owner_tag: false
+
+blocking:
+  fail_on_p1: true
+  fail_on_p2: false

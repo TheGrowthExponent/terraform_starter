@@ -3,14 +3,30 @@ name: Create TODO Issues
 on:
   push:
     branches:
-      - main
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+permissions:
+  issues: write
+  contents: read
 
 jobs:
-  todo-issue:
+  todo_scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Create issues from TODOs
-        uses: TheGrowthExponent/todo-issue@v1
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run TODO→ISSUE Action
+        uses: TheGrowthExponent/todo-issue@v1.0.3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # config_path: ".todo-issue.yml" # Optional: custom config file
+
+      - name: Upload Action summary
+        if: always()
+        run: |
+          echo "## TODO→ISSUE Summary" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.todo-issue.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
