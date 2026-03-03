@@ -70,7 +70,7 @@ module "batch" {
 
 ---
 
-**Note:**  
+**Note:**
 - Ensure IAM roles have the necessary permissions for Batch, ECS, and ECR operations.
 - Adjust vCPU and memory values to match your workload requirements.
 - Security group IDs should allow necessary traffic for Batch jobs.

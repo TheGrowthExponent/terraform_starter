@@ -43,7 +43,7 @@ module "sns" {
 
 ---
 
-**Notes:**  
+**Notes:**
 - Ensure the provided AWS Account ID is correct and matches your environment.
 - Notification recipients should be valid email addresses.
 - The module can be extended to support SMS, Lambda, or other endpoints.

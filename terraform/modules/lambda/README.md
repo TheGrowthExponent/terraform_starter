@@ -53,7 +53,7 @@ See the [Usage](#usage) section above for a basic example. Adjust the variable v
 
 ---
 
-**Note:**  
+**Note:**
 - Ensure IAM role permissions are sufficient for Lambda execution and access to referenced resources.
 - The `src_path` should point to your Lambda source code directory.
 - Networking and security group IDs should match your VPC setup.
