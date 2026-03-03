@@ -1,5 +1,3 @@
-terraform_starter\.github\workflows\gh-issue-jira-sync.yml
-```
 name: GitHub Issue to Jira Sync
 
 on:
