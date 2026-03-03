@@ -1,0 +1,2 @@
+secret_name        = "example-app-secret"
+secret_description = "API key for external service"

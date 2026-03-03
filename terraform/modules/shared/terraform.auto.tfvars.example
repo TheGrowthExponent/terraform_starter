@@ -1,0 +1,22 @@
+# Example terraform.auto.tfvars for shared module
+
+# The email address to receive SES emails (e.g., contact form submissions)
+ses_to_address = "contact@example.com"
+
+# Deployment environment (e.g., dev, prod)
+environment = "dev"
+
+# Name of the application for resource naming
+application_name = "my-app"
+
+# Cloudflare API token (use a real token in production)
+cloudflare_api_token = "your-cloudflare-api-token"
+
+# Cloudflare Zone ID for your domain
+cloudflare_zone_id = "your-cloudflare-zone-id"
+
+# The domain name to use for DNS and S3 buckets
+host_name = "example.com"
+
+# HubSpot APP token for CRM management (use a real token in production)
+hubspot_app_token = "your-hubspot-app-token"

@@ -1,4 +1,4 @@
-name: "TODO→ISSUE: Automated TODO to GitHub Issue Pipeline"
+name: Create TODO Issues
 
 on:
   push:

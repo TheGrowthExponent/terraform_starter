@@ -1,0 +1,6 @@
+bucket_name = "example-bucket"
+tags = {
+  purpose = "web"
+  owner   = "team"
+}
+public = true

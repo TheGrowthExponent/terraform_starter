@@ -1,0 +1,13 @@
+function_name        = "example_lambda_function"
+src_path             = "./src"
+lambda_role_arn      = "arn:aws:iam::123456789012:role/example-lambda-role"
+subnet_ids           = ["subnet-abc123", "subnet-def456"]
+load_balancer_sg_id  = "sg-0123456789abcdef0"
+queue_arn            = "arn:aws:sqs:us-east-1:123456789012:example-queue"
+bucket_arn           = "arn:aws:s3:::example-bucket"
+lambda_memory_size   = 256
+lambda_timeout       = 30
+env_vars = {
+  ENVIRONMENT = "dev"
+  LOG_LEVEL   = "info"
+}

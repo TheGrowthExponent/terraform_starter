@@ -1,0 +1,14 @@
+terraform_starter\terraform\modules\sns\terraform.auto.tfvars.example
+# Example terraform.auto.tfvars for SNS module
+
+# AWS Account ID (must be 12 digits)
+account_id = "123456789012"
+
+# The name of the SNS topic
+topic_name = "alerts-topic"
+
+# List of email addresses to receive notifications
+notification_recipients = [
+  "user1@example.com",
+  "user2@example.com"
+]

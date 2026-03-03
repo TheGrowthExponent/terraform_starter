@@ -1,6 +1,36 @@
 # data "aws_region" "current" {}
 
+data "aws_ssm_parameter" "jwt_secret" {
+  name            = "/my/jwt_secret"
+  with_decryption = true
+}
+
+data "aws_ssm_parameter" "github_api_key" {
+  name            = "/my/github_api_key"
+  with_decryption = true
+}
+
+data "aws_ssm_parameter" "mailerlite_api_key" {
+  name            = "/my/mailerlite_api_key"
+  with_decryption = true
+}
+
+data "aws_ssm_parameter" "hubspot_app_token" {
+  name            = "/my/hubspot_app_token"
+  with_decryption = true
+}
+
+data "aws_ssm_parameter" "deepseek_api_key" {
+  name            = "/my/deepseek_api_key"
+  with_decryption = true
+}
+
+data "aws_s3_bucket" "source" {
+  bucket = "source.${var.host_name}"
+}
+
 data "aws_caller_identity" "this" {}
+
 
 # data "aws_ecr_repository" "service" {
 #   name = module.ecr.aws_ecr_repository.id

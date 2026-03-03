@@ -1,0 +1,9 @@
+efs_name           = "shared-efs"
+transition_to_ia   = "AFTER_7_DAYS"
+private_subnets    = ["subnet-abc123", "subnet-def456"]
+shared_efs_sg_id   = "sg-0123456789abcdef0"
+ec2_role_arn       = "arn:aws:iam::123456789012:role/efs-role"
+resource_tags = {
+  owner   = "devops"
+  purpose = "shared-storage"
+}

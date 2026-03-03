@@ -2,10 +2,7 @@ name: check
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: ["*"]
-    paths:
-      - "terraform/**"
+    # Manual trigger only; disables automatic runs on push/pull_request
 
 env:
   TF_LOG: INFO

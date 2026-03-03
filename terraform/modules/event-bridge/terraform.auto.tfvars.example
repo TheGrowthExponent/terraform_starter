@@ -1,0 +1,15 @@
+terraform_starter\terraform\modules\event-bridge\terraform.auto.tfvars.example
+```
+# Example terraform.auto.tfvars for event-bridge module
+
+# Name of the CloudWatch Event Rule (scheduler)
+scheduler_name = "daily-job"
+
+# The rate at which the rule should be triggered (CloudWatch Events rate expression)
+rate = "rate(24 hours)"
+
+# The name of the Lambda function to invoke
+lambda_function_name = "my_lambda_function"
+
+# The ARN of the Lambda function to invoke
+lambda_function_arn = "arn:aws:lambda:us-east-1:123456789012:function:my_lambda_function"

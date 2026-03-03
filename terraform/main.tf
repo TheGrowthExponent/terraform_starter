@@ -169,7 +169,7 @@ module "lambda1-lambda" {
   count               = var.create_lambda_module ? 1 : 0
   source              = "./modules/lambda"
   function_name       = "${var.application_name}-lambda1"
-  src_path            = "${path.root}/lambda1"
+  src_path            = abspath("../lambda/lambda1")
   lambda_role_arn     = module.iam.lambda_role.arn
   lambda_memory_size  = 128
   lambda_timeout      = 300
@@ -186,13 +186,14 @@ module "lambda1-lambda" {
   }
 }
 
-# module "lambda1-schedule" {
-#   source               = "./modules/event-bridge"
-#   scheduler_name       = module.lambda1-lambda.lambda.function_name
-#   rate                 = "cron(0 12 * * ? *)"
-#   lambda_function_arn  = module.lambda1-lambda.lambda.arn
-#   lambda_function_name = module.lambda1-lambda.lambda.function_name
-# }
+module "lambda1-schedule" {
+  count                = var.create_lambda_module ? 1 : 0
+  source               = "./modules/event-bridge"
+  scheduler_name       = module.lambda1-lambda[0].lambda.function_name
+  rate                 = "cron(0 12 * * ? *)"
+  lambda_function_arn  = module.lambda1-lambda[0].lambda.arn
+  lambda_function_name = module.lambda1-lambda[0].lambda.function_name
+}
 
 module "logs" {
   source                          = "./modules/logs"

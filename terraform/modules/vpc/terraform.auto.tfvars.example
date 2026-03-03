@@ -1,0 +1,12 @@
+# Example terraform.auto.tfvars for VPC module
+
+# Name of the application (used for tagging and resource naming)
+application_name = "example-app"
+
+# Name of the environment (must be <= 8 chars, alphanumeric and hyphens only)
+environment = "dev"
+
+# Uncomment and set these if importing an existing VPC
+# vpc_id = "vpc-0123456789abcdef0"
+# public_subnets = ["subnet-0123456789abcdef0", "subnet-0123456789abcdef1"]
+# private_subnets = ["subnet-0123456789abcdef2", "subnet-0123456789abcdef3"]
