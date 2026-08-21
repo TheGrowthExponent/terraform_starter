@@ -27,9 +27,9 @@ resource "aws_batch_job_definition" "batch_job_definition" {
 }
 
 resource "aws_batch_compute_environment" "compute_environment_ec2" {
-  count                    = var.compute_environment == "EC2" ? 1 : 0
-  compute_environment_name = var.batch_name
-  type                     = "MANAGED"
+  count = var.compute_environment == "EC2" ? 1 : 0
+  name  = var.batch_name
+  type  = "MANAGED"
   compute_resources {
     allocation_strategy = "BEST_FIT_PROGRESSIVE"
     max_vcpus           = 4
@@ -48,9 +48,9 @@ resource "aws_batch_compute_environment" "compute_environment_ec2" {
 }
 
 resource "aws_batch_compute_environment" "compute_environment_fargate" {
-  count                    = var.compute_environment == "FARGATE" ? 1 : 0
-  compute_environment_name = var.batch_name
-  type                     = "MANAGED"
+  count = var.compute_environment == "FARGATE" ? 1 : 0
+  name  = var.batch_name
+  type  = "MANAGED"
   compute_resources {
     allocation_strategy = "BEST_FIT_PROGRESSIVE"
     max_vcpus           = 4
