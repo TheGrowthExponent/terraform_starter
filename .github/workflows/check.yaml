@@ -8,7 +8,7 @@ env:
   TF_LOG: INFO
   TF_INPUT: false
   PYTHON_VERSION: "3.12"
-  TERRAFORM_VERSION: "1.9.7"
+  TERRAFORM_VERSION: "1.10.0"
 
 jobs:
   check:
